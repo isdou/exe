@@ -26,13 +26,16 @@
             justify-content: center;
         }
 
-        /* 增加一个简单的加载状态提示，以防万一 */
         #root:empty::after {
             content: "SYSTEM BOOTING...";
             font-family: 'JetBrains Mono', monospace;
             color: #333;
             letter-spacing: 0.5em;
             font-size: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .tv-screen {
@@ -111,8 +114,8 @@
 
 <body>
     <div id="root" class="w-full h-full"></div>
-    <!-- Vite 会在打包时自动处理这个 index.tsx -->
-    <script type="module" src="./index.tsx"></script>
+    <!-- Vite 专用入口，去掉多余路径 -->
+    <script type="module" src="/index.tsx"></script>
 </body>
 
 </html>

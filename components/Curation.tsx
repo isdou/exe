@@ -28,13 +28,13 @@ const StatusBadge: React.FC<{ status?: ContentStatus }> = ({ status }) => {
 const RatingDisplay: React.FC<{ rating?: number }> = ({ rating }) => {
   if (!rating) return null;
   return (
-    <div className="font-mono text-xs font-bold text-red-500">
+    <div className="font-mono text-xs font-bold text-red-500 bg-black/20 px-1.5 py-0.5 rounded backdrop-blur-sm">
       {rating.toFixed(1)}
     </div>
   );
 };
 
-// --- 组件：电影详情弹窗 ---
+// --- 组件：电影详情弹窗 (保持竖版海报优化) ---
 const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ movie, onClose }) => (
   <motion.div
     initial={{ opacity: 0 }}
@@ -50,7 +50,7 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
       className="relative z-10 w-full max-w-3xl bg-[#0f0f10] border border-white/10 rounded-xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[80vh]"
     >
       <div className="relative w-full md:w-1/4 h-48 md:h-auto bg-zinc-900 shrink-0">
-         {/* 使用竖版海报 images[1] */}
+         {/* 使用竖版海报 */}
          <img src={movie.images[1]} className="w-full h-full object-cover opacity-80" />
          <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f10] to-transparent"></div>
          <div className="absolute top-4 left-4">
@@ -69,7 +69,6 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
           <RatingDisplay rating={movie.rating} />
         </div>
 
-        {/* Tags */}
         <div className="flex flex-wrap gap-2">
           {movie.tags?.map(tag => (
             <span key={tag} className="px-2 py-1 bg-white/5 text-[9px] mono text-zinc-400 rounded hover:text-white transition-colors">#{tag}</span>
@@ -138,7 +137,7 @@ const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ boo
   </motion.div>
 );
 
-// --- 组件：列表视图单项 ---
+// --- 组件：列表视图单项 (保持竖版小图) ---
 const ListViewItem: React.FC<{
   item: MovieCuration | BookCuration;
   type: 'MOVIE' | 'BOOK';
@@ -186,7 +185,7 @@ const ListViewItem: React.FC<{
   );
 };
 
-// --- 组件：画廊视图卡片 ---
+// --- 组件：画廊视图卡片 - 电影 ---
 const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ movie, onClick }) => (
   <motion.div
     layout
@@ -218,36 +217,47 @@ const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ mo
   </motion.div>
 );
 
+// --- 组件：画廊视图卡片 - 书籍 (✨ 已恢复为原版大卡片样式) ---
 const BookCard: React.FC<{ book: BookCuration; onClick: () => void }> = ({ book, onClick }) => (
   <motion.div
     layout
     whileHover={{ scale: 1.02 }}
     onClick={onClick}
-    className={`${book.bgColor} h-[320px] rounded-2xl p-6 relative overflow-hidden cursor-pointer group shadow-lg`}
+    // 恢复了 min-h-[500px]，使用了背景色，加回了 padding
+    className={`${book.bgColor || 'bg-zinc-900'} min-h-[480px] md:min-h-[520px] rounded-3xl p-8 md:p-10 relative overflow-hidden cursor-pointer group shadow-2xl flex flex-col justify-between`}
   >
-    <div className="absolute top-4 left-4 z-20">
+    {/* 巨大的背景引号 */}
+    <span className="absolute -top-4 -left-4 text-[120px] md:text-[180px] serif font-black text-white/5 leading-none select-none group-hover:text-white/10 transition-colors">“</span>
+
+    {/* 状态和评分标记 (保留新功能，位置调整到右上角) */}
+    <div className="absolute top-6 right-6 z-20 flex flex-col items-end gap-3">
+       <RatingDisplay rating={book.rating} />
        <StatusBadge status={book.status} />
     </div>
-    <div className="absolute top-4 right-4 z-20 bg-black/20 px-2 rounded backdrop-blur-sm">
-       <RatingDisplay rating={book.rating} />
-    </div>
-    <div className="absolute -right-4 -bottom-4 text-[100px] serif font-black text-white/5 leading-none select-none">”</div>
 
-    <div className="flex flex-col h-full relative z-10 pt-8">
-      <p className="flex-1 text-lg font-bold leading-tight serif text-white/90 line-clamp-4 italic">
+    {/* 引用内容 (主体) */}
+    <div className="relative z-10 space-y-6 pt-8">
+      <div className="w-12 h-1 bg-white/20"></div>
+      <p className="text-xl md:text-2xl font-bold leading-snug serif tracking-tight text-white/90 italic line-clamp-6">
         {book.quote}
       </p>
-      <div className="mt-4 pt-4 border-t border-white/10 flex justify-between items-end">
-        <div>
-           <div className="text-sm font-bold serif text-white">{book.author}</div>
-           <div className="flex gap-2 mt-1">
-             {book.tags?.slice(0, 2).map(tag => (
-               <span key={tag} className="text-[8px] px-1 py-0.5 bg-black/20 text-white/60 rounded mono">#{tag}</span>
-             ))}
-           </div>
+    </div>
+
+    {/* 底部信息 (封面 + 作者 + Tags) */}
+    <div className="mt-8 pt-8 border-t border-white/10 relative z-10">
+      <div className="flex gap-6 items-end">
+        <div className="w-20 h-28 md:w-24 md:h-36 bg-black/20 overflow-hidden shadow-2xl rounded-lg shrink-0 group-hover:rotate-3 transition-transform duration-500">
+          <img src={book.coverImage} className="w-full h-full object-cover shadow-inner" />
         </div>
-        <div className="w-10 h-14 bg-black/20 rounded shadow overflow-hidden">
-            <img src={book.coverImage} className="w-full h-full object-cover" />
+        <div className="space-y-2 pb-1 flex-1 min-w-0">
+          <h5 className="text-lg font-bold serif text-white truncate">{book.author}</h5>
+          <h6 className="text-xs font-light text-white/60 mono italic truncate">《{book.title}》</h6>
+          {/* Tags */}
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            {book.tags?.slice(0, 2).map(tag => (
+              <span key={tag} className="text-[9px] px-2 py-0.5 bg-black/20 text-white/70 rounded mono backdrop-blur-sm">#{tag}</span>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -260,11 +270,9 @@ const Curation: React.FC = () => {
   const [selectedBook, setSelectedBook] = useState<BookCuration | null>(null);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
 
-  // 筛选状态
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [activeStatus, setActiveStatus] = useState<ContentStatus | 'all'>('all');
 
-  // 1. 获取所有不重复的 Tags
   const allTags = useMemo(() => {
     const tags = new Set<string>();
     MOVIES.forEach(m => m.tags?.forEach(t => tags.add(t)));
@@ -272,7 +280,6 @@ const Curation: React.FC = () => {
     return Array.from(tags);
   }, []);
 
-  // 2. 筛选逻辑
   const filterContent = <T extends { tags?: string[], status?: ContentStatus }>(items: T[]) => {
     return items.filter(item => {
       const matchTag = activeTag ? item.tags?.includes(activeTag) : true;
@@ -304,7 +311,6 @@ const Curation: React.FC = () => {
                 <h2 className="text-5xl md:text-7xl font-black serif leading-none tracking-tighter text-white">ARCHIVES.</h2>
               </div>
 
-              {/* 视图切换 */}
               <div className="flex gap-2 p-1 bg-white/5 rounded-lg border border-white/10 self-start md:self-end">
                 <button onClick={() => setViewMode('grid')} className={`p-2 rounded ${viewMode === 'grid' ? 'bg-zinc-700 text-white' : 'text-zinc-500'}`}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
@@ -315,9 +321,8 @@ const Curation: React.FC = () => {
               </div>
            </div>
 
-           {/* Filter Bar (新功能) */}
+           {/* Filter Bar */}
            <div className="flex flex-col md:flex-row gap-4 border-y border-white/5 py-4">
-              {/* Status Filters */}
               <div className="flex gap-2">
                 {['all', 'processing', 'done', 'wishlist'].map(status => (
                   <button
@@ -332,7 +337,6 @@ const Curation: React.FC = () => {
                 ))}
               </div>
               <div className="w-px bg-white/10 hidden md:block"></div>
-              {/* Tag Cloud */}
               <div className="flex gap-2 flex-wrap">
                  <button
                    onClick={() => setActiveTag(null)}
@@ -372,14 +376,15 @@ const Curation: React.FC = () => {
             </div>
           )}
 
-          {/* Library */}
+          {/* Library (这里的 Grid 会用大卡片，List 会用小图列表) */}
           {filteredBooks.length > 0 && (
             <div className="space-y-6">
               <div className="flex items-baseline gap-4 border-b border-white/5 pb-2">
                 <h3 className="text-xl font-mono font-bold text-zinc-400">/ LIBRARY_DB</h3>
                 <span className="text-[9px] text-zinc-600 mono uppercase tracking-widest">{filteredBooks.length} ENTRIES</span>
               </div>
-              <motion.div layout className={viewMode === 'grid' ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" : "flex flex-col border-t border-white/5"}>
+              {/* 注意：Grid 模式下书籍是一列 2 个 (lg:grid-cols-2) 比较好看 */}
+              <motion.div layout className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 gap-8" : "flex flex-col border-t border-white/5"}>
                 {filteredBooks.map((book) => (
                   viewMode === 'grid'
                     ? <BookCard key={book.id} book={book} onClick={() => setSelectedBook(book)} />

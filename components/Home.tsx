@@ -15,7 +15,7 @@ const INTRO_DATA: IntroSection[] = [
   {
     id: '01',
     label: 'IDENTITY / 身份验证',
-    title: '豆豆的灵魂频道',
+    title: '豆豆的精神频道',
     content: '一个正在重启的观察者，厌恶低密度信息的入侵，也拒绝廉价的共鸣。在这里，逻辑是我的防御塔，而文字是唯一能穿透防御的白名单。',
     meta: 'STATION MONITOR: ACTIVE'
   },

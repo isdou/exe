@@ -171,7 +171,7 @@ const ListViewItem: React.FC<{
       <div className="w-8 h-10 shrink-0 bg-zinc-800 overflow-hidden rounded-sm hidden sm:block">
         <img
           src={isMovie ? movie.images[1] : book.coverImage}
-          className="w-full h-full object-cover opacity-60 group-hover:opacity-100 grayscale group-hover:grayscale-0 transition-all"
+          className="w-full h-full object-cover transition-all"
         />
       </div>
       <div className="w-1/3 min-w-[120px] shrink-0">
@@ -204,7 +204,7 @@ const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ mo
   >
     {/* 图片区：高度减小，比例更扁 */}
     <div className="relative h-48 w-full overflow-hidden">
-      <img src={movie.images[0]} className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" />
+      <img src={movie.images[0]} className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" />
       <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f10] to-transparent"></div>
 
       {/* 右上角评分 */}

@@ -10,6 +10,13 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,900&family=Inter:wght@100;300;400;600&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">
     <style>
+        /* 引入惠文明朝体 */
+        @font-face {
+            font-family: 'Huiwen-mincho';
+            src: url('https://cdn.jsdelivr.net/gh/idzk/huiwen-mincho/Huiwen-mincho.otf');
+            font-display: swap;
+        }
+
         :root {
             --bg-color: #080808;
         }
@@ -18,12 +25,21 @@
             background-color: var(--bg-color);
             color: #fff;
             font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             overflow: hidden;
             height: 100vh;
             margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        /* 强制所有 h2 标签使用惠文明朝体 */
+        h2,
+        .serif,
+        .serif-font {
+            font-family: 'Huiwen-mincho', 'Playfair Display', serif !important;
         }
 
         #root {
@@ -119,7 +135,6 @@
 
 <body>
     <div id="root"></div>
-    <!-- 使用根路径引用的标准 Vite 模式 -->
     <script type="module" src="/index.tsx"></script>
 </body>
 

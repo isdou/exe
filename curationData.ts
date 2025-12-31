@@ -36,7 +36,7 @@ export const MOVIES: MovieCuration[] = [
       'images/fra1.jpg',
       'images/fra2.jpg'
     ],
-    review: '希区柯克式的恐惧不仅仅在于鸟类的攻击，更在于日常生活的逻辑突然崩塌。那些无处不在的、冰冷的注视。'
+    review: '还是喜欢看学院派喜剧啊，台词风趣幽默有深度，优雅温馨不低俗，太好了，想以现在的年龄回到九十年代。'
   }
 ];
 

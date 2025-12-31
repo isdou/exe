@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MOCK_TRAVEL } from '../travelData';
 
 const ExpeditionDetails: React.FC<{ spot: TravelSpot; onClose: () => void }> = ({ spot, onClose }) => (
-  <motion.div 
+  <motion.div
     initial={{ opacity: 0, y: 50 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: 50 }}
@@ -16,7 +16,7 @@ const ExpeditionDetails: React.FC<{ spot: TravelSpot; onClose: () => void }> = (
       <div className="flex justify-between items-start">
         <div className="space-y-4">
           <div className="px-3 py-1 bg-red-600 inline-block text-[10px] text-white mono uppercase tracking-widest">Confirmed Location</div>
-          <h1 className="text-6xl md:text-8xl font-black serif text-white tracking-tighter">{spot.city}</h1>
+          <h1 className="text-5xl md:text-7xl font-black serif text-white tracking-tighter">{spot.city}</h1>
         </div>
         <button onClick={onClose} className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -71,7 +71,7 @@ const Travel: React.FC = () => {
       </AnimatePresence>
 
       <AnimatePresence mode="wait">
-        <motion.div 
+        <motion.div
           key={activeSpot.id}
           initial={{ opacity: 0, scale: 1.1 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -90,7 +90,7 @@ const Travel: React.FC = () => {
       <div className="relative h-full z-10 max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-end md:justify-center pb-32 md:pb-0">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-end md:items-center">
           <div className="lg:col-span-6 space-y-6 md:space-y-10">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               key={`info-${activeSpot.id}`}
@@ -101,7 +101,7 @@ const Travel: React.FC = () => {
                 <span className="text-zinc-500 font-mono text-[8px] md:text-[10px] tracking-widest uppercase truncate max-w-[150px]">{activeSpot.coordinate}</span>
               </div>
               <div className="space-y-1 md:space-y-2">
-                <h2 className="text-6xl md:text-9xl font-black serif leading-none text-white tracking-tighter">
+                <h2 className="text-5xl md:text-7xl font-black serif leading-none text-white tracking-tighter">
                   {activeSpot.city}.
                 </h2>
                 <div className="text-red-500 font-mono text-[10px] md:text-xs tracking-[0.5em] uppercase pl-1 md:pl-2">In {activeSpot.date}</div>
@@ -111,7 +111,7 @@ const Travel: React.FC = () => {
               </p>
             </motion.div>
             <div className="pt-4">
-              <button 
+              <button
                 onClick={() => setShowDetails(true)}
                 className="group relative px-10 py-4 overflow-hidden rounded-full border border-white/20 transition-all hover:border-white"
               >
@@ -125,13 +125,13 @@ const Travel: React.FC = () => {
           <div className="lg:col-span-6 flex justify-start md:justify-end items-center overflow-x-auto pb-4 custom-scrollbar lg:overflow-visible">
             <div className="flex gap-4 p-2">
               {MOCK_TRAVEL.map((spot, idx) => (
-                <motion.div 
+                <motion.div
                   key={spot.id}
                   whileHover={{ y: -5 }}
                   onClick={() => setActiveIndex(idx)}
                   className={`relative cursor-pointer transition-all duration-700 ease-out shrink-0 overflow-hidden rounded-2xl md:rounded-3xl border-2 ${
-                    idx === activeIndex 
-                    ? 'w-32 h-44 md:w-44 md:h-64 border-white shadow-[0_20px_50px_rgba(220,38,38,0.3)] z-20' 
+                    idx === activeIndex
+                    ? 'w-32 h-44 md:w-44 md:h-64 border-white shadow-[0_20px_50px_rgba(220,38,38,0.3)] z-20'
                     : 'w-16 h-24 md:w-24 md:h-48 border-transparent opacity-40 hover:opacity-80 scale-90 grayscale'
                   }`}
                 >

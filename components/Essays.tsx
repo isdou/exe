@@ -10,14 +10,14 @@ const Essays: React.FC = () => {
 
   if (selectedEssay) {
     return (
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="absolute inset-0 bg-black z-[200] overflow-y-auto px-6 py-12 md:px-24 md:py-20"
       >
         <div className="max-w-3xl mx-auto space-y-16 pb-24">
-          <button 
+          <button
             onClick={() => setSelectedEssay(null)}
             className="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors mono text-[10px] uppercase tracking-widest group"
           >
@@ -61,7 +61,7 @@ const Essays: React.FC = () => {
       <div className="flex flex-col md:flex-row justify-between items-end gap-12 border-b border-white/5 pb-16">
         <div className="space-y-4">
           <div className="text-red-600 font-mono text-[10px] tracking-[0.4em] uppercase">Digital Chronicles / 数字编年</div>
-          <h2 className="text-6xl md:text-8xl font-black serif text-white tracking-tighter leading-none">ESSAYS.</h2>
+          <h2 className="text-5xl md:text-7xl font-black serif text-white tracking-tighter leading-none">ESSAYS.</h2>
           <p className="text-zinc-500 max-w-xl text-base md:text-lg font-light leading-relaxed serif italic">
             “文字是跨越维度的锚点。在混乱的信号流中，我试图捕捉那些具有确定性的逻辑线条。”
           </p>
@@ -70,8 +70,8 @@ const Essays: React.FC = () => {
 
       <div className="divide-y divide-white/5">
         {MOCK_ESSAYS.map((essay) => (
-          <article 
-            key={essay.id} 
+          <article
+            key={essay.id}
             onClick={() => setSelectedEssay(essay)}
             className="group py-12 cursor-pointer flex flex-col md:flex-row md:items-center gap-6 md:gap-16 hover:bg-white/[0.02] -mx-6 px-6 transition-colors"
           >
@@ -79,7 +79,7 @@ const Essays: React.FC = () => {
                <div className="text-[10px] font-mono text-zinc-600 tracking-widest mb-1">{essay.date}</div>
                <div className="text-[9px] text-red-700 font-bold tracking-widest uppercase">{essay.category}</div>
             </div>
-            
+
             <div className="flex-1 space-y-4">
                <h3 className="text-3xl md:text-5xl font-bold serif text-zinc-200 group-hover:text-white transition-colors tracking-tighter">
                  {essay.title}

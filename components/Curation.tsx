@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MOVIES, BOOKS } from '../curationData';
 
 const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ movie, onClose }) => (
-  <motion.div 
+  <motion.div
     initial={{ opacity: 0, scale: 1.05 }}
     animate={{ opacity: 1, scale: 1 }}
     exit={{ opacity: 0, scale: 1.05 }}
@@ -60,7 +60,7 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
 );
 
 const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ book, onClose }) => (
-  <motion.div 
+  <motion.div
     initial={{ opacity: 0, x: 100 }}
     animate={{ opacity: 1, x: 0 }}
     exit={{ opacity: 0, x: 100 }}
@@ -81,7 +81,7 @@ const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ boo
           <h1 className="text-4xl md:text-7xl font-bold serif text-white tracking-tighter leading-tight">《{book.title}》</h1>
           <h2 className="text-lg md:text-2xl text-white/60 serif font-light italic">— {book.author}</h2>
         </div>
-        
+
         <div className="relative p-10 bg-black/30 rounded-3xl border border-white/10 backdrop-blur-md">
            <span className="absolute top-4 left-6 text-6xl text-white/10 serif font-black select-none">“</span>
            <p className="text-xl md:text-3xl font-bold text-white leading-tight serif tracking-tight relative z-10 italic">
@@ -103,7 +103,7 @@ const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ boo
 );
 
 const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ movie, onClick }) => (
-  <motion.div 
+  <motion.div
     whileHover={{ y: -10 }}
     onClick={onClick}
     className="relative bg-zinc-900/20 border border-white/5 rounded-3xl overflow-hidden p-6 md:p-8 flex flex-col gap-6 transition-all hover:bg-zinc-900/40 shadow-2xl cursor-pointer group"
@@ -133,7 +133,7 @@ const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ mo
 );
 
 const BookCard: React.FC<{ book: BookCuration; onClick: () => void }> = ({ book, onClick }) => (
-  <motion.div 
+  <motion.div
     whileHover={{ scale: 1.02 }}
     onClick={onClick}
     className={`${book.bgColor} min-h-[350px] md:min-h-[500px] flex flex-col p-8 md:p-10 rounded-3xl shadow-2xl transition-all relative overflow-hidden group cursor-pointer`}
@@ -176,7 +176,7 @@ const Curation: React.FC = () => {
             <span className="w-8 h-px bg-red-600"></span>
             <span className="text-red-600 font-mono text-xs tracking-[0.5em] uppercase">Archive / 档案馆</span>
           </div>
-          <h2 className="text-6xl md:text-9xl font-black serif leading-none tracking-tighter text-white">ARCHIVES.</h2>
+          <h2 className="text-5xl md:text-7xl font-black serif leading-none tracking-tighter text-white">ARCHIVES.</h2>
           <p className="text-zinc-500 text-lg md:text-xl font-light serif italic max-w-2xl">
             “在这里，我将打捞起的灵魂碎片存入磁带。有些关于光影，有些关于墨痕。”
           </p>

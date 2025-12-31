@@ -17,7 +17,7 @@ const Goodies: React.FC = () => {
           <span className="w-8 h-px bg-red-600"></span>
           <span className="text-red-600 font-mono text-xs tracking-[0.5em] uppercase">Inventory / 好物清单</span>
         </div>
-        <h2 className="text-6xl md:text-8xl font-black serif text-white tracking-tighter">GOODIES.</h2>
+        <h2 className="text-5xl md:text-7xl font-black serif text-white tracking-tighter">GOODIES.</h2>
         <p className="text-zinc-500 text-lg font-light serif italic max-w-2xl">
           “分享那些能让我的熵值降低，或者让我的大脑回路产生正反馈的物质实体。”
         </p>

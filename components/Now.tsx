@@ -9,7 +9,7 @@ const Now: React.FC = () => {
       <div className="flex justify-between items-end">
         <div className="space-y-6">
           <div className="text-red-600 font-mono text-xs tracking-[0.5em] uppercase">Live Frequency</div>
-          <h2 className="text-8xl font-black serif">NOW.</h2>
+          <h2 className="text-6xl font-black serif">NOW.</h2>
         </div>
         <div className="text-right space-y-2">
           <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse ml-auto shadow-[0_0_10px_#22c55e]"></div>

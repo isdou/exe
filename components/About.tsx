@@ -21,7 +21,7 @@ const About: React.FC = () => {
           <div className="space-y-6">
             <div className="text-red-600 font-mono text-[10px] md:text-xs tracking-widest uppercase">SYSTEM RECONSTRUCTION</div>
             {/* --- 配置区域：名字与标签 --- */}
-            <h2 className="text-6xl md:text-8xl font-bold serif text-white">豆豆</h2>
+            <h2 className="text-5xl md:text-7xl font-bold serif text-white">豆豆</h2>
             <div className="flex flex-wrap gap-2 md:gap-3">
               {['PRODUCT MANAGER', 'INTJ', 'MINIMALIST', 'ORDER-SENSITIVE'].map(tag => (
                 <span key={tag} className="px-3 md:px-5 py-1.5 md:py-2 bg-white/5 border border-white/10 backdrop-blur-md rounded-full text-[8px] md:text-[10px] uppercase tracking-widest text-zinc-400">

@@ -75,7 +75,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
 
              {/* 主标题 */}
              <div className="space-y-6">
-               <h1 className="text-5xl sm:text-6xl md:text-8xl font-black serif leading-[1.1] tracking-tighter text-white drop-shadow-lg">
+               <h1 className="text-4xl sm:text-5xl md:text-7xl font-black serif leading-[1.1] tracking-tighter text-white drop-shadow-lg">
                  {current.title}
                </h1>
                <div className="h-1 w-32 bg-red-600/80"></div>

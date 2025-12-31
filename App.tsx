@@ -10,6 +10,7 @@ import Now from './components/Now';
 import About from './components/About';
 import Remote from './components/Remote';
 import { motion, AnimatePresence } from 'framer-motion';
+import Memory from './components/Journal'; // 引入新组件
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<NavTab>(NavTab.LOG);
@@ -64,7 +65,21 @@ const App: React.FC = () => {
       default: return <Log onNavigate={handleChannelChange} />;
     }
   };
-
+  const getChannelName = (tab: NavTab) => {
+    switch (tab) {
+      // ... 其他 case
+      case NavTab.MEMORY: return "CHRONO LOGS"; // 新频道名称
+      // ...
+    }
+  };
+  const renderContent = () => {
+    if (!isPowerOn) return null;
+    switch (activeTab) {
+      // ... 其他 case
+      case NavTab.MEMORY: return <Memory />; // 注册组件
+      // ...
+    }
+  };
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-[#050505] overflow-hidden text-white">
 

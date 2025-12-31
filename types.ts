@@ -7,6 +7,7 @@ export enum NavTab {
   TRAVEL = 'travel',
   GOODIES = 'goodies',
   NOW = 'now',
+  MEMORY = 'memory',
   ABOUT = 'about'
 }
 
@@ -56,6 +57,15 @@ export interface BookCuration {
 }
 
 // ... (以下其他接口保持不变)
+// 🔥 新增：日记条目接口
+export interface JournalEntry {
+  id: string;
+  month: number;
+  day: number;
+  year: number;
+  content: string;
+  mood?: string; // 可选：记录当时心情
+}
 export interface Footprint { id: string; city: string; description: string; date: string; image: string; }
 export interface CulturalLog { id: string; title: string; type: string; rating: number; comment: string; date: string; coverImage: string; }
 export interface TravelSpot { id: string; city: string; coordinate: string; lat: number; lng: number; date: string; description: string; images: string[]; }

@@ -79,7 +79,7 @@ const Journal: React.FC = () => {
                     <span className="text-[10px] font-mono text-zinc-700 uppercase tracking-widest bg-white/5 px-2 py-1 rounded">{entry.mood}</span>
                   </div>
 
-                  <div className="text-lg text-zinc-300 font-light serif leading-loose">
+                  <div className="text-lg text-zinc-300 font-light serif leading-loose whitespace-pre-wrap">
                     {entry.content}
                   </div>
                 </motion.div>

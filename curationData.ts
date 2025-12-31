@@ -18,8 +18,8 @@ export const MOVIES: MovieCuration[] = [
     runtime: '5 seasons',
     // 示例：这里使用了你本地 images 文件夹里的图片
     images: [
-      './images/poi1.jpg',
-      './images/poi2.jpg'
+      'images/poi1.jpg',
+      'images/poi2.jpg'
     ],
     review: '新的一年，最恨的人还是Jonathan Nolan'
   },
@@ -33,8 +33,8 @@ export const MOVIES: MovieCuration[] = [
     genre: '情景喜剧',
     runtime: '11 Seasons',
     images: [
-      './images/fra1.jpg',
-      './images/fra2.jpg'
+      'images/fra1.jpg',
+      'images/fra2.jpg'
     ],
     review: '希区柯克式的恐惧不仅仅在于鸟类的攻击，更在于日常生活的逻辑突然崩塌。那些无处不在的、冰冷的注视。'
   }

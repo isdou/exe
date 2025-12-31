@@ -17,7 +17,7 @@ import { Article } from './types';
 export const MOCK_ESSAYS: Article[] = [
   {
     id: '1',
-    title: 'doudou mail01',
+    title: 'Doudou Mail #1',
     excerpt: 'Hi',
     content: `
       Hi,

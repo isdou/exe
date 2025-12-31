@@ -30,7 +30,7 @@ const INTRO_DATA: IntroSection[] = [
     id: '03',
     label: 'GUIDE / 系统导航',
     title: '控制台指令集',
-    content: '通过右侧终端 (REMOTE) 访问子系统： [2] ESSAYS 加载深度思考模块； [3] INPUTS 读取书影音数据； [4] COORDS 追踪物理移动轨迹； [5] ITEMS 调取生存装备库； [6] CACHE 访问瞬时思维碎片。 按 [7] KERNEL 查看系统底层架构',
+    content: '通过右侧终端访问子系统：[2]ESSAYS加载深度思考模块;[3]INPUTS读取书影音数据;[4]COORDS追踪物理移动轨迹;[5]ITEMS调取生存装备库;[6]CACHE访问瞬时思维碎片;按[7]KERNEL查看系统底层架构',
     meta: 'USER PROTOCOL: VERIFIED'
   }
 ];

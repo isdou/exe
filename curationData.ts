@@ -22,7 +22,7 @@ export const MOVIES: MovieCuration[] = [
       'images/poi1.jpg',
       'images/poi2.jpg'
     ],
-    review: '新的一年，最恨的人还是Jonathan Nolan'
+    review: '新的一年，最恨的人还是Jonathan Nolan。尽管POI永远是我的TOP1'
   },
   {
     id: 'm2',

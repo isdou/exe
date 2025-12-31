@@ -34,7 +34,7 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
     >
       {/* 左侧：海报区 (更窄) */}
       <div className="relative w-full md:w-1/3 h-64 md:h-auto bg-zinc-900 shrink-0">
-        <img src={movie.images[0]} className="w-full h-full object-cover opacity-60 grayscale" />
+        <img src={movie.images[1]} className="w-full h-full object-cover opacity-60 grayscale" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f10] to-transparent"></div>
 
         {/* 左上角数据 */}

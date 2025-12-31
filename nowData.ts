@@ -14,8 +14,8 @@ import { NowUpdate } from './types';
 export const UPDATES: NowUpdate[] = [
   {
     id: '1',
-    timestamp: '2025-12-27 22:15',
-    content: '背挺直一点，声音大一点。',
+    timestamp: '2026-01-01 03:39',
+    content: '无论卦象吉凶都敢去做的人，才有资格问天意。',
     status: 'THINKING'
   },
   {

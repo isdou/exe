@@ -170,7 +170,7 @@ const ListViewItem: React.FC<{
       </div>
       <div className="w-8 h-10 shrink-0 bg-zinc-800 overflow-hidden rounded-sm hidden sm:block">
         <img
-          src={isMovie ? movie.images[0] : book.coverImage}
+          src={isMovie ? movie.images[1] : book.coverImage}
           className="w-full h-full object-cover opacity-60 group-hover:opacity-100 grayscale group-hover:grayscale-0 transition-all"
         />
       </div>

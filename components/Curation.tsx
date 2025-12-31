@@ -3,6 +3,76 @@ import { MovieCuration, BookCuration, ContentStatus } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MOVIES, BOOKS } from '../curationData';
 
+// --- 辅助组件：数据仪表盘 (Data Dashboard) [NEW] ---
+const Dashboard: React.FC = () => {
+  // 1. 计算统计数据
+  const stats = useMemo(() => {
+    const totalMovies = MOVIES.length;
+    const totalBooks = BOOKS.length;
+    const totalItems = totalMovies + totalBooks;
+
+    // 计算平均分
+    const movieScores = MOVIES.filter(m => m.rating).map(m => m.rating!);
+    const bookScores = BOOKS.filter(b => b.rating).map(b => b.rating!);
+    const allScores = [...movieScores, ...bookScores];
+    const avgRating = allScores.length > 0
+      ? (allScores.reduce((a, b) => a + b, 0) / allScores.length).toFixed(1)
+      : 'N/A';
+
+    // 计算进行中的任务
+    const activeTasks = [...MOVIES, ...BOOKS].filter(i => i.status === 'processing').length;
+
+    // 计算 Top Tags
+    const tagCounts: Record<string, number> = {};
+    [...MOVIES, ...BOOKS].forEach(item => {
+      item.tags?.forEach(tag => {
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+      });
+    });
+    const topTags = Object.entries(tagCounts)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 3)
+      .map(([tag]) => tag);
+
+    return { totalItems, avgRating, activeTasks, topTags };
+  }, []);
+
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 mb-8 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm">
+      {/* Stat 1: Input Volume */}
+      <div className="space-y-1">
+        <div className="text-[10px] mono text-zinc-500 uppercase tracking-widest">Total Input</div>
+        <div className="text-2xl font-bold text-white serif">{stats.totalItems} <span className="text-xs text-zinc-600 font-normal">Entries</span></div>
+      </div>
+
+      {/* Stat 2: Quality Index */}
+      <div className="space-y-1">
+        <div className="text-[10px] mono text-zinc-500 uppercase tracking-widest">Avg. Quality</div>
+        <div className="text-2xl font-bold text-white serif">{stats.avgRating} <span className="text-xs text-zinc-600 font-normal">/ 10</span></div>
+      </div>
+
+      {/* Stat 3: Active Processing */}
+      <div className="space-y-1">
+        <div className="text-[10px] mono text-zinc-500 uppercase tracking-widest">Processing</div>
+        <div className="flex items-center gap-2">
+           <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+           <div className="text-2xl font-bold text-white serif">{stats.activeTasks} <span className="text-xs text-zinc-600 font-normal">Active</span></div>
+        </div>
+      </div>
+
+      {/* Stat 4: Top Contexts */}
+      <div className="space-y-2">
+        <div className="text-[10px] mono text-zinc-500 uppercase tracking-widest">Top Keywords</div>
+        <div className="flex flex-wrap gap-1">
+          {stats.topTags.map(tag => (
+            <span key={tag} className="text-[9px] px-1.5 py-0.5 bg-black/40 text-zinc-300 rounded mono border border-white/5">#{tag}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- 辅助组件：状态徽章 (Status Badge) ---
 const StatusBadge: React.FC<{ status?: ContentStatus }> = ({ status }) => {
   if (!status) return null;
@@ -321,6 +391,9 @@ const Curation: React.FC = () => {
               </div>
            </div>
 
+           {/* 🔥 Dashboard Area [NEW] */}
+           <Dashboard />
+
            {/* Filter Bar */}
            <div className="flex flex-col md:flex-row gap-4 border-y border-white/5 py-4">
               <div className="flex gap-2">
@@ -376,14 +449,13 @@ const Curation: React.FC = () => {
             </div>
           )}
 
-          {/* Library (这里的 Grid 会用大卡片，List 会用小图列表) */}
+          {/* Library */}
           {filteredBooks.length > 0 && (
             <div className="space-y-6">
               <div className="flex items-baseline gap-4 border-b border-white/5 pb-2">
                 <h3 className="text-xl font-mono font-bold text-zinc-400">/ LIBRARY_DB</h3>
                 <span className="text-[9px] text-zinc-600 mono uppercase tracking-widest">{filteredBooks.length} ENTRIES</span>
               </div>
-              {/* 注意：Grid 模式下书籍是一列 2 个 (lg:grid-cols-2) 比较好看 */}
               <motion.div layout className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 gap-8" : "flex flex-col border-t border-white/5"}>
                 {filteredBooks.map((book) => (
                   viewMode === 'grid'

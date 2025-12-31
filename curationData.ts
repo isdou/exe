@@ -72,6 +72,6 @@ export const BOOKS: BookCuration[] = [
     quote: '你是真心的，这让我很害怕。你喜欢我，看到了我身上一些美好的地方，可这只是个误会，很快你会发现自己被骗了，然后你会选择离开，而我接受不了这样的结局。',
     summary: '她写没有野心的人，没有高光时刻的人，没有赢但也不彻底失败的人。我们终于在这本书里，见到“普通”的疼和“微弱”的爱也被好好写了下来。',
     coverImage: 'images/cuienrong-03.png',
-    bgColor: 'bg-[#1e1e2e]'
+    bgColor: 'bg-[#363A39]'
   }
 ];

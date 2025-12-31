@@ -1,0 +1,98 @@
+
+export enum NavTab {
+  LOG = 'log',
+  ESSAYS = 'essays',
+  CURATION = 'curation',
+  TRAVEL = 'travel',
+  GOODIES = 'goodies',
+  NOW = 'now',
+  ABOUT = 'about'
+}
+
+export interface GoodieItem {
+  id: string;
+  name: string;
+  category: 'eat' | 'drink' | 'buy';
+  description: string;
+  image: string;
+  price?: string;
+  link?: string;
+  reason: string;
+}
+
+export interface MovieCuration {
+  id: string;
+  title: string;
+  originalTitle?: string;
+  director: string;
+  year: string;
+  region: string;
+  genre: string;
+  runtime: string;
+  images: string[];
+  review: string;
+}
+
+export interface BookCuration {
+  id: string;
+  title: string;
+  author: string;
+  quote: string;
+  summary: string;
+  coverImage: string;
+  bgColor: string;
+}
+
+export interface Footprint {
+  id: string;
+  city: string;
+  description: string;
+  date: string;
+  image: string;
+}
+
+export interface CulturalLog {
+  id: string;
+  title: string;
+  type: string;
+  rating: number;
+  comment: string;
+  date: string;
+  coverImage: string;
+}
+
+export interface TravelSpot {
+  id: string;
+  city: string;
+  coordinate: string;
+  lat: number;
+  lng: number;
+  date: string;
+  description: string;
+  images: string[];
+}
+
+export interface NowUpdate {
+  id: string;
+  timestamp: string;
+  content: string;
+  status: string;
+}
+
+export interface Fragment {
+  id: string;
+  content: string;
+  date: string;
+  tags: string[];
+}
+
+export interface Article {
+  id: string;
+  title: string;
+  excerpt: string;
+  content?: string;
+  date: string;
+  coverImage: string;
+  category?: string;
+  readTime?: string;
+}

@@ -14,23 +14,23 @@ interface IntroSection {
 const INTRO_DATA: IntroSection[] = [
   {
     id: '01',
-    label: 'IDENTITY / 身份',
+    label: 'IDENTITY / 身份验证',
     title: '豆豆的灵魂频道',
-    content: '一个 INTJ 的数字避难所。在这里，逻辑与通感并存，死鱼眼与热血共生。我是系统构建者，也是在废墟中寻找银色光辉的观测员。',
+    content: '一个正在重启的观察者，厌恶低密度信息的入侵，也拒绝廉价的共鸣。在这里，逻辑是我的防御塔，而文字是唯一能穿透防御的白名单。',
     meta: 'STATION MONITOR: ACTIVE'
   },
   {
     id: '02',
-    label: 'PURPOSE / 宗旨',
-    title: '解构、重组、共振',
-    content: '本站记录我打捞起的灵感碎片、深度解构的文章以及书影音的感官档案。这不仅是个人主页，更是一场关于如何在这个荒诞世界守护尊严的实验。',
+    label: 'PROTOCOL / 运行协议',
+    title: '反熵增实验室',
+    content: '本系统致力于对抗记忆的‘挥发性’。在高噪且熵增的世界里，建立一个低熵的存储扇区，对个人精神数据进行实时固化与‘热备份’。',
     meta: 'SIGNAL STRENGTH: 100%'
   },
   {
     id: '03',
-    label: 'GUIDE / 导览',
-    title: '如何操控这个世界',
-    content: '通过右侧遥控器（REMOTE）进行切台：CH1 信号说明；CH2 深度思考；CH3 影像实验室；CH4 实时脉冲；CH5 系统信息。',
+    label: 'GUIDE / 系统导航',
+    title: '控制台指令集',
+    content: '通过右侧终端 (REMOTE) 访问子系统： [2] ESSAYS 加载深度思考模块； [3] INPUTS 读取书影音数据； [4] COORDS 追踪物理移动轨迹； [5] ITEMS 调取生存装备库； [6] CACHE 访问瞬时思维碎片。 按 [7] KERNEL 查看系统底层架构',
     meta: 'USER PROTOCOL: VERIFIED'
   }
 ];
@@ -45,7 +45,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
   useEffect(() => {
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % INTRO_DATA.length);
-    }, 8000);
+    }, 4000);
     return () => clearInterval(timer);
   }, []);
 

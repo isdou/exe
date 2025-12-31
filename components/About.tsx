@@ -62,7 +62,7 @@ const About: React.FC = () => {
           </div>
 
           <button className="w-full md:w-auto px-12 md:px-16 py-4 md:py-5 bg-white text-black rounded-full text-[10px] md:text-xs uppercase tracking-[0.4em] font-bold hover:bg-red-600 hover:text-white transition-all duration-700 shadow-xl">
-            Let's Collaborate
+            给我写信💌
           </button>
         </div>
       </div>

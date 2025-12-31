@@ -2,8 +2,5 @@
 {
   "name": "Doudou's Soul Canvas",
   "description": "豆豆的个人精神领地 - INTJ, 银魂爱好者, 思想记录者。",
-  "requestFramePermissions": [
-    "camera",
-    "microphone"
-  ]
+  "requestFramePermissions": []
 }

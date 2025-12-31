@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { NavTab } from './types';
 import Log from './components/Home';
@@ -8,9 +7,9 @@ import Travel from './components/Travel';
 import Goodies from './components/Goodies';
 import Now from './components/Now';
 import About from './components/About';
+import Memory from './components/Journal'; // 🔥 引入新组件
 import Remote from './components/Remote';
 import { motion, AnimatePresence } from 'framer-motion';
-import Memory from './components/Journal'; // 引入新组件
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<NavTab>(NavTab.LOG);
@@ -47,6 +46,7 @@ const App: React.FC = () => {
       case NavTab.TRAVEL: return "GLOBAL TRAJECTORY";
       case NavTab.GOODIES: return "GOODIES INVENTORY";
       case NavTab.NOW: return "LIVE FREQUENCY";
+      case NavTab.MEMORY: return "CHRONO LOGS"; // 🔥 新频道名
       case NavTab.ABOUT: return "SYSTEM INFO";
       default: return "UNKNOWN SIGNAL";
     }
@@ -61,25 +61,12 @@ const App: React.FC = () => {
       case NavTab.TRAVEL: return <Travel />;
       case NavTab.GOODIES: return <Goodies />;
       case NavTab.NOW: return <Now />;
+      case NavTab.MEMORY: return <Memory />; // 🔥 注册组件
       case NavTab.ABOUT: return <About />;
       default: return <Log onNavigate={handleChannelChange} />;
     }
   };
-  const getChannelName = (tab: NavTab) => {
-    switch (tab) {
-      // ... 其他 case
-      case NavTab.MEMORY: return "CHRONO LOGS"; // 新频道名称
-      // ...
-    }
-  };
-  const renderContent = () => {
-    if (!isPowerOn) return null;
-    switch (activeTab) {
-      // ... 其他 case
-      case NavTab.MEMORY: return <Memory />; // 注册组件
-      // ...
-    }
-  };
+
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-[#050505] overflow-hidden text-white">
 
@@ -107,7 +94,7 @@ const App: React.FC = () => {
           >
             <div className="relative flex-1 tv-screen bg-black rounded-none md:rounded-[2rem] shadow-inner flex flex-col overflow-hidden">
 
-              {/* 内容区域 - 提升 z-index 确保可见 */}
+              {/* 内容区域 */}
               <AnimatePresence mode="wait">
                 {isPowerOn && (
                   <motion.div

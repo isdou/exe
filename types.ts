@@ -1,5 +1,3 @@
-// 文件: isdou_exe/types.ts
-
 export enum NavTab {
   LOG = 'log',
   ESSAYS = 'essays',
@@ -7,8 +5,17 @@ export enum NavTab {
   TRAVEL = 'travel',
   GOODIES = 'goodies',
   NOW = 'now',
-  MEMORY = 'memory',
+  MEMORY = 'memory', // 🔥 新增
   ABOUT = 'about'
+}
+
+export interface JournalEntry {
+  id: string;
+  month: number;
+  day: number;
+  year: number;
+  content: string;
+  mood?: string;
 }
 
 export interface GoodieItem {
@@ -22,7 +29,6 @@ export interface GoodieItem {
   reason: string;
 }
 
-// 定义内容状态类型
 export type ContentStatus = 'done' | 'processing' | 'dropped' | 'wishlist';
 
 export interface MovieCuration {
@@ -36,10 +42,9 @@ export interface MovieCuration {
   runtime: string;
   images: string[];
   review: string;
-  // 新增字段
-  rating?: number;         // 评分 (1-10)
-  tags?: string[];         // 标签
-  status?: ContentStatus;  // 状态
+  rating?: number;
+  tags?: string[];
+  status?: ContentStatus;
 }
 
 export interface BookCuration {
@@ -50,22 +55,11 @@ export interface BookCuration {
   summary: string;
   coverImage: string;
   bgColor: string;
-  // 新增字段
   rating?: number;
   tags?: string[];
   status?: ContentStatus;
 }
 
-// ... (以下其他接口保持不变)
-// 🔥 新增：日记条目接口
-export interface JournalEntry {
-  id: string;
-  month: number;
-  day: number;
-  year: number;
-  content: string;
-  mood?: string; // 可选：记录当时心情
-}
 export interface Footprint { id: string; city: string; description: string; date: string; image: string; }
 export interface CulturalLog { id: string; title: string; type: string; rating: number; comment: string; date: string; coverImage: string; }
 export interface TravelSpot { id: string; city: string; coordinate: string; lat: number; lng: number; date: string; description: string; images: string[]; }

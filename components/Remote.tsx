@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { NavTab } from '../types';
 import { motion } from 'framer-motion';
@@ -18,10 +17,10 @@ const Remote: React.FC<RemoteProps> = ({ activeTab, onTabChange, isPowerOn, onTo
     { label: 'COORDS', tab: NavTab.TRAVEL, num: '4' },
     { label: 'ITEMS', tab: NavTab.GOODIES, num: '5' },
     { label: 'CACHE', tab: NavTab.NOW, num: '6' },
-    { label: 'KERNEL', tab: NavTab.ABOUT, num: '7' },
-    { label: 'MEMORY', tab: NavTab.MEMORY, num: '8' }
+    { label: 'MEMORY', tab: NavTab.MEMORY, num: '7' }, // 🔥 新按钮
+    { label: 'KERNEL', tab: NavTab.ABOUT, num: '8' },
   ];
-Y
+
   return (
     <div className="flex w-full max-w-[280px] lg:w-64 h-auto lg:h-[700px] bg-[#121212] rounded-[2rem] lg:rounded-[3rem] p-4 lg:p-6 shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/5 flex-col items-center gap-6 lg:gap-8 overflow-y-auto">
 
@@ -54,8 +53,6 @@ Y
             <span className="text-[7px] lg:text-[8px] tracking-tighter uppercase font-bold">{item.label}</span>
           </motion.button>
         ))}
-        {/* 一个空的占位按钮保持网格整齐 */}
-        <div className="w-full h-16 rounded-xl bg-zinc-900/20"></div>
       </div>
 
       {/* 摇杆/控制环 */}

@@ -9,6 +9,7 @@
 export const MOVIES: MovieCuration[] = [
   {
     id: 'm1',
+    rating:10,
     title: '疑犯追踪',
     originalTitle: 'Person of Interest',
     director: 'Chris Fisher/Jonathan Nolan',
@@ -25,6 +26,7 @@ export const MOVIES: MovieCuration[] = [
   },
   {
     id: 'm2',
+    rating:10,
     title: 'Frasier',
     originalTitle: 'Frasier',
     director: 'David Angell',

@@ -31,6 +31,7 @@ export interface MovieCuration {
   runtime: string;
   images: string[];
   review: string;
+  rating?: number;
 }
 
 export interface BookCuration {
@@ -41,6 +42,7 @@ export interface BookCuration {
   summary: string;
   coverImage: string;
   bgColor: string;
+  rating?: number;
 }
 
 export interface Footprint {

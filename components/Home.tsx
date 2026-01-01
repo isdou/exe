@@ -82,14 +82,14 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
 
              {/* 核心介绍文案 */}
              <div className="max-w-2xl">
-               {/* 🔥 修改点：字体大小调整为 text-base md:text-lg (原为 text-xl md:text-3xl) */}
                <p className="text-base md:text-lg font-light text-zinc-300 leading-relaxed serif italic">
                  “{current.content}”
                </p>
              </div>
 
              {/* 底部系统状态 */}
-             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mt-16 border-t border-white/10 pt-10 gap-8">
+             {/* 🔥 修改点：将 mt-16 改为 mt-32 md:mt-56，大幅增加顶部间距，让它沉底 */}
+             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mt-32 md:mt-56 border-t border-white/10 pt-10 gap-8">
                <div className="space-y-3">
                  <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest flex items-center gap-2">
                    <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span>

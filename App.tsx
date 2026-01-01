@@ -7,21 +7,45 @@ import Travel from './components/Travel';
 import Goodies from './components/Goodies';
 import Now from './components/Now';
 import About from './components/About';
-import Memory from './components/Journal'; // 🔥 引入新组件
+import Memory from './components/Journal';
 import Remote from './components/Remote';
 import { motion, AnimatePresence } from 'framer-motion';
+
+// 🥚 彩蛋文案库：系统休眠时的梦呓
+const SYSTEM_DREAMS = [
+  "DREAMING OF ELECTRIC SHEEP...",      // 银翼杀手
+  "SEE YOU SPACE COWBOY...",            // 星际牛仔
+  "SYSTEM STANDBY. WAITING FOR SIGNAL.", // 基础系统语
+  "REALITY DISCONNECTED.",              // 哲学
+  "NO SIGNAL INPUT. SEARCHING...",      // 电视术语
+  "THE SILENCE IS LOUD.",               // 文学
+  "404 SLEEP NOT FOUND.",               // 极客梗
+  "DON'T PANIC.",                       // 银河系漫游指南
+  "HELLO, WORLD? ANYONE THERE?",        // 编程梗
+  "LOGIC TERMINATED. EMOTION LOADED."   // INTJ 梗
+];
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<NavTab>(NavTab.LOG);
   const [isPowerOn, setIsPowerOn] = useState(true);
   const [isSwitching, setIsSwitching] = useState(false);
   const [isRemoteVisible, setIsRemoteVisible] = useState(false);
+  // 新增：彩蛋状态
+  const [dreamText, setDreamText] = useState("");
 
   useEffect(() => {
     if (window.innerWidth > 1024) {
       setIsRemoteVisible(true);
     }
   }, []);
+
+  // 监听开关机状态，随机生成梦呓
+  useEffect(() => {
+    if (!isPowerOn) {
+      const randomText = SYSTEM_DREAMS[Math.floor(Math.random() * SYSTEM_DREAMS.length)];
+      setDreamText(randomText);
+    }
+  }, [isPowerOn]);
 
   const handleChannelChange = (tab: NavTab) => {
     if (tab === activeTab) return;
@@ -46,7 +70,7 @@ const App: React.FC = () => {
       case NavTab.TRAVEL: return "GLOBAL TRAJECTORY";
       case NavTab.GOODIES: return "GOODIES INVENTORY";
       case NavTab.NOW: return "LIVE FREQUENCY";
-      case NavTab.MEMORY: return "CHRONO LOGS"; // 🔥 新频道名
+      case NavTab.MEMORY: return "CHRONO LOGS";
       case NavTab.ABOUT: return "SYSTEM INFO";
       default: return "UNKNOWN SIGNAL";
     }
@@ -61,7 +85,7 @@ const App: React.FC = () => {
       case NavTab.TRAVEL: return <Travel />;
       case NavTab.GOODIES: return <Goodies />;
       case NavTab.NOW: return <Now />;
-      case NavTab.MEMORY: return <Memory />; // 🔥 注册组件
+      case NavTab.MEMORY: return <Memory />;
       case NavTab.ABOUT: return <About />;
       default: return <Log onNavigate={handleChannelChange} />;
     }
@@ -110,21 +134,38 @@ const App: React.FC = () => {
                 )}
               </AnimatePresence>
 
-              {/* 雪花屏层 */}
+              {/* 🔥 彩蛋层：关机状态显示 */}
               <AnimatePresence>
                 {!isPowerOn && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute inset-0 z-[80] bg-black pointer-events-none"
+                    className="absolute inset-0 z-[80] bg-black flex items-center justify-center select-none"
                   >
-                    <div className="static-overlay opacity-40"></div>
+                    {/* 微弱的雪花底噪 */}
+                    <div className="static-overlay opacity-20 pointer-events-none"></div>
+                    
+                    {/* 居中显示的梦呓文字 */}
+                    <motion.div 
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.5, duration: 1 }}
+                      className="relative z-10 flex flex-col items-center gap-6"
+                    >
+                       {/* 呼吸红点 */}
+                       <div className="w-1.5 h-1.5 bg-red-900/80 rounded-full animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+                       
+                       {/* 文字：极细、极黑、微弱可见 */}
+                       <div className="font-mono text-zinc-800/80 text-[10px] md:text-xs tracking-[0.6em] uppercase text-center px-4 leading-loose animate-pulse">
+                         {dreamText}
+                       </div>
+                    </motion.div>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* OSD 频道信息显示 */}
+              {/* OSD 频道信息 */}
               <AnimatePresence>
                 {isSwitching && isPowerOn && (
                   <motion.div
@@ -144,7 +185,7 @@ const App: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            {/* 电视底部边框装饰 */}
+            {/* 电视底部边框 */}
             <div className="h-10 md:h-14 flex items-center justify-between px-6 md:px-10 shrink-0">
               <div className="hidden md:flex gap-3">
                 <div className="w-1.5 h-1.5 rounded-full bg-zinc-800 shadow-inner"></div>
@@ -155,7 +196,7 @@ const App: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* 遥控器侧边栏 */}
+          {/* 遥控器 */}
           <AnimatePresence>
             {isRemoteVisible && (
               <>

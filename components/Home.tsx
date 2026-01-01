@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { NavTab } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -30,7 +29,7 @@ const INTRO_DATA: IntroSection[] = [
     id: '03',
     label: 'GUIDE / 系统导航',
     title: '控制台指令集',
-    content: '通过右侧终端访问子系统：[2]ESSAYS加载深度思考模块;[3]INPUTS读取书影音数据;[4]COORDS追踪物理移动轨迹;[5]ITEMS调取生存装备库;[6]CACHE访问瞬时思维碎片;按[8]KERNEL查看系统底层架构',
+    content: '通过右侧终端访问子系统：[2]ESSAYS加载深度思考模块;[3]INPUTS读取书影音数据;[4]COORDS追踪物理移动轨迹;[5]ITEMS调取生存装备库;[6]CACHE访问瞬时思维碎片;按[7]KERNEL查看系统底层架构',
     meta: 'USER PROTOCOL: VERIFIED'
   }
 ];
@@ -83,7 +82,8 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
 
              {/* 核心介绍文案 */}
              <div className="max-w-2xl">
-               <p className="text-xl md:text-3xl font-light text-zinc-100 leading-relaxed serif italic">
+               {/* 🔥 修改点：字体大小调整为 text-base md:text-lg (原为 text-xl md:text-3xl) */}
+               <p className="text-base md:text-lg font-light text-zinc-300 leading-relaxed serif italic">
                  “{current.content}”
                </p>
              </div>

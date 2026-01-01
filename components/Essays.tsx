@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Article } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
-// --- 引用外部数据文件 ---
 import { MOCK_ESSAYS } from '../essaysData';
 
 const Essays: React.FC = () => {
@@ -13,9 +12,11 @@ const Essays: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="absolute inset-0 bg-black z-[200] overflow-y-auto px-6 py-12 md:px-24 md:py-20"
+        // 🔥 修改点 1：减少外层内边距，从 md:px-24 改为 md:px-12，让内容更靠边
+        className="absolute inset-0 bg-black z-[200] overflow-y-auto px-6 py-12 md:px-12 md:py-20"
       >
-        <div className="max-w-3xl mx-auto space-y-16 pb-24">
+        {/* 🔥 修改点 2：增加容器最大宽度，从 max-w-3xl 改为 max-w-5xl，大幅增加文字显示宽度 */}
+        <div className="max-w-5xl mx-auto space-y-16 pb-24">
           <button
             onClick={() => setSelectedEssay(null)}
             className="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors mono text-[10px] uppercase tracking-widest group"
@@ -80,7 +81,6 @@ const Essays: React.FC = () => {
             </div>
 
             <div className="flex-1 space-y-2">
-               {/* 🔥 修改点：字体从 text-5xl 改为 text-2xl，与网站其他列表保持视觉统一 */}
                <h3 className="text-xl md:text-2xl font-bold serif text-zinc-200 group-hover:text-white transition-colors tracking-tight">
                  {essay.title}
                </h3>

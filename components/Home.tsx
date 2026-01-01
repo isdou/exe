@@ -105,7 +105,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                    <span className="text-zinc-600">STATUS:</span>
                    <span className="text-green-500 font-bold">{current.meta}</span>
                  </div>
-                 <div className="text-zinc-700">COORD: 35.68N, 139.69E</div>
+                 <div className="text-zinc-700">COORD: 39.90N, 116.40E</div>
                </div>
              </div>
           </motion.div>

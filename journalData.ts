@@ -38,7 +38,6 @@ export const MOCK_JOURNAL: JournalEntry[] = [
       摒弃所有服务/APP，回归自己的网站，把所有内容都塞进自己的电子日记。
       到年底就有自己的专属报告了。
       怀着这样的心情，网站在今天上线了！💛
-
     `,// 日记内容
     mood: 'Melancholy'        // (可选) 当时的心情标签
   },

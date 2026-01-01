@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Article } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -33,7 +32,7 @@ const Essays: React.FC = () => {
               <span className="w-1 h-1 bg-red-600 rounded-full"></span>
               <span>{selectedEssay.category}</span>
             </div>
-            <h1 className="text-4xl md:text-7xl font-bold serif leading-tight text-white tracking-tighter">
+            <h1 className="text-4xl md:text-6xl font-bold serif leading-tight text-white tracking-tighter">
               {selectedEssay.title}
             </h1>
             <div className="w-16 h-[1px] bg-red-600"></div>
@@ -41,7 +40,7 @@ const Essays: React.FC = () => {
 
           <div className="prose prose-invert prose-zinc max-w-none">
             {selectedEssay.content?.split('\n').map((para, i) => (
-              <p key={i} className="text-zinc-300 text-lg leading-loose serif font-light mb-8 opacity-90">
+              <p key={i} className="text-zinc-300 text-lg leading-loose serif font-light mb-8 opacity-90 whitespace-pre-wrap">
                 {para.trim()}
               </p>
             ))}
@@ -73,18 +72,19 @@ const Essays: React.FC = () => {
           <article
             key={essay.id}
             onClick={() => setSelectedEssay(essay)}
-            className="group py-12 cursor-pointer flex flex-col md:flex-row md:items-center gap-6 md:gap-16 hover:bg-white/[0.02] -mx-6 px-6 transition-colors"
+            className="group py-8 cursor-pointer flex flex-col md:flex-row md:items-center gap-6 md:gap-16 hover:bg-white/[0.02] -mx-6 px-6 transition-colors"
           >
             <div className="md:w-32 shrink-0">
                <div className="text-[10px] font-mono text-zinc-600 tracking-widest mb-1">{essay.date}</div>
                <div className="text-[9px] text-red-700 font-bold tracking-widest uppercase">{essay.category}</div>
             </div>
 
-            <div className="flex-1 space-y-4">
-               <h3 className="text-3xl md:text-5xl font-bold serif text-zinc-200 group-hover:text-white transition-colors tracking-tighter">
+            <div className="flex-1 space-y-2">
+               {/* 🔥 修改点：字体从 text-5xl 改为 text-2xl，与网站其他列表保持视觉统一 */}
+               <h3 className="text-xl md:text-2xl font-bold serif text-zinc-200 group-hover:text-white transition-colors tracking-tight">
                  {essay.title}
                </h3>
-               <p className="text-zinc-500 text-sm md:text-lg font-light leading-relaxed max-w-3xl line-clamp-2 md:line-clamp-1 italic group-hover:text-zinc-400">
+               <p className="text-zinc-500 text-sm md:text-base font-light leading-relaxed max-w-3xl line-clamp-2 md:line-clamp-1 italic group-hover:text-zinc-400">
                  {essay.excerpt}
                </p>
             </div>

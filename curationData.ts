@@ -58,11 +58,11 @@ export const BOOKS: BookCuration[] = [
     author: 'Dubravka Ugrešić',
     quote: '对家的渴望是强大的，它拥有原始本能的力量；短期的心态经过时间的滋养，固化为一种执拗的道德原则，它比我想象的更危险。如果我不给它点吃的，缓解一下它的饥饿，或者换句话说，如果我不给它安个家——如果我愿意，我还可以从这个家里再次弹射出去——它就会与我为敌。',
     summary: '赛亚·伯林认为，思想家可以分为两种类型：一种是兴趣广泛的狐狸,一种是专注于一个大问题的刺猬），再看到那些刺猬和狐狸的典型代表，感觉就是Ni 和Ne的区别，比如提到陀翁就是典型的刺猬',
-    coverImage: 'images/Dub-Lisica',
+    coverImage: 'images/Dub-Lisica.jpg',
     bgColor: 'bg-[#793B2C]',
     // 🔥 新增字段
-    rating: 8.8,
-    tags: ['韩国文学', '女性叙事'],
+    rating: 9,
+    tags: ['流亡', '女性叙事'],
     status: 'done'
   }, 
   {

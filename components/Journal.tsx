@@ -18,7 +18,7 @@ const Journal: React.FC = () => {
 
   return (
     <div className="h-full flex flex-col md:flex-row gap-8 pb-24">
-
+      
       {/* 左侧：日历导航 */}
       <div className="w-full md:w-64 shrink-0 space-y-8 md:border-r border-white/5 md:pr-8">
         <div className="space-y-2">
@@ -61,7 +61,7 @@ const Journal: React.FC = () => {
 
       {/* 右侧：记忆流 */}
       <div className="flex-1 max-w-3xl overflow-y-auto custom-scrollbar pr-4">
-        <div className="space-y-12">
+        <div className="space-y-8">
           <AnimatePresence mode="popLayout">
             {historyEntries.length > 0 ? (
               historyEntries.map((entry) => (
@@ -70,16 +70,19 @@ const Journal: React.FC = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
-                  className="relative pl-8 border-l border-white/10 group"
+                  // 🔥 修改点：间距改小 (mb-8)，去掉输入框
+                  className="relative pl-8 border-l border-white/10 group mb-8 last:mb-0"
                 >
-                  <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 bg-zinc-900 border border-zinc-600 rounded-full group-hover:bg-zinc-500 transition-colors"></div>
-
-                  <div className="flex items-baseline gap-4 mb-3">
+                  {/* 🔥 修改点：圆点对齐微调 */}
+                  <div className="absolute left-[-5px] top-1.5 w-2.5 h-2.5 bg-zinc-900 border border-zinc-600 rounded-full group-hover:bg-zinc-500 transition-colors"></div>
+                  
+                  <div className="flex items-baseline gap-4 mb-2">
                     <span className="text-3xl font-bold serif text-zinc-500 group-hover:text-white transition-colors">{entry.year}</span>
-                    <span className="text-[10px] font-mono text-zinc-700 uppercase tracking-widest bg-white/5 px-2 py-1 rounded">{entry.mood}</span>
+                    <span className="text-[10px] font-mono text-zinc-700 uppercase tracking-widest bg-white/5 px-2 py-0.5 rounded">{entry.mood}</span>
                   </div>
-
-                  <div className="text-lg text-zinc-300 font-light serif leading-loose whitespace-pre-wrap">
+                  
+                  {/* 🔥 修改点：行高改小 (leading-relaxed)，支持换行 */}
+                  <div className="text-base md:text-lg text-zinc-300 font-light serif leading-relaxed whitespace-pre-wrap">
                     {entry.content}
                   </div>
                 </motion.div>

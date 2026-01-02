@@ -59,7 +59,7 @@ export const BOOKS: BookCuration[] = [
     coverImage: 'images/L’Étranger.jpg',
     bgColor: 'bg-[#B2AFA8]',
     // 🔥 新增字段
-    rating: ,
+    rating: 8,
     tags: ['小说', '荒诞'],
     status: 'processing',
     readingDate: '2026-01-01',

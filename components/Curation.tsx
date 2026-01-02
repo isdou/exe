@@ -88,7 +88,7 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
   </motion.div>
 );
 
-// --- 4. 组件：书籍详情弹窗 ---
+// --- 4. 组件：书籍详情弹窗 (💎 已添加：阅读日期/ISBN/字数) ---
 const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ book, onClose }) => (
   <motion.div
     initial={{ opacity: 0 }}
@@ -110,10 +110,34 @@ const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ boo
           </div>
           <div className="mt-8 text-center space-y-2"><RatingBadge rating={book.rating || 9.5} /></div>
        </div>
+       
        <div className="flex-1 p-8 md:p-12 overflow-y-auto custom-scrollbar space-y-8">
           <div className="space-y-2">
              <h2 className="text-3xl md:text-4xl font-bold serif text-white">{book.title}</h2>
              <div className="text-sm text-white/60 serif italic">{book.author}</div>
+             
+             {/* 🔥 书籍元数据展示区域 */}
+             <div className="flex flex-wrap gap-6 py-3 border-y border-white/10 text-[10px] font-mono text-zinc-400 uppercase tracking-widest my-4">
+                {book.readingDate && (
+                  <div className="flex flex-col gap-1">
+                    <span className="text-zinc-600">Finished On</span>
+                    <span className="text-white">{book.readingDate}</span>
+                  </div>
+                )}
+                {book.wordCount && (
+                  <div className="flex flex-col gap-1">
+                    <span className="text-zinc-600">Word Count</span>
+                    <span className="text-white">{book.wordCount}</span>
+                  </div>
+                )}
+                {book.isbn && (
+                  <div className="flex flex-col gap-1">
+                    <span className="text-zinc-600">ISBN</span>
+                    <span className="text-white select-all">{book.isbn}</span>
+                  </div>
+                )}
+             </div>
+
              <div className="flex flex-wrap gap-2 mt-2">
                 {book.tags?.map(tag => (
                   <span key={tag} className="px-2 py-0.5 bg-black/20 text-[9px] mono text-white/60 rounded">#{tag}</span>
@@ -128,7 +152,7 @@ const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ boo
   </motion.div>
 );
 
-// --- 🔥 组件：音乐详情 (演唱会门票样式) ---
+// --- 🔥 组件：音乐详情 (演唱会门票样式 / 💎 已修复箭头) ---
 const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ music, onClose }) => (
   <motion.div
     initial={{ opacity: 0 }}
@@ -200,7 +224,6 @@ const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ 
             </div>
          </div>
 
-         {/* 🔥 修正点：将 -> 改为 &rarr; (右箭头实体) */}
          {music.link ? (
            <a 
              href={music.link} 
@@ -274,26 +297,26 @@ const ListViewItem: React.FC<{ item: MovieCuration | BookCuration | MusicCuratio
   );
 };
 
-// --- 6. 组件：画廊视图卡片 ---
+// --- 6. 组件：画廊视图卡片 (💎 已修改：卡片更紧凑) ---
 const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ movie, onClick }) => (
   <motion.div whileHover={{ y: -5 }} onClick={onClick} className="relative bg-[#0f0f10] border border-white/5 rounded-2xl overflow-hidden cursor-pointer group hover:border-white/20 transition-all">
-    {/* ▼ 修改点 1：将高度从 h-48 改为 h-36 (变矮了) */}
+    {/* 🔥 高度减小 h-48 -> h-36 */}
     <div className="relative h-36 w-full overflow-hidden">
       <img src={movie.images[0]} className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" />
       <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f10] to-transparent"></div>
       <div className="absolute top-3 right-3 bg-black/60 backdrop-blur px-2 py-1 rounded text-red-600 font-mono text-xs font-bold border border-white/10">{movie.rating || 9.0}</div>
     </div>
-{/* ▼ 修改点 2：将内边距和间距从 p-5 space-y-3 改为 p-4 space-y-2 (更紧凑) */}
+    
+    {/* 🔥 内边距减小 p-5 -> p-4 */}
     <div className="p-4 space-y-2">
       <div className="flex justify-between items-start">
-         {/* ▼ 修改点 3：将标题字号从 text-xl 改为 text-lg (字体变小) */}
+         {/* 🔥 字号减小 text-xl -> text-lg */}
          <h4 className="text-lg font-bold serif text-white leading-tight">{movie.title}</h4>
          <span className="text-[9px] font-mono text-zinc-600 uppercase border border-zinc-800 px-1 rounded">{movie.year}</span>
       </div>
-<p className="text-zinc-500 text-xs font-light serif italic line-clamp-2 leading-relaxed">{movie.review}</p>
+      <p className="text-zinc-500 text-xs font-light serif italic line-clamp-2 leading-relaxed">{movie.review}</p>
       <div className="pt-3 border-t border-white/5 flex items-center justify-between">
          <div className="text-[9px] text-zinc-600 font-mono uppercase tracking-widest">{movie.director}</div>
-         {/* 注意：顺手确认一下箭头符号是正确的 &rarr; */}
          <div className="text-[9px] text-zinc-600 font-mono uppercase tracking-widest flex items-center gap-1 group-hover:text-white transition-colors">OPEN <span className="text-red-600">&rarr;</span></div>
       </div>
     </div>

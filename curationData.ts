@@ -116,7 +116,7 @@ export const MUSIC: MusicCuration[] = [
     artist: 'Maximillian,Nicklas Sahl',
     type: 'Album',
     year: '2023',
-    coverImage: 'missher.jpeg', 
+    coverImage: 'images/missher.jpeg', 
     review: '202 5 单曲循环第一名',
     link: 'https://open.spotify.com/track/5Cb7Jq85mWeYrmMGtmez2h?si=12abf7bc238c48fa', // 换成真实的链接
     rating: 9.8,

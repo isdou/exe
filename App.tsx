@@ -10,7 +10,7 @@ import Travel from './components/Travel';       // COORDS
 import Goodies from './components/Goodies';     // ITEMS
 import Journal from './components/Journal';     // CACHE (Journal)
 import Kernel from './components/About';        // KERNEL
-
+import Now from './components/Now';
 // --- 引入导航组件 ---
 import Remote from './components/Remote';
 import BezelNav from './components/BezelNav';
@@ -48,6 +48,7 @@ const App: React.FC = () => {
       case NavTab.GOODIES: return <Goodies />;
       case NavTab.JOURNAL: return <Journal />;
       case NavTab.ABOUT: return <Kernel />;
+      case NavTab.NOW: return <Now />;
       default: return <SystemLog />;
     }
   };

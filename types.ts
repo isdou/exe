@@ -8,6 +8,7 @@ export enum NavTab {
   MEMORY = 'memory',
   JOURNAL = 'journal',
   ABOUT = 'about',
+  NOW = 'now',
 }
 
 export interface Article {

@@ -89,7 +89,7 @@ export const MOVIES: MovieCuration[] = [
     runtime: ' 5 Seasons',
     images: [
       'images/ArrestedDevelopment1.png',
-      'images/ArrestedDevelopment1.png'
+      'images/ArrestedDevelopment2.png'
     ],
     review: '很久没看这种全员神经病的喜剧了',
     rating: 9,

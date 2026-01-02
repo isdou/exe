@@ -8,14 +8,13 @@ const StatusBadge: React.FC<{ status?: ContentStatus }> = ({ status }) => {
   if (!status) return null;
   const config = {
     done: { color: 'bg-zinc-600', text: 'ARCHIVED' },
-    processing: { color: 'bg-green-500', text: 'ON LOOP' }, // Audio 场景下显示 ON LOOP
+    processing: { color: 'bg-green-500', text: 'ON LOOP' },
     dropped: { color: 'bg-red-600', text: 'SKIPPED' },
     wishlist: { color: 'bg-blue-500', text: 'DIGGING' },
   };
-  // 默认 fallback
   const { color, text } = config[status] || { color: 'bg-zinc-800', text: status };
   return (
-    <div className={`px-2 py-1 ${color} text-white text-[9px] font-mono tracking-widest uppercase inline-block mb-2 rounded-sm`}>
+    <div className={`px-2 py-0.5 ${color} text-white text-[9px] font-mono tracking-widest uppercase inline-block rounded-sm`}>
       {text}
     </div>
   );
@@ -26,7 +25,7 @@ const RatingBadge: React.FC<{ rating?: number }> = ({ rating }) => {
   if (!rating) return null;
   return (
     <div className="flex items-baseline gap-1">
-      <span className="text-lg md:text-xl font-bold font-mono text-red-600">{rating}</span>
+      <span className="text-lg font-bold font-mono text-red-600">{rating}</span>
       <span className="text-[10px] text-zinc-600 font-mono">/10</span>
     </div>
   );
@@ -52,7 +51,7 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
         <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f10] via-transparent to-transparent opacity-40"></div>
         <div className="absolute top-6 left-6">
            <StatusBadge status={movie.status} />
-           <div className="text-white font-mono text-xs opacity-90 drop-shadow-md">{movie.id.toUpperCase()}</div>
+           <div className="text-white font-mono text-xs opacity-90 drop-shadow-md mt-2">{movie.id.toUpperCase()}</div>
         </div>
       </div>
       <div className="flex-1 overflow-y-auto custom-scrollbar p-8 md:p-10 space-y-8 bg-[#0f0f10]">
@@ -129,65 +128,115 @@ const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ boo
   </motion.div>
 );
 
-// --- 5. 组件：音乐详情弹窗 (包含链接) ---
+// --- 🔥 组件：音乐详情 (演唱会门票样式) ---
 const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ music, onClose }) => (
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
-    className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8"
+    className="fixed inset-0 z-[200] flex items-center justify-center p-4"
   >
     <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={onClose}></div>
+    
     <motion.div
-      initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.9, opacity: 0 }}
-      className="relative z-10 w-full max-w-2xl bg-[#111] border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+      layoutId={`music-ticket-${music.id}`}
+      initial={{ scale: 0.9, y: 20, opacity: 0 }}
+      animate={{ scale: 1, y: 0, opacity: 1 }}
+      exit={{ scale: 0.9, y: 20, opacity: 0 }}
+      className="relative z-10 w-full max-w-3xl flex flex-col md:flex-row bg-[#0c0c0c] border border-white/10 rounded-xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)]"
     >
-      <div className="relative aspect-square w-full bg-zinc-900 shrink-0 overflow-hidden">
-        <img src={music.coverImage} className="w-full h-full object-cover opacity-90" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent opacity-80"></div>
-        <div className="absolute bottom-8 left-8 right-8">
-           <h2 className="text-4xl md:text-5xl font-black serif text-white leading-none tracking-tight mb-2">{music.title}</h2>
-           <div className="text-lg font-mono text-white/70">{music.artist}</div>
-        </div>
-        <div className="absolute top-6 left-6"><StatusBadge status={music.status} /></div>
-        <div className="absolute top-6 right-6"><RatingBadge rating={music.rating} /></div>
+      {/* 装饰：票根切割线 (仅桌面端显示) */}
+      <div className="absolute top-0 bottom-0 right-[32%] w-[1px] border-l-2 border-dashed border-zinc-800 hidden md:block z-20"></div>
+      {/* 装饰：半圆缺口 */}
+      <div className="absolute -top-3 right-[32%] w-6 h-6 bg-black rounded-full hidden md:block ml-[-11px] z-30"></div>
+      <div className="absolute -bottom-3 right-[32%] w-6 h-6 bg-black rounded-full hidden md:block ml-[-11px] z-30"></div>
+
+      {/* 左侧：主票面 (信息区) */}
+      <div className="flex-1 p-8 md:p-10 flex flex-col justify-between gap-8 bg-[#0f0f10] relative">
+         {/* 背景水印 */}
+         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[120px] font-black text-white/5 pointer-events-none select-none whitespace-nowrap overflow-hidden">
+            AUDIO LOG
+         </div>
+
+         {/* 顶部元数据 */}
+         <div className="flex justify-between items-center text-[9px] font-mono text-zinc-600 uppercase tracking-[0.2em] relative z-10">
+            <span>NO. {music.id}</span>
+            <span>DOU TERMINAL / AUDIO</span>
+         </div>
+
+         {/* 核心内容 */}
+         <div className="space-y-4 relative z-10">
+            <div>
+               <h2 className="text-3xl md:text-5xl font-black serif text-white tracking-tighter leading-none mb-2">{music.title}</h2>
+               <div className="text-red-600 font-mono text-sm tracking-[0.1em] uppercase">{music.artist}</div>
+            </div>
+            
+            <div className="pl-4 border-l-2 border-zinc-800">
+               <p className="text-zinc-400 font-serif italic text-sm md:text-base leading-relaxed">
+                 “{music.review}”
+               </p>
+            </div>
+         </div>
+
+         {/* 底部标签 */}
+         <div className="flex gap-2 relative z-10">
+            {music.tags?.map(tag => (
+              <span key={tag} className="px-2 py-1 border border-zinc-800 rounded text-[9px] mono text-zinc-500 uppercase tracking-wider">#{tag}</span>
+            ))}
+         </div>
+      </div>
+
+      {/* 右侧：副券 (检票区) */}
+      <div className="w-full md:w-[32%] bg-[#121212] p-8 flex flex-col items-center justify-between border-t md:border-t-0 border-dashed border-zinc-800 relative">
+         {/* 唱片封面动画 */}
+         <div className="relative group cursor-pointer">
+            <div className="w-28 h-28 rounded-full border-4 border-[#1a1a1a] shadow-2xl overflow-hidden animate-[spin_12s_linear_infinite]">
+              <img src={music.coverImage} className="w-full h-full object-cover opacity-80" />
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center">
+               <div className="w-3 h-3 bg-black rounded-full border border-zinc-700"></div>
+            </div>
+         </div>
+
+         {/* 评分与状态 */}
+         <div className="text-center space-y-2 mt-4">
+            <div className="text-[9px] text-zinc-600 uppercase tracking-widest">Sonic Rating</div>
+            <div className="text-4xl font-black font-mono text-white">{music.rating}</div>
+            <div className="flex justify-center mt-2">
+               <StatusBadge status={music.status} />
+            </div>
+         </div>
+
+         {/* 撕票按钮 (跳转) */}
+         {music.link ? (
+           <a 
+             href={music.link} 
+             target="_blank" 
+             rel="noopener noreferrer"
+             className="w-full mt-6 py-3 bg-white hover:bg-red-600 text-black hover:text-white transition-colors text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-center rounded-sm"
+           >
+             Admit One ->
+           </a>
+         ) : (
+           <div className="w-full mt-6 py-3 border border-zinc-800 text-zinc-600 text-[10px] font-mono uppercase tracking-[0.2em] text-center rounded-sm">
+             No Stream
+           </div>
+         )}
+         
+         {/* 装饰条形码 */}
+         <div className="w-full h-8 mt-4 opacity-30 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/UPC-A-036000291452.svg/1200px-UPC-A-036000291452.svg.png')] bg-cover grayscale contrast-200"></div>
       </div>
       
-      <div className="flex-1 p-8 bg-[#111] space-y-6 overflow-y-auto custom-scrollbar">
-        <div className="flex flex-wrap gap-2">
-            {music.tags?.map(tag => (
-              <span key={tag} className="px-2 py-0.5 bg-white/5 text-[9px] mono text-zinc-400 rounded">#{tag}</span>
-            ))}
-        </div>
-        <div className="text-zinc-300 serif italic leading-relaxed text-lg opacity-90 border-l-2 border-red-600 pl-4">
-          “{music.review}”
-        </div>
-        
-        {/* 详情页内的跳转按钮 */}
-        {music.link && (
-          <div className="pt-4 border-t border-white/5">
-             <a 
-               href={music.link} 
-               target="_blank" 
-               rel="noopener noreferrer"
-               className="flex items-center justify-center gap-2 w-full py-3 bg-green-600/10 hover:bg-green-600/20 text-green-500 border border-green-600/30 rounded-lg transition-all font-mono text-xs uppercase tracking-widest group"
-             >
-               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-               Play on Stream
-             </a>
-          </div>
-        )}
-      </div>
-      <button onClick={onClose} className="absolute top-4 right-4 p-2 bg-black/50 rounded-full text-white/70 hover:text-white transition-colors z-20">
+      {/* 关闭按钮 */}
+      <button onClick={onClose} className="absolute top-4 right-4 md:left-4 md:right-auto text-zinc-600 hover:text-white transition-colors z-50">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
+
     </motion.div>
   </motion.div>
 );
 
-// --- 6. 组件：列表视图单项 (💎 修复：MUSIC 支持跳转图标) ---
+// --- 5. 组件：列表视图单项 ---
 const ListViewItem: React.FC<{ item: MovieCuration | BookCuration | MusicCuration; type: 'MOVIE' | 'BOOK' | 'MUSIC'; onClick: () => void }> = ({ item, type, onClick }) => {
   const isMovie = type === 'MOVIE';
   const isBook = type === 'BOOK';
@@ -211,7 +260,6 @@ const ListViewItem: React.FC<{ item: MovieCuration | BookCuration | MusicCuratio
         <img src={image} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 grayscale group-hover:grayscale-0 transition-all" />
       </div>
       <div className="w-1/3 min-w-[120px] shrink-0">
-        {/* 💎 标题栏：如果是音乐且有链接，显示绿色跳转图标 */}
         <div className="text-sm md:text-base font-bold text-zinc-300 group-hover:text-white serif truncate transition-colors flex items-center gap-2">
           {title}
           {isMusic && music.link && (
@@ -219,7 +267,7 @@ const ListViewItem: React.FC<{ item: MovieCuration | BookCuration | MusicCuratio
               href={music.link} 
               target="_blank" 
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()} // 阻止冒泡，避免触发弹窗
+              onClick={(e) => e.stopPropagation()} 
               className="text-green-500 hover:text-green-400 hover:scale-110 transition-all"
               title="Jump to Stream"
             >
@@ -235,7 +283,7 @@ const ListViewItem: React.FC<{ item: MovieCuration | BookCuration | MusicCuratio
   );
 };
 
-// --- 7. 组件：画廊视图卡片 (保持原样) ---
+// --- 6. 组件：画廊视图卡片 ---
 const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ movie, onClick }) => (
   <motion.div whileHover={{ y: -5 }} onClick={onClick} className="relative bg-[#0f0f10] border border-white/5 rounded-2xl overflow-hidden cursor-pointer group hover:border-white/20 transition-all">
     <div className="relative h-48 w-full overflow-hidden">
@@ -257,7 +305,7 @@ const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ mo
   </motion.div>
 );
 
-// --- 8. 组件：书籍卡片 (保持原样) ---
+// --- 7. 组件：书籍卡片 ---
 const BookCard: React.FC<{ book: BookCuration; onClick: () => void }> = ({ book, onClick }) => (
   <motion.div whileHover={{ scale: 1.02 }} onClick={onClick} className={`${book.bgColor} h-[320px] rounded-2xl p-6 relative overflow-hidden cursor-pointer group shadow-lg`}>
     <div className="absolute -right-4 -bottom-4 text-[100px] serif font-black text-white/5 leading-none select-none">”</div>
@@ -274,25 +322,23 @@ const BookCard: React.FC<{ book: BookCuration; onClick: () => void }> = ({ book,
   </motion.div>
 );
 
-// --- 9. 组件：音乐卡片 (Grid View) ---
+// --- 8. 组件：音乐卡片 (Grid) ---
 const MusicCard: React.FC<{ music: MusicCuration; onClick: () => void }> = ({ music, onClick }) => (
   <motion.div whileHover={{ y: -5 }} onClick={onClick} className="group cursor-pointer">
-    <div className="relative aspect-square w-full bg-zinc-900 rounded-lg overflow-hidden border border-white/5 group-hover:border-white/20 transition-all">
+    <div className="relative aspect-square w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5 group-hover:border-white/20 transition-all shadow-xl group-hover:scale-105">
        <img src={music.coverImage} className="w-full h-full object-cover opacity-70 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500" />
-       {/* 唱片中心装饰 */}
        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
-          <div className="w-2 h-2 bg-black rounded-full border border-white/30"></div>
+          <div className="w-3 h-3 bg-black rounded-full border border-white/50"></div>
        </div>
-       <div className="absolute top-2 right-2"><RatingBadge rating={music.rating} /></div>
     </div>
-    <div className="mt-3 space-y-1">
+    <div className="mt-4 text-center space-y-1">
        <div className="text-sm font-bold text-zinc-300 group-hover:text-white truncate transition-colors">{music.title}</div>
        <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">{music.artist}</div>
     </div>
   </motion.div>
 );
 
-// --- 10. 主组件 ---
+// --- 9. 主组件 ---
 const Curation: React.FC = () => {
   const [selectedMovie, setSelectedMovie] = useState<MovieCuration | null>(null);
   const [selectedBook, setSelectedBook] = useState<BookCuration | null>(null);

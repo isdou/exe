@@ -16,8 +16,8 @@ const Remote: React.FC<RemoteProps> = ({ activeTab, onTabChange, isPowerOn, onTo
     { label: 'INPUTS', tab: NavTab.CURATION, num: '3' },
     { label: 'COORDS', tab: NavTab.TRAVEL, num: '4' },
     { label: 'ITEMS', tab: NavTab.GOODIES, num: '5' },
-    { label: 'CACHE', tab: NavTab.NOW, num: '6' },
-    { label: 'MEMORY', tab: NavTab.MEMORY, num: '7' }, // 🔥 新按钮
+    { label: 'CACHE', tab: NavTab.JOURNAL, num: '6' },
+  //  { label: 'MEMORY', tab: NavTab.MEMORY, num: '7' }, // 🔥 新按钮
     { label: 'KERNEL', tab: NavTab.ABOUT, num: '8' },
   ];
 

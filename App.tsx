@@ -9,7 +9,7 @@ import Curation from './components/Curation';   // INPUTS -> Curation.tsx
 import Travel from './components/Travel';       // COORDS -> Travel.tsx
 import Goodies from './components/Goodies';  
 import Journal from './components/Journal';   // ITEMS -> Goodies.tsx
-import Memory from './components/Memory';
+//import Memory from './components/Memory';
 import Kernel from './components/About';        // KERNEL -> About.tsx
 
 // --- 引入导航组件 ---
@@ -48,7 +48,7 @@ const App: React.FC = () => {
       case NavTab.CURATION: return <Curation />;
       case NavTab.TRAVEL: return <Travel />;
       case NavTab.GOODIES: return <Goodies />;
-      case NavTab.MEMORY: return <Memory />; // 这对应 Fragments
+    //  case NavTab.MEMORY: return <Memory />; // 这对应 Fragments
       
       // 🔥 关键：确保 JOURNAL 对应 <Journal /> 组件
       case NavTab.JOURNAL: return <Journal />; 

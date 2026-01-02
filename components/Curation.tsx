@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { MovieCuration, BookCuration, MusicCuration, ContentStatus } from '../types';
+import { MovieCuration, BookCuration, MusicCuration, CurationStatus } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MOVIES, BOOKS, MUSIC } from '../curationData';
+import { MOVIES, BOOKS, MUSIC, CHARACTERS } from '../curationData';
 
 // --- 1. 辅助组件：状态徽章 ---
-const StatusBadge: React.FC<{ status?: ContentStatus }> = ({ status }) => {
+const StatusBadge: React.FC<{ status?: CurationStatus }> = ({ status }) => {
   if (!status) return null;
   const config = {
     done: { color: 'bg-zinc-600', text: 'ARCHIVED' },
@@ -13,6 +13,7 @@ const StatusBadge: React.FC<{ status?: ContentStatus }> = ({ status }) => {
     dropped: { color: 'bg-red-600', text: 'SKIPPED' },
     wishlist: { color: 'bg-blue-500', text: 'DIGGING' },
   };
+  // @ts-ignore
   const { color, text } = config[status] || { color: 'bg-zinc-800', text: status };
   return (
     <div className={`px-2 py-0.5 ${color} text-white text-[9px] font-mono tracking-widest uppercase inline-block rounded-sm`}>
@@ -32,7 +33,7 @@ const RatingBadge: React.FC<{ rating?: number }> = ({ rating }) => {
   );
 };
 
-// --- 3. 组件：电影详情弹窗 (修复：添加大括号) ---
+// --- 3. 组件：电影详情弹窗 ---
 const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ movie, onClose }) => {
   return createPortal(
     <motion.div
@@ -61,7 +62,9 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
             <div className="space-y-2">
                <h2 className="text-3xl md:text-5xl font-bold serif text-white tracking-tighter leading-none">{movie.title}</h2>
                <div className="flex gap-4 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
-                 <span>{movie.year}</span><span>{movie.region}</span><span>{movie.runtime}</span>
+                 <span>{movie.year}</span><span>{movie.region}</span>
+                 {/* 详情页显示时长 */}
+                 <span>{movie.isTV ? movie.totalDuration : movie.runtime}</span>
                </div>
                <div className="flex flex-wrap gap-2 mt-2">
                   {movie.tags?.map(tag => (
@@ -78,6 +81,15 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
             <div><div className="text-[9px] text-zinc-600 uppercase tracking-widest mb-1">Director</div><div className="text-sm text-zinc-300 serif">{movie.director}</div></div>
             <div><div className="text-[9px] text-zinc-600 uppercase tracking-widest mb-1">Genre</div><div className="text-sm text-zinc-300 serif">{movie.genre}</div></div>
           </div>
+          
+          {/* 详情页增加主演显示 */}
+          {movie.cast && (
+            <div className="space-y-2">
+              <div className="text-[9px] text-zinc-600 uppercase tracking-widest">Starring</div>
+              <div className="text-sm text-zinc-300 serif">{movie.cast.join(' / ')}</div>
+            </div>
+          )}
+
           <div className="space-y-4">
             <div className="text-[9px] text-red-600 uppercase tracking-widest font-bold">Observer Log</div>
             <p className="text-zinc-300 text-lg leading-relaxed serif italic font-light opacity-90">“{movie.review}”</p>
@@ -92,7 +104,7 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
   );
 };
 
-// --- 4. 组件：书籍详情弹窗 (修复：添加大括号) ---
+// --- 4. 组件：书籍详情弹窗 ---
 const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ book, onClose }) => {
   return createPortal(
     <motion.div
@@ -158,7 +170,7 @@ const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ boo
   );
 };
 
-// --- 5. 组件：音乐详情 (修复：添加大括号) ---
+// --- 5. 组件：音乐详情 ---
 const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ music, onClose }) => {
   return createPortal(
     <motion.div
@@ -307,12 +319,7 @@ const ListViewItem: React.FC<{ item: MovieCuration | BookCuration | MusicCuratio
 const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ movie, onClick }) => (
   <motion.div whileHover={{ y: -5 }} onClick={onClick} className="relative bg-[#0f0f10] border border-white/5 rounded-2xl overflow-hidden cursor-pointer group hover:border-white/20 transition-all h-full">
     <div className="relative h-36 w-full overflow-hidden">
-      {/* 🔥 修改点 1：移除了 grayscale 和 opacity-60 */}
       <img src={movie.images[0]} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700" />
-      
-      {/* 🔥 修改点 2：移除了覆盖在上面的渐变蒙版，让画面更透亮 */}
-      {/* <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f10] to-transparent"></div> */}
-      
       <div className="absolute top-3 right-3 bg-black/60 backdrop-blur px-2 py-1 rounded text-red-600 font-mono text-xs font-bold border border-white/10">{movie.rating || 9.0}</div>
     </div>
     
@@ -321,6 +328,15 @@ const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ mo
          <h4 className="text-lg font-bold serif text-white leading-tight">{movie.title}</h4>
          <span className="text-[9px] font-mono text-zinc-600 uppercase border border-zinc-800 px-1 rounded">{movie.year}</span>
       </div>
+      
+      {/* 电视剧新增信息：Cast 和 时长 */}
+      {movie.isTV && (
+        <div className="flex flex-wrap gap-2 text-[9px] text-zinc-500 font-mono uppercase">
+           {movie.totalDuration && <span className="border border-zinc-800 px-1 rounded">{movie.totalDuration}</span>}
+           {movie.cast && <span>{movie.cast.slice(0, 2).join('/')}</span>}
+        </div>
+      )}
+
       <p className="text-zinc-500 text-xs font-light serif italic line-clamp-2 leading-relaxed">{movie.review}</p>
       <div className="pt-3 border-t border-white/5 flex items-center justify-between">
          <div className="text-[9px] text-zinc-600 font-mono uppercase tracking-widest">{movie.director}</div>
@@ -330,32 +346,24 @@ const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ mo
   </motion.div>
 );
 
-// --- 8. 组件：书籍卡片 ---
-// --- 8. 组件：书籍卡片 (已修改：竖版图鉴样式) ---
+// --- 8. 组件：书籍卡片 (竖版图鉴样式) ---
 const BookCard: React.FC<{ book: BookCuration; onClick: () => void }> = ({ book, onClick }) => (
   <motion.div
     layout
     whileHover={{ y: -4, scale: 1.02, transition: { duration: 0.2 } }}
     onClick={onClick}
-    // 🔥 修改点：改为竖版 aspect-[2/3]，深色背景，增加边框和阴影
     className="group cursor-pointer relative bg-[#121212] border border-white/10 rounded-xl overflow-hidden flex flex-col shadow-lg hover:shadow-black/40 hover:border-white/30 transition-all duration-300 w-full aspect-[2/3]"
   >
-    {/* 上半部分：封面大图 */}
     <div className="relative h-[65%] w-full bg-zinc-900 overflow-hidden border-b border-white/5">
       <img
         src={book.coverImage}
         className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
         alt={book.title}
       />
-      {/* 渐变遮罩，让文字更清晰 */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent opacity-30"></div>
-
-      {/* 左上角状态 */}
       <div className="absolute top-2 left-2 scale-90 origin-top-left">
          <StatusBadge status={book.status} />
       </div>
-
-      {/* 右下角评分 */}
       {book.rating && (
         <div className="absolute bottom-2 right-2 bg-black/80 backdrop-blur px-1.5 py-0.5 rounded text-[9px] font-mono text-yellow-500 border border-white/10">
            ★ {book.rating.toFixed(1)}
@@ -363,21 +371,16 @@ const BookCard: React.FC<{ book: BookCuration; onClick: () => void }> = ({ book,
       )}
     </div>
 
-    {/* 下半部分：书籍信息 */}
     <div className="flex-1 p-3 flex flex-col justify-between bg-gradient-to-b from-[#121212] to-[#0a0a0a]">
        <div>
-         {/* 书名 */}
          <h3 className="text-sm font-bold serif text-zinc-200 group-hover:text-white line-clamp-2 leading-tight tracking-tight">
            《{book.title}》
          </h3>
-         {/* 作者 */}
          <div className="text-[10px] text-zinc-500 font-mono mt-1 truncate flex items-center gap-1">
             <span className="w-1 h-1 bg-zinc-600 rounded-full"></span>
             {book.author}
          </div>
        </div>
-
-       {/* 底部信息：日期/字数 */}
        <div className="mt-2 pt-2 border-t border-white/5 flex items-center justify-between text-[8px] font-mono text-zinc-600 uppercase tracking-widest">
           <span>{book.readingDate ? book.readingDate.split('.')[0] : 'ARCHIVED'}</span>
           {book.wordCount && <span>{book.wordCount}</span>}
@@ -390,9 +393,7 @@ const BookCard: React.FC<{ book: BookCuration; onClick: () => void }> = ({ book,
 const MusicCard: React.FC<{ music: MusicCuration; onClick: () => void }> = ({ music, onClick }) => (
   <motion.div whileHover={{ y: -5 }} onClick={onClick} className="group cursor-pointer">
     <div className="relative aspect-square w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5 group-hover:border-white/20 transition-all shadow-xl group-hover:scale-105">
-       {/* 🔥 修改点：移除了 opacity-70 和 grayscale */}
        <img src={music.coverImage} className="w-full h-full object-cover transition-all duration-500" />
-       
        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
           <div className="w-3 h-3 bg-black rounded-full border border-white/50"></div>
        </div>
@@ -412,7 +413,7 @@ const Curation: React.FC = () => {
   
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [activeTag, setActiveTag] = useState<string | null>(null);
-  const [activeStatus, setActiveStatus] = useState<ContentStatus | 'all'>('all');
+  const [activeStatus, setActiveStatus] = useState<CurationStatus | 'all'>('all');
 
   const allTags = useMemo(() => {
     const tags = new Set<string>();
@@ -422,7 +423,7 @@ const Curation: React.FC = () => {
     return Array.from(tags);
   }, []);
 
-  const filterContent = <T extends { tags?: string[], status?: ContentStatus }>(items: T[]) => {
+  const filterContent = <T extends { tags?: string[], status?: CurationStatus }>(items: T[]) => {
     return items.filter(item => {
       const matchTag = activeTag ? item.tags?.includes(activeTag) : true;
       const matchStatus = activeStatus === 'all' ? true : item.status === activeStatus;
@@ -502,7 +503,7 @@ const Curation: React.FC = () => {
             </div>
           )}
 
-          {/* 2. CINEMA_DB (已修改：横向滚动) */}
+          {/* 2. CINEMA_DB */}
           {filteredMovies.length > 0 && (
             <div className="space-y-6">
               <div className="flex items-baseline gap-4 border-b border-white/5 pb-2">
@@ -529,7 +530,42 @@ const Curation: React.FC = () => {
             </div>
           )}
 
-          {/* 3. LIBRARY_DB (已修改：横向滚动) */}
+          {/* 🔥 3. CHARACTERS (仅在 Movie 视图下显示) */}
+          {activeTab === 'movie' && (
+            <section className="space-y-6 pt-8 border-t border-white/10">
+               <div className="flex items-center gap-2 border-l-4 border-yellow-500 pl-4">
+                 <h3 className="text-xl font-bold serif text-white">Character Hall of Fame</h3>
+                 <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider">/ 角色印象</span>
+               </div>
+               
+               <div className="flex gap-6 overflow-x-auto pb-6 custom-scrollbar">
+                 {CHARACTERS.map((char) => (
+                   <motion.div 
+                     key={char.id}
+                     whileHover={{ y: -5 }}
+                     className="shrink-0 w-64 bg-[#0a0a0a] border border-white/10 p-4 rounded-xl group relative overflow-hidden"
+                   >
+                     <div className="flex items-start gap-4 mb-4">
+                       <div className="w-12 h-12 rounded-full overflow-hidden border border-white/20">
+                         <img src={char.avatar} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+                       </div>
+                       <div>
+                         <div className="text-lg font-bold serif text-white leading-none mb-1">{char.name}</div>
+                         <div className="text-[10px] text-zinc-500 font-mono truncate max-w-[120px]">{char.source}</div>
+                         {char.actor && <div className="text-[9px] text-zinc-600">Act: {char.actor}</div>}
+                       </div>
+                       <div className="ml-auto text-4xl font-black serif text-white/5 absolute top-2 right-4">#{char.rank}</div>
+                     </div>
+                     <p className="text-xs text-zinc-400 font-light leading-relaxed serif italic border-t border-white/5 pt-3">
+                       “{char.desc}”
+                     </p>
+                   </motion.div>
+                 ))}
+               </div>
+            </section>
+          )}
+
+          {/* 4. LIBRARY_DB */}
           {filteredBooks.length > 0 && (
             <div className="space-y-6">
               <div className="flex items-baseline gap-4 border-b border-white/5 pb-2">
@@ -539,15 +575,13 @@ const Curation: React.FC = () => {
               <motion.div 
                 layout 
                 className={viewMode === 'grid' 
-                  ? "flex overflow-x-auto gap-4 pb-8 snap-x snap-mandatory custom-scrollbar pr-12" // 🔥 改动：gap-6 改为 gap-4 更紧凑
+                  ? "flex overflow-x-auto gap-4 pb-8 snap-x snap-mandatory custom-scrollbar pr-12"
                   : "flex flex-col border-t border-white/5"
                 }
               >
                 {filteredBooks.map((book) => (
                   viewMode === 'grid'
                     ? (
-                      // 🔥 修改点：大大减小宽度，适应竖版卡片
-                      // 从原来的 min-w-[300px]... 改为下面的：
                       <div key={book.id} className="min-w-[160px] w-[160px] md:min-w-[180px] md:w-[180px] shrink-0 snap-center">
                         <BookCard book={book} onClick={() => setSelectedBook(book)} />
                       </div>

@@ -10,7 +10,7 @@ const USER_PROFILE = {
   version: 'v2.9.0', 
   status: 'OPERATIONAL',
   location: 'Earth / Asia',
-  avatar: 'images/avatar.jpg', // 确保 public/images/avatar.jpg 存在
+  avatar: 'images/avatar.jpg', // 
 };
 
 const PROTOCOLS = [

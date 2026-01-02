@@ -10,7 +10,8 @@ import Travel from './components/Travel';
 import Goodies from './components/Goodies';
 import Journal from './components/Journal';
 import Kernel from './components/About';
-import Now from './components/Now'; // 确保已引入 Now
+import Now from './components/Now';
+// import Dreams from './components/Dreams'; // 💡 如果你创建了 Dreams.tsx，请取消这行注释
 import Remote from './components/Remote';
 import BezelNav from './components/BezelNav';
 
@@ -61,6 +62,7 @@ const App: React.FC = () => {
       case NavTab.JOURNAL: return <Journal />;
       case NavTab.ABOUT: return <Kernel />;
       case NavTab.NOW: return <Now />;
+      // case NavTab.DREAMS: return <Dreams />; // 💡 如果你创建了 Dreams.tsx，请取消这行注释
       default: return <SystemLog />;
     }
   };
@@ -76,11 +78,8 @@ const App: React.FC = () => {
         {/* ================= 1. 电视机主体 ================= */}
         <div className="relative w-full aspect-[16/10] md:aspect-[16/9] bg-[#111] rounded-[2rem] md:rounded-[3rem] shadow-[0_0_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden border-[8px] md:border-[12px] border-[#1a1a1a] flex flex-col transition-all duration-700">
           
-          {/* 🔥 修复点：移除了 h-full 
-              之前是: className="flex-1 relative overflow-hidden bg-black w-full h-full"
-              现在是: className="flex-1 relative overflow-hidden bg-black w-full"
-          */}
-          <div className="flex-1 relative overflow-hidden bg-black w-full">
+          {/* 🔥 关键修复：min-h-0 解决 Chrome Flex 溢出问题 */}
+          <div className="flex-1 min-h-0 relative overflow-hidden bg-black w-full">
             <div className="absolute inset-0 z-50 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,6px_100%]"></div>
             <div className="absolute inset-0 z-50 pointer-events-none animate-scanline bg-gradient-to-b from-transparent via-white/5 to-transparent h-32 opacity-20"></div>
 

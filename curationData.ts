@@ -1,5 +1,4 @@
-import { MovieCuration, BookCuration, MusicCuration } from './types';
-
+import { MovieCuration, BookCuration, MusicCuration, Character } from './types';
 /**
  * ============================================================
  * 影视档案馆 (Movies Database)
@@ -14,7 +13,11 @@ export const MOVIES: MovieCuration[] = [
     year: '2011',
     region: 'USA',
     genre: '科幻 / 悬疑',
-    runtime: '5 seasons',
+    runtime: '3d 3h 28m',
+    // 🔥 新增字段
+    isTV: true,
+    totalDuration: '5 Episodes',
+    cast: ['Jim Caviezel', 'Michael Emerson', 'Amy Acker', 'Sarah Shahi'],
     images: [
       'images/poi1.jpg',
       'images/poi2.jpg'
@@ -217,5 +220,27 @@ export const MUSIC: MusicCuration[] = [
     rating: 10,
     tags: ['sad', 'Classic'],
     status: 'processing' // On Loop
+  }
+];
+
+// 🔥 新增：人物榜单数据
+export const CHARACTERS: Character[] = [
+  {
+    id: 'c1',
+    rank: 1,
+    name: '王阳',
+    source: '漫长的季节',
+    actor: '刘奕铁',
+    desc: '那种充满生命力的、纯粹的、带有悲剧色彩的理想主义。',
+    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop' // 暂时用占位图
+  },
+  {
+    id: 'c2',
+    rank: 2,
+    name: 'Rust Cohle',
+    source: 'True Detective S1',
+    actor: 'Matthew McConaughey',
+    desc: '清醒的悲观主义者，在此岸审视虚无。',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop'
   }
 ];

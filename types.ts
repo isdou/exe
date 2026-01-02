@@ -4,10 +4,11 @@ export enum NavTab {
   CURATION = 'curation',
   TRAVEL = 'travel',
   GOODIES = 'goodies',
-  NOW = 'now', // 
+  NOW = 'now',
   MEMORY = 'memory',
   JOURNAL = 'journal',
   ABOUT = 'about',
+  DREAMS = 'dreams'
 }
 
 export interface Article {
@@ -35,6 +36,10 @@ export interface MovieCuration {
   rating?: number;
   tags?: string[];
   status?: CurationStatus;
+  // 🔥 新增字段
+  cast?: string[];       // 主演
+  totalDuration?: string; // 电视剧总时长 (e.g. "45min x 12eps")
+  isTV?: boolean;        // 标记是否为电视剧
 }
 
 export interface BookCuration {
@@ -65,6 +70,17 @@ export interface MusicCuration {
   rating?: number;
   tags?: string[];
   status?: CurationStatus;
+}
+
+// 🔥 新增：虚拟人物榜单
+export interface Character {
+  id: string;
+  name: string;
+  source: string; // 出处 (比如《甄嬛传》)
+  actor?: string; // 扮演者
+  desc: string;   // 印象/评价
+  avatar: string; // 头像链接
+  rank: number;   // 排名
 }
 
 export interface GoodieItem {
@@ -100,4 +116,12 @@ export interface JournalEntry {
   day: number;
   content: string;
   mood: string;
+}
+
+// 兼容 Now 的接口
+export interface NowUpdate {
+    id: string;
+    timestamp: string;
+    content: string;
+    status: string;
 }

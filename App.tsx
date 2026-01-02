@@ -1,209 +1,144 @@
 import React, { useState, useEffect } from 'react';
-import { NavTab } from './types';
-import Log from './components/Home';
-import Essays from './components/Essays';
-import Curation from './components/Curation';
-import Travel from './components/Travel';
-import Goodies from './components/Goodies';
-import Now from './components/Now';
-import About from './components/About';
-import Memory from './components/Journal';
-import Remote from './components/Remote';
 import { motion, AnimatePresence } from 'framer-motion';
+import { NavTab } from './types';
 
-const SYSTEM_DREAMS = [
-  "DREAMING OF ELECTRIC SHEEP...",
-  "SEE YOU SPACE COWBOY...",
-  "SYSTEM STANDBY. WAITING FOR SIGNAL.",
-  "REALITY DISCONNECTED.",
-  "NO SIGNAL INPUT. SEARCHING...",
-  "THE SILENCE IS LOUD.",
-  "404 SLEEP NOT FOUND.",
-  "DON'T PANIC.",
-  "HELLO, WORLD? ANYONE THERE?",
-  "LOGIC TERMINATED. EMOTION LOADED."
-];
+// --- 引入所有子页面组件 ---
+// 注意：确保目录下有这些组件文件，如果没有可以先用简单的占位符代替
+import Intro from './components/Intro';       // 开机动画/引导
+import SystemLog from './components/SystemLog'; // LOG / 首页
+import Essays from './components/Essays';     // ESSAYS / 文章
+import Curation from './components/Curation'; // INPUTS / 书影音档案
+import Travel from './components/Travel';     // COORDS / 足迹
+import Goodies from './components/Goodies';   // ITEMS / 好物 & 探店
+import Goodies from './components/Journal';   // ITEMS / 好物 & 探店
+import Memory from './components/Memory';     // MEMORY / 日记
+import Kernel from './components/Kernel';     // KERNEL / 关于
+
+// --- 引入导航组件 ---
+import Remote from './components/Remote';     // 右侧遥控器
+import BezelNav from './components/BezelNav'; // 🔥 底部实体按键
 
 const App: React.FC = () => {
+  const [power, setPower] = useState(false);
   const [activeTab, setActiveTab] = useState<NavTab>(NavTab.LOG);
-  const [isPowerOn, setIsPowerOn] = useState(true);
-  const [isSwitching, setIsSwitching] = useState(false);
-  const [isRemoteVisible, setIsRemoteVisible] = useState(false);
-  const [dreamText, setDreamText] = useState("");
+  const [isBooting, setIsBooting] = useState(false);
 
-  useEffect(() => {
-    if (window.innerWidth > 1024) {
-      setIsRemoteVisible(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!isPowerOn) {
-      const randomText = SYSTEM_DREAMS[Math.floor(Math.random() * SYSTEM_DREAMS.length)];
-      setDreamText(randomText);
-    }
-  }, [isPowerOn]);
-
-  const handleChannelChange = (tab: NavTab) => {
-    if (tab === activeTab) return;
-    setIsSwitching(true);
-    setActiveTab(tab);
-    if (window.innerWidth <= 1024) {
-      setTimeout(() => setIsRemoteVisible(false), 300);
-    }
-    setTimeout(() => {
-      setIsSwitching(false);
-    }, 1500);
-  };
-
-  const getChannelName = (tab: NavTab) => {
-    switch (tab) {
-      case NavTab.LOG: return "SIGNAL INTRODUCTION";
-      case NavTab.ESSAYS: return "DEEP THINKING";
-      case NavTab.CURATION: return "VISUAL ARCHIVE";
-      case NavTab.TRAVEL: return "GLOBAL TRAJECTORY";
-      case NavTab.GOODIES: return "GOODIES INVENTORY";
-      case NavTab.NOW: return "LIVE FREQUENCY";
-      case NavTab.MEMORY: return "CHRONO LOGS";
-      case NavTab.ABOUT: return "SYSTEM INFO";
-      default: return "UNKNOWN SIGNAL";
+  // 处理开机逻辑
+  const handlePowerToggle = () => {
+    if (!power) {
+      setPower(true);
+      setIsBooting(true);
+      // 假装开机引导 1.5秒后进入系统
+      setTimeout(() => setIsBooting(false), 1500);
+    } else {
+      setPower(false);
     }
   };
 
+  // 根据当前 Tab 渲染对应组件
   const renderContent = () => {
-    if (!isPowerOn) return null;
     switch (activeTab) {
-      case NavTab.LOG: return <Log onNavigate={handleChannelChange} />;
+      case NavTab.LOG: return <SystemLog />;
       case NavTab.ESSAYS: return <Essays />;
       case NavTab.CURATION: return <Curation />;
       case NavTab.TRAVEL: return <Travel />;
       case NavTab.GOODIES: return <Goodies />;
-      case NavTab.NOW: return <Now />;
       case NavTab.MEMORY: return <Memory />;
-      case NavTab.ABOUT: return <About />;
-      default: return <Log onNavigate={handleChannelChange} />;
+      case NavTab.JOURNAL: return <Journal />;       
+      case NavTab.ABOUT: return <Kernel />;
+      default: return <SystemLog />;
     }
   };
 
   return (
-    <div className="h-screen w-screen flex items-center justify-center bg-[#050505] overflow-hidden text-white">
-      <motion.button
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={() => setIsRemoteVisible(!isRemoteVisible)}
-        className="fixed bottom-6 right-6 lg:top-8 lg:right-8 z-[200] w-14 h-14 bg-zinc-900 border border-white/10 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(0,0,0,0.5)] group transition-all"
-      >
-        <div className="flex flex-col gap-1 items-center justify-center">
-          <div className={`w-4 h-[2px] rounded-full transition-all ${isRemoteVisible ? 'bg-red-600 rotate-45 translate-y-[3px]' : 'bg-zinc-400'}`}></div>
-          {!isRemoteVisible && <div className="w-4 h-[2px] bg-zinc-400 rounded-full"></div>}
-          <div className={`w-4 h-[2px] rounded-full transition-all ${isRemoteVisible ? 'bg-red-600 -rotate-45 -translate-y-[3px]' : 'bg-zinc-400'}`}></div>
-        </div>
-      </motion.button>
+    <div className="min-h-screen bg-[#050505] text-zinc-100 p-2 md:p-8 flex items-center justify-center font-sans selection:bg-red-900 selection:text-white overflow-hidden relative">
+      
+      {/* 全局背景噪点 */}
+      <div className="fixed inset-0 opacity-[0.03] pointer-events-none z-0 mix-blend-overlay" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
 
-      <div className="relative w-full h-full flex items-center justify-center p-0 md:p-6 lg:p-8">
-        <div className="relative w-full h-full max-w-[1920px] mx-auto flex flex-col lg:flex-row gap-0 lg:gap-8 items-center">
-          <motion.div
-            layout
-            className="relative flex-1 w-full h-full bg-[#151515] p-2 md:p-4 lg:p-6 rounded-none md:rounded-[3rem] shadow-[0_50px_100px_rgba(0,0,0,0.9)] border-t border-white/5 flex flex-col overflow-hidden"
-          >
-            <div className="relative flex-1 tv-screen bg-black rounded-none md:rounded-[2rem] shadow-inner flex flex-col overflow-hidden">
-              <AnimatePresence mode="wait">
-                {isPowerOn && (
-                  <motion.div
-                    key={activeTab}
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 1.02 }}
-                    transition={{ duration: 0.3 }}
-                    className="relative z-[60] w-full h-full overflow-y-auto px-6 py-12 md:px-12 lg:px-16 custom-scrollbar scroll-smooth"
-                  >
-                    {renderContent()}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+      {/* 主容器：电视 + 遥控器 */}
+      <div className="flex flex-col md:flex-row gap-8 w-full max-w-[1600px] items-center md:items-start justify-center relative z-10">
 
-              <AnimatePresence>
-                {!isPowerOn && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute inset-0 z-[80] bg-black flex items-center justify-center select-none"
-                  >
-                    <div className="static-overlay opacity-20 pointer-events-none"></div>
-                    <motion.div 
-                      initial={{ scale: 0.9, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ delay: 0.5, duration: 1 }}
-                      className="relative z-10 flex flex-col items-center gap-6"
-                    >
-                       <div className="w-1.5 h-1.5 bg-red-900/80 rounded-full animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
-                       <div className="font-mono text-zinc-800/80 text-[10px] md:text-xs tracking-[0.6em] uppercase text-center px-4 leading-loose animate-pulse">
-                         {dreamText}
-                       </div>
-                    </motion.div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+        {/* ================= 1. 电视机主体 (Monitor) ================= */}
+        <div className="relative w-full aspect-[16/10] md:aspect-[16/9] bg-[#111] rounded-[2rem] md:rounded-[3rem] shadow-[0_0_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden border-[8px] md:border-[12px] border-[#1a1a1a] flex flex-col transition-all duration-700">
+          
+          {/* 屏幕区域 (Screen) */}
+          <div className="flex-1 relative overflow-hidden bg-black w-full h-full">
+            
+            {/* CRT 扫描线特效层 */}
+            <div className="absolute inset-0 z-50 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,6px_100%]"></div>
+            <div className="absolute inset-0 z-50 pointer-events-none animate-scanline bg-gradient-to-b from-transparent via-white/5 to-transparent h-32 opacity-20"></div>
 
-              <AnimatePresence>
-                {isSwitching && isPowerOn && (
-                  <motion.div
-                    initial={{ x: 20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: -20, opacity: 0 }}
-                    className="absolute top-8 left-8 md:top-12 md:left-12 z-[90] mono flex flex-col items-start pointer-events-none"
-                  >
-                    <div className="text-green-500 text-3xl md:text-5xl font-black tracking-tighter drop-shadow-[0_0_10px_rgba(34,197,94,0.5)]">
-                      CH 0{Object.values(NavTab).indexOf(activeTab) + 1}
-                    </div>
-                    <div className="text-green-500/60 text-[10px] md:text-xs tracking-[0.3em] font-bold mt-1 uppercase">
-                      {getChannelName(activeTab)}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            <div className="h-10 md:h-14 flex items-center justify-between px-6 md:px-10 shrink-0">
-              <div className="hidden md:flex gap-3">
-                <div className="w-1.5 h-1.5 rounded-full bg-zinc-800 shadow-inner"></div>
-                <div className="w-1.5 h-1.5 rounded-full bg-zinc-800 shadow-inner"></div>
-              </div>
-              <div className="serif italic text-zinc-800 text-[10px] tracking-widest opacity-40 uppercase">DOU TRINITRON v2.5</div>
-              <div className={`w-2 h-2 rounded-full shadow-[0_0_10px] transition-colors ${isPowerOn ? 'bg-red-600 shadow-red-600/50' : 'bg-zinc-900 shadow-transparent'}`}></div>
-            </div>
-          </motion.div>
-
-          <AnimatePresence>
-            {isRemoteVisible && (
-              <>
+            <AnimatePresence mode="wait">
+              {!power ? (
+                // 关机状态 (Off State)
                 <motion.div
+                  key="off"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  onClick={() => setIsRemoteVisible(false)}
-                  className="fixed inset-0 bg-black/70 backdrop-blur-md z-[110] lg:hidden"
-                />
-                <motion.div
-                  initial={{ x: 400, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  exit={{ x: 400, opacity: 0 }}
-                  className="fixed lg:relative z-[120] bottom-0 left-0 right-0 lg:bottom-auto lg:left-auto lg:right-auto flex justify-center pb-10 lg:pb-0"
-                  transition={{ type: "spring", damping: 30, stiffness: 200 }}
+                  exit={{ opacity: 0, scale: 1.1, filter: 'brightness(2)' }}
+                  className="absolute inset-0 flex items-center justify-center bg-black z-40"
                 >
-                  <Remote
-                    activeTab={activeTab}
-                    onTabChange={handleChannelChange}
-                    isPowerOn={isPowerOn}
-                    onTogglePower={() => setIsPowerOn(!isPowerOn)}
-                  />
+                  <div className="flex flex-col items-center gap-4">
+                     <div className="w-2 h-2 bg-red-900 rounded-full animate-pulse"></div>
+                     <span className="text-zinc-800 text-[10px] font-mono tracking-[0.5em] uppercase">System Offline</span>
+                  </div>
                 </motion.div>
-              </>
-            )}
-          </AnimatePresence>
+              ) : isBooting ? (
+                // 开机引导状态 (Boot Sequence)
+                <motion.div key="intro" className="absolute inset-0 z-30">
+                  <Intro onComplete={() => setIsBooting(false)} />
+                </motion.div>
+              ) : (
+                // 正常运行状态 (Main Content)
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, filter: 'blur(10px)' }}
+                  animate={{ opacity: 1, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, filter: 'blur(5px)' }}
+                  transition={{ duration: 0.4 }}
+                  className="absolute inset-0 overflow-y-auto custom-scrollbar p-6 md:p-12 pb-32"
+                >
+                   {renderContent()}
+                </motion.div>
+              )}
+            </AnimatePresence>
+            
+            {/* 屏幕内边框光晕 (Vignette) */}
+            <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_100px_rgba(0,0,0,0.9)] z-40 rounded-[1.5rem] md:rounded-[2.5rem]"></div>
+          </div>
+
+          {/* 👇👇👇 底部控制面板 (Bezel Area) 👇👇👇 */}
+          <div className="h-14 md:h-20 bg-[#0c0c0c] relative shrink-0 z-50 border-t border-white/5">
+             {/* 引入我们刚才写的 BezelNav 组件 */}
+             <BezelNav activeTab={activeTab} onTabChange={setActiveTab} />
+          </div>
+
         </div>
+
+        {/* ================= 2. 遥控器 (Remote Control) ================= */}
+        {/* 在小屏幕上隐藏，只在大屏幕显示 */}
+        <div className="hidden lg:block sticky top-8 shrink-0">
+          <Remote 
+            power={power} 
+            onPowerToggle={handlePowerToggle}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+          />
+        </div>
+
       </div>
+
+      {/* 移动端浮动电源键 (Mobile Power Button) - 因为移动端没有遥控器 */}
+      <div className="lg:hidden fixed top-4 right-4 z-[100]">
+        <button 
+          onClick={handlePowerToggle}
+          className={`w-10 h-10 rounded-full flex items-center justify-center border transition-all ${power ? 'bg-red-900/20 border-red-500 text-red-500 shadow-[0_0_15px_rgba(220,38,38,0.5)]' : 'bg-zinc-900 border-zinc-700 text-zinc-600'}`}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+        </button>
+      </div>
+
     </div>
   );
 };

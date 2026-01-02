@@ -7,10 +7,10 @@ const USER_PROFILE = {
   id: 'DOU.EXE',
   role: 'Product Manager / Observer',
   mbti: 'INTJ-A (Architect)',
-  version: 'v2.6.0', // 你的年龄或者人生阶段
+  version: 'v2.9.0', 
   status: 'OPERATIONAL',
   location: 'Earth / Asia',
-  avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg', // 换成你的头像链接
+  avatar: 'images/avatar.jpg', // 换成你的头像链接
 };
 
 const PROTOCOLS = [
@@ -56,7 +56,7 @@ const BUILDS = [
     link: '#'
   },
   {
-    id: 'B0 2',
+    id: 'B02',
     name: 'Coffee Log',
     type: 'MOD',
     year: 'Ongoing',
@@ -67,8 +67,8 @@ const BUILDS = [
 ];
 
 const CONTACTS = [
-  { label: 'EMAIL', value: 'hi@isdou.com', link: 'mailto:iswandou@gmail.com' },
-  { label: '公众号', value: '@十点半同学', link: '#' },
+  { label: 'EMAIL', value: 'iswandou@gmail.com', link: 'mailto:iswandou@gmail.com' },
+  { label: '公众号', value: '十点半同学', link: '#' },
 ];
 
 // --- 2. 辅助组件 ---
@@ -184,9 +184,10 @@ const About: React.FC = () => {
                   <br/><br/>
                   虽配备了“共情模拟”模块，但在高负载运算时可能会被自动挂起以节省算力。
                 </p>
+                {/* 🔥 修复点：将 > 改为 &gt; */}
                 <div className="p-4 bg-zinc-900 border border-white/10 font-mono text-[10px] text-zinc-500 space-y-1">
-                   <div>> INITIALIZING SKILL_TREE...</div>
-                   <div className="text-green-500">> SUCCESS. MODULES LOADED.</div>
+                   <div>&gt; INITIALIZING SKILL_TREE...</div>
+                   <div className="text-green-500">&gt; SUCCESS. MODULES LOADED.</div>
                 </div>
              </div>
              <div className="space-y-4">

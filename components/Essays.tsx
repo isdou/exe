@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Article } from '../types';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { MOCK_ESSAYS } from '../essaysData';
 
 const Essays: React.FC = () => {
   const [selectedEssay, setSelectedEssay] = useState<Article | null>(null);
+  
+  // 🔥 新增：滚动引用
+  const scrollRef = useRef(null);
+  
+  // 🔥 新增：滚动进度 hook
+  const { scrollYProgress } = useScroll({ container: scrollRef });
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   if (selectedEssay) {
     return (
@@ -12,10 +23,16 @@ const Essays: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        // 🔥 修改点 1：减少外层内边距，从 md:px-24 改为 md:px-12，让内容更靠边
-        className="absolute inset-0 bg-black z-[200] overflow-y-auto px-6 py-12 md:px-12 md:py-20"
+        // 🔥 绑定 ref 到滚动容器
+        ref={scrollRef}
+        className="absolute inset-0 bg-black z-[200] overflow-y-auto px-6 py-12 md:px-12 md:py-20 custom-scrollbar"
       >
-        {/* 🔥 修改点 2：增加容器最大宽度，从 max-w-3xl 改为 max-w-5xl，大幅增加文字显示宽度 */}
+        {/* 🔥 顶部进度条 */}
+        <motion.div
+          className="fixed top-0 left-0 right-0 h-1 bg-red-600 origin-left z-50"
+          style={{ scaleX }}
+        />
+
         <div className="max-w-5xl mx-auto space-y-16 pb-24">
           <button
             onClick={() => setSelectedEssay(null)}

@@ -1,9 +1,39 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TravelSpot } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
-// --- 引用外部数据文件 ---
 import { MOCK_TRAVEL } from '../travelData';
+
+// 🔥 新增组件：解密文字特效
+const DecryptedText: React.FC<{ text: string; className?: string }> = ({ text, className }) => {
+  const [displayText, setDisplayText] = useState(text);
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%&";
+
+  useEffect(() => {
+    let iterations = 0;
+    const interval = setInterval(() => {
+      setDisplayText(text
+        .split("")
+        .map((letter, index) => {
+          if (index < iterations) {
+            return text[index];
+          }
+          return chars[Math.floor(Math.random() * chars.length)];
+        })
+        .join("")
+      );
+
+      if (iterations >= text.length) {
+        clearInterval(interval);
+      }
+      
+      iterations += 1 / 2; // 调整解密速度
+    }, 30);
+
+    return () => clearInterval(interval);
+  }, [text]);
+
+  return <h2 className={className}>{displayText}</h2>;
+};
 
 const ExpeditionDetails: React.FC<{ spot: TravelSpot; onClose: () => void }> = ({ spot, onClose }) => (
   <motion.div
@@ -101,9 +131,11 @@ const Travel: React.FC = () => {
                 <span className="text-zinc-500 font-mono text-[8px] md:text-[10px] tracking-widest uppercase truncate max-w-[150px]">{activeSpot.coordinate}</span>
               </div>
               <div className="space-y-1 md:space-y-2">
-                <h2 className="text-5xl md:text-7xl font-black serif leading-none text-white tracking-tighter">
-                  {activeSpot.city}.
-                </h2>
+                {/* 🔥 使用 DecryptedText 替换原标题 */}
+                <DecryptedText 
+                  text={activeSpot.city + "."} 
+                  className="text-5xl md:text-7xl font-black serif leading-none text-white tracking-tighter"
+                />
                 <div className="text-red-500 font-mono text-[10px] md:text-xs tracking-[0.5em] uppercase pl-1 md:pl-2">In {activeSpot.date}</div>
               </div>
               <p className="text-zinc-300 text-sm md:text-xl font-light leading-loose serif italic max-w-xl border-l-2 border-red-600/30 pl-4 md:pl-8">

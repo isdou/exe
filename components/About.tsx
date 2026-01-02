@@ -1,70 +1,275 @@
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
-import React from 'react';
+// --- 1. 数据配置区 (请在这里修改你的真实信息) ---
+
+const USER_PROFILE = {
+  id: 'DOU.EXE',
+  role: 'Product Manager / Observer',
+  mbti: 'INTJ-A (Architect)',
+  version: 'v2.6.0', // 你的年龄或者人生阶段
+  status: 'OPERATIONAL',
+  location: 'Earth / Asia',
+  avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg', // 换成你的头像链接
+};
+
+const PROTOCOLS = [
+  {
+    icon: '⚡',
+    title: 'Energy Source',
+    desc: '系统依赖高浓度咖啡因与独处时间充电。社交活动会快速消耗电量，需长周期冷却。'
+  },
+  {
+    icon: '📡',
+    title: 'Communication',
+    desc: '偏好异步文字通信。拒绝毫无铺垫的语音通话。收到消息未回通常是在进行后台多线程处理。'
+  },
+  {
+    icon: '🛡️',
+    title: 'Core Values',
+    desc: '极度厌恶低效与逻辑断层。不仅解决问题，更迷恋于构建能够自动解决问题的系统。'
+  },
+  {
+    icon: '🐛',
+    title: 'Known Bugs',
+    desc: '在感性决策模块偶尔出现卡顿。对细节的强迫症可能导致项目延期（但交付质量极高）。'
+  }
+];
+
+const SKILLS = [
+  { name: 'Product Logic', level: 95 },
+  { name: 'System Design', level: 85 },
+  { name: 'Data Analysis', level: 80 },
+  { name: 'UI/UX Sense', level: 75 },
+  { name: 'Coding (React/TS)', level: 60 }, // 正在进化中
+  { name: 'Empathy Simulation', level: 40 }, // 正在加载补丁...
+];
+
+const BUILDS = [
+  {
+    id: 'B01',
+    name: 'DOU.EXE',
+    type: 'SIDE_QUEST',
+    year: '2026',
+    desc: '个人精神角落的数字化身。基于 React 构建的反熵增内容管理系统。',
+    tech: ['React', 'Tailwind', 'Framer Motion'],
+    link: '#'
+  },
+  {
+    id: 'B0 2',
+    name: 'Coffee Log',
+    type: 'MOD',
+    year: 'Ongoing',
+    desc: '一套自研的手冲咖啡风味记录方法论。试图量化味觉这一玄学指标。',
+    tech: ['Notion', 'Excel'],
+    link: '#'
+  }
+];
+
+const CONTACTS = [
+  { label: 'EMAIL', value: 'hi@isdou.com', link: 'mailto:iswandou@gmail.com' },
+  { label: '公众号', value: '@十点半同学', link: '#' },
+];
+
+// --- 2. 辅助组件 ---
+
+const SectionHeader: React.FC<{ title: string; subtitle: string }> = ({ title, subtitle }) => (
+  <div className="flex items-end gap-4 border-b border-white/10 pb-2 mb-8 mt-12">
+    <h3 className="text-2xl md:text-3xl font-black serif text-white">{title}</h3>
+    <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mb-1">// {subtitle}</span>
+  </div>
+);
+
+const SkillBar: React.FC<{ name: string; level: number }> = ({ name, level }) => (
+  <div className="space-y-1">
+    <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest text-zinc-400">
+      <span>{name}</span>
+      <span>{level}%</span>
+    </div>
+    <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5">
+      <motion.div 
+        initial={{ width: 0 }}
+        whileInView={{ width: `${level}%` }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="h-full bg-red-600/80"
+      />
+    </div>
+  </div>
+);
+
+// --- 3. 主组件 ---
 
 const About: React.FC = () => {
+  const [copied, setCopied] = useState<string | null>(null);
+
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopied(text);
+    setTimeout(() => setCopied(null), 2000);
+  };
+
   return (
-    <div className="relative -mt-20 -mx-6 min-h-[calc(100vh-3.5rem)] flex items-center overflow-hidden">
-      {/* 背景层 */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[#050505]/95 z-10"></div>
-        {/* --- 配置区域：关于页面背景图 --- */}
-        <img
-          src="https://images.unsplash.com/photo-1514467950401-4d974b70216b?q=80&w=2070&auto=format&fit=crop"
-          className="w-full h-full object-cover grayscale opacity-20"
-          alt="About Background"
-        />
-      </div>
+    <div className="h-full w-full overflow-y-auto custom-scrollbar pb-24 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="max-w-4xl mx-auto p-4 md:p-12 space-y-12">
 
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center py-24">
-        {/* 左侧大字 */}
-        <div className="lg:col-span-5 space-y-8 md:space-y-12">
-          <div className="space-y-6">
-            <div className="text-red-600 font-mono text-[10px] md:text-xs tracking-widest uppercase">SYSTEM RECONSTRUCTION</div>
-            {/* --- 配置区域：名字与标签 --- */}
-            <h2 className="text-5xl md:text-7xl font-bold serif text-white">豆豆</h2>
-            <div className="flex flex-wrap gap-2 md:gap-3">
-              {['PRODUCT MANAGER', 'INTJ', 'MINIMALIST', 'ORDER-SENSITIVE'].map(tag => (
-                <span key={tag} className="px-3 md:px-5 py-1.5 md:py-2 bg-white/5 border border-white/10 backdrop-blur-md rounded-full text-[8px] md:text-[10px] uppercase tracking-widest text-zinc-400">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* --- 配置区域：简介文案 --- */}
-          <div className="space-y-6 text-zinc-400 font-light text-base md:text-lg leading-loose">
-            <p className="text-xl md:text-2xl text-white serif italic border-l-2 border-red-600 pl-4 md:pl-6">“我们活在世上，不过是在一堆乱码中寻找属于自己的那行逻辑。”</p>
-            <p>
-              擅长认赔出场，精通极简主义。相信记忆是不可靠的，所以正在用文字进行‘热备份’。人生信条：遇到困难先睡大觉。
-            </p>
-          </div>
-        </div>
-
-        {/* 右侧详情 */}
-        <div className="lg:col-span-7 space-y-12 md:space-y-16 lg:pl-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 border-t border-zinc-900 pt-8 md:pt-12">
-            <div className="space-y-6">
-              <h4 className="text-[10px] uppercase tracking-widest text-zinc-500">Contact / Logic Line</h4>
-              {/* --- 配置区域：联系方式 --- */}
-              <ul className="space-y-4 font-mono text-[12px] md:text-sm">
-                <li><a href="#" className="flex items-center gap-3 hover:text-red-500 transition-colors"><span className="w-2 h-2 bg-zinc-800 rounded-full"></span> 公众号: 十点半同学</a></li>
-                <li><a href="#" className="flex items-center gap-3 hover:text-red-500 transition-colors"><span className="w-2 h-2 bg-zinc-800 rounded-full"></span> Email: iswandou@gmail.com</a></li>
-              </ul>
-            </div>
-            <div className="space-y-6">
-              <h4 className="text-[10px] uppercase tracking-widest text-zinc-500">Current Frequency</h4>
-              {/* --- 配置区域：当前状态 --- */}
-              <div className="p-5 md:p-6 bg-zinc-900/50 rounded-2xl md:rounded-3xl border border-zinc-800 flex items-center gap-4">
-                <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse shrink-0"></div>
-                <div className="text-[12px] md:text-sm font-light">Building a decentralized memory system.</div>
+        {/* --- Header: ID Card --- */}
+        <section className="flex flex-col md:flex-row gap-8 md:gap-12 items-start border-b border-white/10 pb-12">
+           <div className="relative group shrink-0">
+              <div className="w-32 h-32 md:w-40 md:h-40 grayscale group-hover:grayscale-0 transition-all duration-500 rounded border border-white/10 overflow-hidden">
+                <img src={USER_PROFILE.avatar} className="w-full h-full object-cover" alt="Avatar" />
               </div>
-            </div>
-          </div>
+              <div className="absolute -bottom-3 -right-3 px-3 py-1 bg-red-600 text-white text-[10px] font-mono font-bold tracking-widest uppercase shadow-lg">
+                {USER_PROFILE.status}
+              </div>
+           </div>
 
-          <button className="w-full md:w-auto px-12 md:px-16 py-4 md:py-5 bg-white text-black rounded-full text-[10px] md:text-xs uppercase tracking-[0.4em] font-bold hover:bg-red-600 hover:text-white transition-all duration-700 shadow-xl">
-            给我写信💌
-          </button>
+           <div className="space-y-4 flex-1">
+              <div>
+                <div className="text-red-600 font-mono text-[10px] tracking-[0.4em] uppercase mb-2">Kernel Panic // Info</div>
+                <h1 className="text-4xl md:text-6xl font-black serif text-white leading-none tracking-tighter">
+                  {USER_PROFILE.id}
+                </h1>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4 text-xs font-mono text-zinc-500 uppercase tracking-widest">
+                 <div className="flex flex-col gap-1">
+                   <span className="text-zinc-700">Class</span>
+                   <span className="text-zinc-300 border-l border-red-600 pl-2">{USER_PROFILE.role}</span>
+                 </div>
+                 <div className="flex flex-col gap-1">
+                   <span className="text-zinc-700">Model</span>
+                   <span className="text-zinc-300 border-l border-red-600 pl-2">{USER_PROFILE.mbti}</span>
+                 </div>
+                 <div className="flex flex-col gap-1">
+                   <span className="text-zinc-700">Version</span>
+                   <span className="text-zinc-300 border-l border-red-600 pl-2">{USER_PROFILE.version}</span>
+                 </div>
+                 <div className="flex flex-col gap-1">
+                   <span className="text-zinc-700">Coordinates</span>
+                   <span className="text-zinc-300 border-l border-red-600 pl-2">{USER_PROFILE.location}</span>
+                 </div>
+              </div>
+           </div>
+        </section>
+
+        {/* --- Section 1: README (Protocols) --- */}
+        <section>
+          <SectionHeader title="README.md" subtitle="User Manual" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {PROTOCOLS.map((item, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-white/[0.02] border border-white/5 p-6 hover:bg-white/[0.05] transition-colors group"
+              >
+                <div className="text-2xl mb-4 grayscale group-hover:grayscale-0 transition-all">{item.icon}</div>
+                <h4 className="text-white font-bold serif mb-2">{item.title}</h4>
+                <p className="text-zinc-500 text-sm font-light leading-relaxed serif italic">
+                  {item.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* --- Section 2: Stack & Specs --- */}
+        <section>
+          <SectionHeader title="SPECS" subtitle="Technical Parameters" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+             <div className="space-y-6">
+                <p className="text-zinc-400 text-sm leading-loose serif">
+                  系统核心由高强度的逻辑框架驱动。擅长将复杂的混沌信息解构为有序的执行队列。
+                  <br/><br/>
+                  虽配备了“共情模拟”模块，但在高负载运算时可能会被自动挂起以节省算力。
+                </p>
+                <div className="p-4 bg-zinc-900 border border-white/10 font-mono text-[10px] text-zinc-500 space-y-1">
+                   <div>> INITIALIZING SKILL_TREE...</div>
+                   <div className="text-green-500">> SUCCESS. MODULES LOADED.</div>
+                </div>
+             </div>
+             <div className="space-y-4">
+               {SKILLS.map(skill => <SkillBar key={skill.name} {...skill} />)}
+             </div>
+          </div>
+        </section>
+
+        {/* --- Section 3: Builds (Projects) --- */}
+        <section>
+          <SectionHeader title="BUILDS" subtitle="Deployed Entities" />
+          <div className="space-y-4">
+             {BUILDS.map((project) => (
+               <div key={project.id} className="group relative border-l-2 border-zinc-800 hover:border-red-600 pl-6 py-2 transition-colors">
+                  <div className="flex justify-between items-baseline mb-1">
+                     <h4 className="text-xl font-bold text-zinc-200 group-hover:text-white serif">{project.name}</h4>
+                     <span className="text-[9px] font-mono text-zinc-600">{project.year}</span>
+                  </div>
+                  <div className="flex items-center gap-3 mb-3">
+                     <span className={`text-[8px] px-1.5 py-0.5 rounded font-mono font-bold tracking-wider ${
+                       project.type === 'MAIN_QUEST' ? 'bg-red-900/30 text-red-400' : 'bg-zinc-800 text-zinc-400'
+                     }`}>
+                       {project.type}
+                     </span>
+                  </div>
+                  <p className="text-zinc-500 text-sm font-light mb-4 max-w-2xl">{project.desc}</p>
+                  
+                  {/* Tech Stack Tags */}
+                  <div className="flex flex-wrap gap-2">
+                    {project.tech.map(t => (
+                      <span key={t} className="text-[9px] font-mono text-zinc-600 border border-zinc-800 px-1 rounded hover:text-zinc-300 transition-colors">#{t}</span>
+                    ))}
+                  </div>
+
+                  {project.link && (
+                    <a href={project.link} className="absolute inset-0 z-10" target="_blank" rel="noopener noreferrer">
+                      <span className="sr-only">View Project</span>
+                    </a>
+                  )}
+               </div>
+             ))}
+          </div>
+        </section>
+
+        {/* --- Section 4: Handshake --- */}
+        <section>
+          <SectionHeader title="HANDSHAKE" subtitle="Establish Connection" />
+          <div className="bg-[#080808] border border-white/10 p-8 text-center space-y-8 relative overflow-hidden">
+             <div className="relative z-10">
+               <p className="text-zinc-500 font-mono text-xs mb-8 uppercase tracking-widest">
+                 Signal ready. Scanning for incoming requests...
+               </p>
+               
+               <div className="flex flex-wrap justify-center gap-4">
+                 {CONTACTS.map(contact => (
+                   <button 
+                     key={contact.label}
+                     onClick={() => handleCopy(contact.value)}
+                     className="group relative px-6 py-3 border border-zinc-800 hover:border-white/50 transition-all bg-zinc-900/50 hover:bg-zinc-900"
+                   >
+                     <div className="text-[9px] text-zinc-600 group-hover:text-red-500 font-mono uppercase tracking-widest mb-1 transition-colors">
+                       {contact.label}
+                     </div>
+                     <div className="text-sm text-zinc-300 group-hover:text-white font-bold">
+                       {copied === contact.value ? 'COPIED!' : contact.value}
+                     </div>
+                   </button>
+                 ))}
+               </div>
+             </div>
+             
+             {/* Background Decoration */}
+             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-900/50 to-transparent"></div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <div className="text-center pt-12 pb-8">
+           <div className="text-[9px] font-mono text-zinc-700 uppercase tracking-[0.5em]">
+             End of Kernel Data
+           </div>
         </div>
+
       </div>
     </div>
   );

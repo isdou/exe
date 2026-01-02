@@ -42,7 +42,7 @@ export const MOCK_GOODIES: GoodieItem[] = [
     reason: '一种带有哲理的香味，让我在人群中保持边界感，是我无形的个人领域。',
     image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?q=80&w=800',
     price: '¥950'
-  }
+  },
   // 👇 2026-01-02 新增：DINING 模块的数据
   {
     id: 'd01',

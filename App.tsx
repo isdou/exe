@@ -11,18 +11,17 @@ import Memory from './components/Journal';
 import Remote from './components/Remote';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// 🥚 彩蛋文案库：系统休眠时的梦呓
 const SYSTEM_DREAMS = [
-  "DREAMING OF ELECTRIC SHEEP...",      // 银翼杀手
-  "SEE YOU SPACE COWBOY...",            // 星际牛仔
-  "SYSTEM STANDBY. WAITING FOR SIGNAL.", // 基础系统语
-  "REALITY DISCONNECTED.",              // 哲学
-  "NO SIGNAL INPUT. SEARCHING...",      // 电视术语
-  "THE SILENCE IS LOUD.",               // 文学
-  "404 SLEEP NOT FOUND.",               // 极客梗
-  "DON'T PANIC.",                       // 银河系漫游指南
-  "HELLO, WORLD? ANYONE THERE?",        // 编程梗
-  "LOGIC TERMINATED. EMOTION LOADED."   // INTJ 梗
+  "DREAMING OF ELECTRIC SHEEP...",
+  "SEE YOU SPACE COWBOY...",
+  "SYSTEM STANDBY. WAITING FOR SIGNAL.",
+  "REALITY DISCONNECTED.",
+  "NO SIGNAL INPUT. SEARCHING...",
+  "THE SILENCE IS LOUD.",
+  "404 SLEEP NOT FOUND.",
+  "DON'T PANIC.",
+  "HELLO, WORLD? ANYONE THERE?",
+  "LOGIC TERMINATED. EMOTION LOADED."
 ];
 
 const App: React.FC = () => {
@@ -30,7 +29,6 @@ const App: React.FC = () => {
   const [isPowerOn, setIsPowerOn] = useState(true);
   const [isSwitching, setIsSwitching] = useState(false);
   const [isRemoteVisible, setIsRemoteVisible] = useState(false);
-  // 新增：彩蛋状态
   const [dreamText, setDreamText] = useState("");
 
   useEffect(() => {
@@ -39,7 +37,6 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // 监听开关机状态，随机生成梦呓
   useEffect(() => {
     if (!isPowerOn) {
       const randomText = SYSTEM_DREAMS[Math.floor(Math.random() * SYSTEM_DREAMS.length)];
@@ -49,14 +46,11 @@ const App: React.FC = () => {
 
   const handleChannelChange = (tab: NavTab) => {
     if (tab === activeTab) return;
-
     setIsSwitching(true);
     setActiveTab(tab);
-
     if (window.innerWidth <= 1024) {
       setTimeout(() => setIsRemoteVisible(false), 300);
     }
-
     setTimeout(() => {
       setIsSwitching(false);
     }, 1500);
@@ -93,8 +87,6 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-[#050505] overflow-hidden text-white">
-
-      {/* 浮动遥控器切换按钮 */}
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
@@ -110,15 +102,11 @@ const App: React.FC = () => {
 
       <div className="relative w-full h-full flex items-center justify-center p-0 md:p-6 lg:p-8">
         <div className="relative w-full h-full max-w-[1920px] mx-auto flex flex-col lg:flex-row gap-0 lg:gap-8 items-center">
-
-          {/* 电视机本体 */}
           <motion.div
             layout
             className="relative flex-1 w-full h-full bg-[#151515] p-2 md:p-4 lg:p-6 rounded-none md:rounded-[3rem] shadow-[0_50px_100px_rgba(0,0,0,0.9)] border-t border-white/5 flex flex-col overflow-hidden"
           >
             <div className="relative flex-1 tv-screen bg-black rounded-none md:rounded-[2rem] shadow-inner flex flex-col overflow-hidden">
-
-              {/* 内容区域 */}
               <AnimatePresence mode="wait">
                 {isPowerOn && (
                   <motion.div
@@ -134,7 +122,6 @@ const App: React.FC = () => {
                 )}
               </AnimatePresence>
 
-              {/* 🔥 彩蛋层：关机状态显示 */}
               <AnimatePresence>
                 {!isPowerOn && (
                   <motion.div
@@ -143,20 +130,14 @@ const App: React.FC = () => {
                     exit={{ opacity: 0 }}
                     className="absolute inset-0 z-[80] bg-black flex items-center justify-center select-none"
                   >
-                    {/* 微弱的雪花底噪 */}
                     <div className="static-overlay opacity-20 pointer-events-none"></div>
-                    
-                    {/* 居中显示的梦呓文字 */}
                     <motion.div 
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ delay: 0.5, duration: 1 }}
                       className="relative z-10 flex flex-col items-center gap-6"
                     >
-                       {/* 呼吸红点 */}
                        <div className="w-1.5 h-1.5 bg-red-900/80 rounded-full animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
-                       
-                       {/* 文字：极细、极黑、微弱可见 */}
                        <div className="font-mono text-zinc-800/80 text-[10px] md:text-xs tracking-[0.6em] uppercase text-center px-4 leading-loose animate-pulse">
                          {dreamText}
                        </div>
@@ -165,7 +146,6 @@ const App: React.FC = () => {
                 )}
               </AnimatePresence>
 
-              {/* OSD 频道信息 */}
               <AnimatePresence>
                 {isSwitching && isPowerOn && (
                   <motion.div
@@ -185,7 +165,6 @@ const App: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            {/* 电视底部边框 */}
             <div className="h-10 md:h-14 flex items-center justify-between px-6 md:px-10 shrink-0">
               <div className="hidden md:flex gap-3">
                 <div className="w-1.5 h-1.5 rounded-full bg-zinc-800 shadow-inner"></div>
@@ -196,7 +175,6 @@ const App: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* 遥控器 */}
           <AnimatePresence>
             {isRemoteVisible && (
               <>
@@ -207,7 +185,6 @@ const App: React.FC = () => {
                   onClick={() => setIsRemoteVisible(false)}
                   className="fixed inset-0 bg-black/70 backdrop-blur-md z-[110] lg:hidden"
                 />
-
                 <motion.div
                   initial={{ x: 400, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -216,3 +193,19 @@ const App: React.FC = () => {
                   transition={{ type: "spring", damping: 30, stiffness: 200 }}
                 >
                   <Remote
+                    activeTab={activeTab}
+                    onTabChange={handleChannelChange}
+                    isPowerOn={isPowerOn}
+                    onTogglePower={() => setIsPowerOn(!isPowerOn)}
+                  />
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default App;

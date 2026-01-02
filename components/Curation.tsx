@@ -327,18 +327,57 @@ const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ mo
 );
 
 // --- 8. 组件：书籍卡片 ---
+// --- 8. 组件：书籍卡片 (已修改：竖版图鉴样式) ---
 const BookCard: React.FC<{ book: BookCuration; onClick: () => void }> = ({ book, onClick }) => (
-  <motion.div whileHover={{ scale: 1.02 }} onClick={onClick} className={`${book.bgColor} h-[320px] rounded-2xl p-6 relative overflow-hidden cursor-pointer group shadow-lg w-full`}>
-    <div className="absolute -right-4 -bottom-4 text-[100px] serif font-black text-white/5 leading-none select-none">”</div>
-    <div className="flex flex-col h-full relative z-10">
-      <div className="flex justify-between items-start mb-4">
-         <div className="w-12 h-16 bg-black/20 rounded shadow-md overflow-hidden"><img src={book.coverImage} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" /></div>
-         <div className="bg-white/10 px-2 py-1 rounded text-xs font-mono font-bold text-white/90">{book.rating || 9.5}</div>
+  <motion.div
+    layout
+    whileHover={{ y: -4, scale: 1.02, transition: { duration: 0.2 } }}
+    onClick={onClick}
+    // 🔥 修改点：改为竖版 aspect-[2/3]，深色背景，增加边框和阴影
+    className="group cursor-pointer relative bg-[#121212] border border-white/10 rounded-xl overflow-hidden flex flex-col shadow-lg hover:shadow-black/40 hover:border-white/30 transition-all duration-300 w-full aspect-[2/3]"
+  >
+    {/* 上半部分：封面大图 */}
+    <div className="relative h-[65%] w-full bg-zinc-900 overflow-hidden border-b border-white/5">
+      <img
+        src={book.coverImage}
+        className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+        alt={book.title}
+      />
+      {/* 渐变遮罩，让文字更清晰 */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent opacity-30"></div>
+
+      {/* 左上角状态 */}
+      <div className="absolute top-2 left-2 scale-90 origin-top-left">
+         <StatusBadge status={book.status} />
       </div>
-      <div className="flex-1"><p className="text-lg font-bold leading-tight serif text-white/90 line-clamp-4 italic">{book.quote}</p></div>
-      <div className="mt-4 pt-4 border-t border-white/10 flex justify-between items-end">
-        <div><div className="text-sm font-bold serif text-white">{book.author}</div><div className="text-[10px] text-white/50 mono">《{book.title}》</div></div>
-      </div>
+
+      {/* 右下角评分 */}
+      {book.rating && (
+        <div className="absolute bottom-2 right-2 bg-black/80 backdrop-blur px-1.5 py-0.5 rounded text-[9px] font-mono text-yellow-500 border border-white/10">
+           ★ {book.rating.toFixed(1)}
+        </div>
+      )}
+    </div>
+
+    {/* 下半部分：书籍信息 */}
+    <div className="flex-1 p-3 flex flex-col justify-between bg-gradient-to-b from-[#121212] to-[#0a0a0a]">
+       <div>
+         {/* 书名 */}
+         <h3 className="text-sm font-bold serif text-zinc-200 group-hover:text-white line-clamp-2 leading-tight tracking-tight">
+           《{book.title}》
+         </h3>
+         {/* 作者 */}
+         <div className="text-[10px] text-zinc-500 font-mono mt-1 truncate flex items-center gap-1">
+            <span className="w-1 h-1 bg-zinc-600 rounded-full"></span>
+            {book.author}
+         </div>
+       </div>
+
+       {/* 底部信息：日期/字数 */}
+       <div className="mt-2 pt-2 border-t border-white/5 flex items-center justify-between text-[8px] font-mono text-zinc-600 uppercase tracking-widest">
+          <span>{book.readingDate ? book.readingDate.split('.')[0] : 'ARCHIVED'}</span>
+          {book.wordCount && <span>{book.wordCount}</span>}
+       </div>
     </div>
   </motion.div>
 );
@@ -494,14 +533,16 @@ const Curation: React.FC = () => {
               <motion.div 
                 layout 
                 className={viewMode === 'grid' 
-                  ? "flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory custom-scrollbar pr-12" 
+                  ? "flex overflow-x-auto gap-4 pb-8 snap-x snap-mandatory custom-scrollbar pr-12" // 🔥 改动：gap-6 改为 gap-4 更紧凑
                   : "flex flex-col border-t border-white/5"
                 }
               >
                 {filteredBooks.map((book) => (
                   viewMode === 'grid'
                     ? (
-                      <div key={book.id} className="min-w-[300px] w-[300px] md:min-w-[380px] md:w-[380px] shrink-0 snap-center">
+                      // 🔥 修改点：大大减小宽度，适应竖版卡片
+                      // 从原来的 min-w-[300px]... 改为下面的：
+                      <div key={book.id} className="min-w-[160px] w-[160px] md:min-w-[180px] md:w-[180px] shrink-0 snap-center">
                         <BookCard book={book} onClick={() => setSelectedBook(book)} />
                       </div>
                     )

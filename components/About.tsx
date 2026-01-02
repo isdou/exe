@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
-// --- 1. 数据配置区 (请在这里修改你的真实信息) ---
+// --- 1. 数据配置区 ---
 
 const USER_PROFILE = {
   id: 'DOU.EXE',
@@ -10,7 +10,7 @@ const USER_PROFILE = {
   version: 'v2.9.0', 
   status: 'OPERATIONAL',
   location: 'Earth / Asia',
-  avatar: 'images/avatar.jpg', // 换成你的头像链接
+  avatar: 'images/avatar.jpg', // 确保 public/images/avatar.jpg 存在
 };
 
 const PROTOCOLS = [
@@ -41,8 +41,8 @@ const SKILLS = [
   { name: 'System Design', level: 85 },
   { name: 'Data Analysis', level: 80 },
   { name: 'UI/UX Sense', level: 75 },
-  { name: 'Coding (React/TS)', level: 60 }, // 正在进化中
-  { name: 'Empathy Simulation', level: 40 }, // 正在加载补丁...
+  { name: 'Coding (React/TS)', level: 60 },
+  { name: 'Empathy Simulation', level: 40 },
 ];
 
 const BUILDS = [
@@ -60,9 +60,49 @@ const BUILDS = [
     name: 'Coffee Log',
     type: 'MOD',
     year: 'Ongoing',
-    desc: '。',
+    desc: '一套自研的手冲咖啡风味记录方法论。试图量化味觉这一玄学指标。',
     tech: ['Notion', 'Excel'],
     link: '#'
+  }
+];
+
+// 🔥 新增：已知故障列表
+const ISSUES = [
+  {
+    id: 'BUG-404',
+    title: 'Social_Battery_Low',
+    severity: 'High',
+    desc: '在多人聚会场景下，电量会在 30 分钟内跌破 10%。',
+    repro: '1. 邀请我参加 Party; 2. 闲聊天气。',
+    status: 'WON\'T FIX',
+    tag: 'Hardware'
+  },
+  {
+    id: 'BUG-500',
+    title: 'RBF_Display_Error',
+    severity: 'Medium',
+    desc: '待机状态下表情管理模块失效，常被误判为“生气”或“高冷”。',
+    repro: '观察我发呆的时候。',
+    status: 'FEATURE', // 这是特性，不是 Bug
+    tag: 'UI/UX'
+  },
+  {
+    id: 'BUG-400',
+    title: 'Small_Talk_Error',
+    severity: 'Low',
+    desc: '无法解析“吃了吗”等低密度信息，可能导致回复延迟。',
+    repro: '发送毫无信息量的寒暄。',
+    status: 'BY DESIGN',
+    tag: 'Kernel'
+  },
+  {
+    id: 'BUG-418',
+    title: 'Overthinking_Loop',
+    severity: 'Critical',
+    desc: '深夜容易陷入哲学思辨的死循环，导致睡眠进程无法启动。',
+    repro: '1. 关灯; 2. 躺下; 3. 思考意义。',
+    status: 'INVESTIGATING',
+    tag: 'Performance'
   }
 ];
 
@@ -184,7 +224,6 @@ const About: React.FC = () => {
                   <br/><br/>
                   虽配备了“共情模拟”模块，但在高负载运算时可能会被自动挂起以节省算力。
                 </p>
-                {/* 🔥 修复点：将 > 改为 &gt; */}
                 <div className="p-4 bg-zinc-900 border border-white/10 font-mono text-[10px] text-zinc-500 space-y-1">
                    <div>&gt; INITIALIZING SKILL_TREE...</div>
                    <div className="text-green-500">&gt; SUCCESS. MODULES LOADED.</div>
@@ -232,7 +271,59 @@ const About: React.FC = () => {
           </div>
         </section>
 
-        {/* --- Section 4: Handshake --- */}
+        {/* --- 🔥 Section 4: Known Issues (New) --- */}
+        <section>
+          <SectionHeader title="KNOWN ISSUES" subtitle="System Diagnostics" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {ISSUES.map((issue, i) => (
+              <motion.div
+                key={issue.id}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="group relative bg-white/[0.02] border border-white/5 p-5 rounded hover:border-white/10 transition-all"
+              >
+                {/* 顶部标签 */}
+                <div className="flex flex-wrap items-center gap-2 mb-2 text-[9px] font-mono uppercase tracking-widest">
+                   <span className="text-zinc-600">#{issue.id}</span>
+                   <span className={`px-1.5 py-0.5 rounded border ${
+                     issue.severity === 'High' || issue.severity === 'Critical' ? 'text-red-500 border-red-900/30 bg-red-900/10' : 'text-yellow-500 border-yellow-900/30 bg-yellow-900/10'
+                   }`}>
+                     {issue.severity}
+                   </span>
+                </div>
+
+                {/* 标题 */}
+                <h4 className="text-lg font-bold serif text-zinc-200 group-hover:text-white mb-2">
+                  {issue.title}
+                </h4>
+                
+                {/* 描述 */}
+                <p className="text-zinc-400 font-light leading-relaxed serif text-xs mb-3">
+                  {issue.desc}
+                </p>
+
+                {/* 复现步骤 */}
+                <div className="text-[9px] text-zinc-600 font-mono border-l border-zinc-800 pl-2 py-1">
+                   &gt; {issue.repro}
+                </div>
+
+                {/* 状态印章 (右上角) */}
+                <div className="absolute top-4 right-4 rotate-[-5deg] opacity-50 group-hover:opacity-100 transition-opacity pointer-events-none">
+                   <span className={`text-[8px] font-black border px-1.5 py-0.5 rounded uppercase tracking-widest ${
+                     issue.status === 'WON\'T FIX' ? 'text-red-600 border-red-600' : 
+                     issue.status === 'FEATURE' ? 'text-green-600 border-green-600' : 
+                     'text-zinc-500 border-zinc-500'
+                   }`}>
+                     {issue.status}
+                   </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* --- Section 5: Handshake --- */}
         <section>
           <SectionHeader title="HANDSHAKE" subtitle="Establish Connection" />
           <div className="bg-[#080808] border border-white/10 p-8 text-center space-y-8 relative overflow-hidden">

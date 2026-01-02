@@ -117,13 +117,13 @@ const DiningDetail: React.FC<{ item: GoodieItem; onClose: () => void }> = ({ ite
   </motion.div>
 );
 
-
 // --- 3. 主组件 ---
 const Goodies: React.FC = () => {
   // 默认显示 'dining'
   const [filter, setFilter] = useState<'all' | 'eat' | 'drink' | 'dining' | 'buy'>('dining');
   // 选中的探店项目 (用于控制弹窗)
-  const [selected DiningItem, setSelectedDiningItem] = useState<GoodieItem | null>(null);
+  // 🔥 修正点：之前这里有空格，现在修复了
+  const [selectedDiningItem, setSelectedDiningItem] = useState<GoodieItem | null>(null);
 
   const filteredData = filter === 'all' 
     ? GOODIES_DATA 

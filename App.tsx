@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NavTab } from './types';
 
@@ -11,7 +11,6 @@ import Goodies from './components/Goodies';
 import Journal from './components/Journal';
 import Kernel from './components/About';
 import Now from './components/Now';
-// import Dreams from './components/Dreams'; // 💡 如果你创建了 Dreams.tsx，请取消这行注释
 import Remote from './components/Remote';
 import BezelNav from './components/BezelNav';
 
@@ -20,37 +19,16 @@ const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<NavTab>(NavTab.LOG);
   const [isBooting, setIsBooting] = useState(false);
   const [showRemote, setShowRemote] = useState(false);
-  
-  // 音频相关
-  const [isMuted, setIsMuted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
 
   const handlePowerToggle = () => {
     if (!power) {
       setPower(true);
       setIsBooting(true);
       setTimeout(() => setIsBooting(false), 1500);
-      if (audioRef.current && !isMuted) audioRef.current.play().catch(() => {});
     } else {
       setPower(false);
-      if (audioRef.current) audioRef.current.pause();
     }
   };
-
-  const toggleMute = () => {
-    if (audioRef.current) {
-      audioRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-      if (isMuted && power) audioRef.current.play().catch(() => {});
-    }
-  };
-
-  useEffect(() => {
-    if (power && audioRef.current && !isMuted) {
-      audioRef.current.volume = 0.3;
-      audioRef.current.play().catch(() => {});
-    }
-  }, [power]);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -62,7 +40,7 @@ const App: React.FC = () => {
       case NavTab.JOURNAL: return <Journal />;
       case NavTab.ABOUT: return <Kernel />;
       case NavTab.NOW: return <Now />;
-      // case NavTab.DREAMS: return <Dreams />; // 💡 如果你创建了 Dreams.tsx，请取消这行注释
+      // case NavTab.DREAMS: return <Dreams />;
       default: return <SystemLog />;
     }
   };
@@ -70,7 +48,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#050505] text-zinc-100 p-2 md:p-8 flex items-center justify-center font-sans selection:bg-red-900 selection:text-white overflow-hidden relative">
       
-      <audio ref={audioRef} loop preload="auto"><source src="audio/bgm.mp3" type="audio/mpeg" /></audio>
+      {/* 背景噪点 */}
       <div className="fixed inset-0 opacity-[0.03] pointer-events-none z-0 mix-blend-overlay" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
 
       <div className="flex flex-col md:flex-row gap-8 w-full max-w-[1600px] items-center md:items-start justify-center relative z-10">
@@ -125,15 +103,7 @@ const App: React.FC = () => {
              <div className="flex-1">
                <BezelNav activeTab={activeTab} onTabChange={setActiveTab} />
              </div>
-             
-             <button 
-               onClick={toggleMute}
-               className="hidden md:flex flex-col items-center justify-center gap-1 group opacity-60 hover:opacity-100 transition-opacity"
-               title={isMuted ? "Unmute System" : "Mute System"}
-             >
-               <div className={`w-1.5 h-1.5 rounded-full ${isMuted ? 'bg-zinc-800' : 'bg-green-500 shadow-[0_0_5px_rgba(34,197,94,0.8)]'}`}></div>
-               <span className="text-[8px] font-mono text-zinc-500 uppercase tracking-wider">AUDIO</span>
-             </button>
+             {/* 这里已移除音量按钮 */}
           </div>
 
         </div>
@@ -174,21 +144,8 @@ const App: React.FC = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
       >
-        <button 
-          onClick={toggleMute}
-          className={`w-10 h-10 rounded-full flex items-center justify-center border transition-all shadow-lg backdrop-blur-md ${
-            !isMuted 
-              ? 'bg-zinc-900/80 border-green-500/50 text-green-500' 
-              : 'bg-zinc-900/80 border-zinc-700 text-zinc-600'
-          }`}
-        >
-           {isMuted ? (
-             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M9 9v6a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path><path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
-           ) : (
-             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
-           )}
-        </button>
-
+        {/* 这里已移除音量悬浮按钮 */}
+        
         <button 
           onClick={() => setShowRemote(!showRemote)}
           className={`w-10 h-10 rounded-full flex items-center justify-center border transition-all shadow-lg backdrop-blur-md ${

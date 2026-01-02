@@ -36,6 +36,10 @@ export const MOVIES: MovieCuration[] = [
     region: 'USA',
     genre: '情景喜剧',
     runtime: '11 Seasons',
+    isTV: true,
+    totalDuration: '5 Episodes',
+    cast: ['Jim Caviezel', 'Michael Emerson', 'Amy Acker', 'Sarah Shahi'],
+
     images: [
       'images/fra1.jpg',
       'images/fra2.jpg'
@@ -54,6 +58,10 @@ export const MOVIES: MovieCuration[] = [
     region: 'USA',
     genre: '犯罪 / 悬疑',
     runtime: '8 Seasons',
+    isTV: true,
+    totalDuration: '5 Episodes',
+    cast: ['Jim Caviezel', 'Michael Emerson', 'Amy Acker', 'Sarah Shahi'],
+
     images: [
       'images/monk1.jpg',
       'images/monk2.jpg'
@@ -72,6 +80,10 @@ export const MOVIES: MovieCuration[] = [
     region: 'CHINA',
     genre: '动画 / 奇幻',
     runtime: ' 2 Seasons',
+    isTV: true,
+    totalDuration: '5 Episodes',
+    cast: ['Jim Caviezel', 'Michael Emerson', 'Amy Acker', 'Sarah Shahi'],
+
     images: [
       'images/zgqt1.jpg',
       'images/zgqt2.jpg'
@@ -90,6 +102,10 @@ export const MOVIES: MovieCuration[] = [
     region: 'USA',
     genre: '剧情 / 喜剧',
     runtime: ' 5 Seasons',
+    isTV: true,
+    totalDuration: '5 Episodes',
+    cast: ['Jim Caviezel', 'Michael Emerson', 'Amy Acker', 'Sarah Shahi'],
+
     images: [
       'images/ArrestedDevelopment1.png',
       'images/ArrestedDevelopment2.png'

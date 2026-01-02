@@ -1,39 +1,50 @@
-import { NowUpdate } from './types';
+export interface NowFocus {
+  id: string;
+  task: string;
+  progress: number; // 0 - 100
+  status: 'RUNNING' | 'PENDING' | 'QUEUED' | 'DONE';
+}
 
-/**
- * ============================================================
- * 实时脉冲数据库 (Now/Live Frequency Database)
- * ============================================================
- * 在这里更新你最近的状态、想法或正在做的事情。
- * id: 唯一标识
- * timestamp: 时间戳（建议格式 YYYY-MM-DD HH:mm）
- * status: 状态标签（如 CODING, READING, THINKING, TRAVELING）
- * content: 具体内容
- * ============================================================
- */
-export const UPDATES: NowUpdate[] = [
-  {
-    id: '1',
-    timestamp: '2026-01-01 03:39',
-    content: '无论卦象吉凶都敢去做的人，才有资格问天意。',
-    status: 'THINKING'
-  },
-  {
-    id: '2',
-    timestamp: '2025-04-12 10:30',
-    content: '总是被挖掘深层想法的话，会让我感受到一种隐秘的语境暴力，它往往以理解的姿态出现，以深度交流的方式包装，但其实是一种投射的解读，不是每一种表达都有深层动机，也不是每一句话都要被审讯，我无法为每一句话做辩护。其他事情也是如此，想吃饭是因为真的想吃，不是因为寂寞；想变好看也是真的在取悦自己，不是服美役，虽然不可能但还是希望，虔诚地希望大家能知道，真的有人脑回路就是这么简单，不要用你高级复杂的大脑来揣测我们简单的人生。',
-    status: 'READING'
-  },
-  {
-    id: '3',
-    timestamp: '2024-11-15 01:00',
-    content: '深夜的逻辑总是比白天清晰。构建系统，是整理世界唯一的手段。',
-    status: 'THINKING'
-  },
-  {
-    id: '4',
-    timestamp: '2024-11-10 18:00',
-    content: '开始尝试在网站中引入本地图片管理逻辑，解决 public 文件夹的路径问题。',
-    status: 'SYSTEM'
-  }
-];
+export interface NowInput {
+  type: 'READING' | 'LISTENING' | 'PLAYING' | 'WATCHING' | 'STUDYING';
+  name: string;
+  author: string; // 作者、歌手或备注
+}
+
+export const NOW_DATA = {
+  // 顶部基础信息
+  updated: '2026.01.06', // 记得每次更新这个日期
+  location: 'Shanghai, CN', // 你的城市
+  mood: 'Building / 构建中', // 当前心情或状态关键词
+
+  // 1. 正在进行的主任务 (Active Processes)
+  focus: [
+    { id: '01', task: 'Project: DOU.EXE Refactor', progress: 65, status: 'RUNNING' },
+    { id: '02', task: 'Work: Q1 Roadmap Planning', progress: 30, status: 'PENDING' },
+    { id: '03', task: 'Life: Workout Routine', progress: 10, status: 'QUEUED' },
+  ] as NowFocus[],
+
+  // 2. 正在输入的内容 (Input Stream)
+  // 可选类型: READING, LISTENING, PLAYING, WATCHING, STUDYING
+  input: [
+    { type: 'READING', name: '鼠疫', author: '加缪' },
+    { type: 'LISTENING', name: '在此处填入歌名', author: '歌手' },
+    { type: 'WATCHING', name: '在此处填入剧名', author: 'S01E01' },
+  ] as NowInput[],
+
+  // 3. 当前痴迷/关注的事物 (Current Obsessions)
+  // 简短的关键词，比如：摄影、咖啡、AI...
+  obsessions: [
+    'React',
+    'Minimalism',
+    'Sci-Fi'
+  ],
+
+  // 4. 生活日志/碎碎念 (Runtime Logs)
+  // 随便写点什么，最近的想法、吐槽或感悟
+  logs: [
+    'System initialization complete. Ready for input.',
+    '在这里记录你的第一条状态...',
+    '保持好奇，保持饥饿。'
+  ]
+};

@@ -1,40 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-
-// --- 配置你的当前状态 (在这里随时更新) ---
-const NOW_DATA = {
-  lastUpdated: '2026.01.05',
-  location: 'Shanghai, CN',
-  mood: 'Focusing / 专注',
-  
-  // 1. 正在进行的主任务
-  focus: [
-    { id: '01', task: 'Building DOU.EXE v3.0', progress: 85, status: 'RUNNING' },
-    { id: '02', task: 'Learning Next.js 14', progress: 40, status: 'PENDING' },
-    { id: '03', task: 'Quarterly Review', progress: 10, status: 'QUEUED' },
-  ],
-
-  // 2. 当前的输入 (书/影/音/游)
-  input: [
-    { type: 'READING', name: '《埃隆·马斯克传》', author: 'Walter Isaacson' },
-    { type: 'PLAYING', name: 'Black Myth: Wukong', author: 'Chapter 3' },
-    { type: 'LISTENING', name: 'Endless Summer Vacation', author: 'Miley Cyrus' },
-  ],
-
-  // 3. 痴迷/关注 (Obsessions)
-  obsessions: [
-    'Retro UI Design',
-    'Pour-over Coffee',
-    'Mechanical Keyboards'
-  ],
-
-  // 4. 生活碎碎念 (Logs)
-  logs: [
-    '最近在尝试早起（6:30 AM），试图抢在世界醒来之前获得两小时的宁静。',
-    '重新迷上了胶片摄影，买了卷柯达 Gold 200，期待冲洗结果。',
-    '觉得现在的互联网太吵了，正在主动减少社交媒体的摄入量。'
-  ]
-};
+import { NOW_DATA } from '../nowData'; // 🔥 导入刚才创建的数据文件
 
 const ProgressBar: React.FC<{ progress: number }> = ({ progress }) => (
   <div className="h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden">
@@ -63,14 +29,14 @@ const Now: React.FC = () => {
         
         <div className="flex flex-col items-start md:items-end gap-1 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
            <div>Location: <span className="text-zinc-300">{NOW_DATA.location}</span></div>
-           <div>Last Sync: <span className="text-zinc-300">{NOW_DATA.lastUpdated}</span></div>
+           <div>Last Sync: <span className="text-zinc-300">{NOW_DATA.updated}</span></div>
            <div>Current Mood: <span className="text-red-500">{NOW_DATA.mood}</span></div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         
-        {/* 1. Active Processes (任务进度) */}
+        {/* 1. Active Processes */}
         <section className="space-y-6">
            <h3 className="text-xl font-bold serif text-white border-l-4 border-red-600 pl-4">Active Processes</h3>
            <div className="space-y-4">
@@ -80,7 +46,8 @@ const Now: React.FC = () => {
                      <span className="text-zinc-300 font-bold group-hover:text-red-500 transition-colors">{item.task}</span>
                      <span className={`px-1.5 py-0.5 rounded text-[9px] tracking-wider ${
                        item.status === 'RUNNING' ? 'bg-green-900/30 text-green-400' : 
-                       item.status === 'PENDING' ? 'bg-yellow-900/30 text-yellow-400' : 'bg-zinc-800 text-zinc-500'
+                       item.status === 'PENDING' ? 'bg-yellow-900/30 text-yellow-400' : 
+                       item.status === 'DONE' ? 'bg-blue-900/30 text-blue-400' : 'bg-zinc-800 text-zinc-500'
                      }`}>{item.status}</span>
                   </div>
                   <ProgressBar progress={item.progress} />
@@ -90,7 +57,7 @@ const Now: React.FC = () => {
            </div>
         </section>
 
-        {/* 2. Input Stream (正在看/听) */}
+        {/* 2. Input Stream */}
         <section className="space-y-6">
            <h3 className="text-xl font-bold serif text-white border-l-4 border-yellow-500 pl-4">Input Stream</h3>
            <div className="grid grid-cols-1 gap-3">
@@ -127,7 +94,7 @@ const Now: React.FC = () => {
 
       </div>
 
-      {/* 3. System Logs (碎碎念) */}
+      {/* 3. System Logs */}
       <section className="border-t border-white/10 pt-10">
          <h3 className="text-xl font-bold serif text-white mb-6">Runtime Logs</h3>
          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -7,7 +7,8 @@ import SystemLog from './components/Home';      // LOG -> Home.tsx
 import Essays from './components/Essays';       // ESSAYS -> Essays.tsx
 import Curation from './components/Curation';   // INPUTS -> Curation.tsx
 import Travel from './components/Travel';       // COORDS -> Travel.tsx
-import Goodies from './components/Goodies';     // ITEMS -> Goodies.tsx
+import Goodies from './components/Goodies';  
+import Journal from './components/Journal';   // ITEMS -> Goodies.tsx
 import Memory from './components/Memory';
 import Kernel from './components/About';        // KERNEL -> About.tsx
 
@@ -47,13 +48,10 @@ const App: React.FC = () => {
       case NavTab.CURATION: return <Curation />;
       case NavTab.TRAVEL: return <Travel />;
       case NavTab.GOODIES: return <Goodies />;
+      case NavTab.MEMORY: return <Memory />; // 这对应 Fragments
       
-      // 🔥 关键修改：
-      // 1. 当点击 MEMORY 按钮时，渲染 Memory 组件，并默认显示 'grid' (碎片) 模式
-      case NavTab.MEMORY: return <Memory defaultView="grid" />;
-      
-      // 2. 当点击 JOURNAL 按钮时，也渲染 Memory 组件，但默认显示 'list' (日记) 模式
-      case NavTab.JOURNAL: return <Memory defaultView="list" />;       
+      // 🔥 关键：确保 JOURNAL 对应 <Journal /> 组件
+      case NavTab.JOURNAL: return <Journal />; 
       
       case NavTab.ABOUT: return <Kernel />;
       default: return <SystemLog />;

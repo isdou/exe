@@ -6,6 +6,7 @@ export enum NavTab {
   GOODIES = 'goodies',
   NOW = 'now',
   MEMORY = 'memory',
+  JOURNAL = 'journal',
   ABOUT = 'about',
 }
 

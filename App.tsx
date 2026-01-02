@@ -216,19 +216,3 @@ const App: React.FC = () => {
                   transition={{ type: "spring", damping: 30, stiffness: 200 }}
                 >
                   <Remote
-                    activeTab={activeTab}
-                    onTabChange={handleChannelChange}
-                    isPowerOn={isPowerOn}
-                    onTogglePower={() => setIsPowerOn(!isPowerOn)}
-                  />
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default App;

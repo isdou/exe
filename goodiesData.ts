@@ -43,4 +43,27 @@ export const MOCK_GOODIES: GoodieItem[] = [
     image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?q=80&w=800',
     price: '¥950'
   }
+  // 👇 2026-01-02 新增：DINING 模块的数据
+  {
+    id: 'd01',
+    name: '肉骨茶',
+    category: 'dining', // 👈 标记为探店
+    restaurant: '马来西亚餐厅', // 👈 餐厅名
+    cuisine: '马来西亚',     // 👈 菜系
+    price: '¥78',
+    description: '店里的招牌肉骨茶',
+    reason: '不是很喜欢，主要是不太适应汤的味道',
+    image: '', // 如果有图可以填路径
+  },
+  {
+    id: 'd02',
+    name: '小炒黄牛肉',
+    category: 'dining',
+    restaurant: '赣江里',
+    cuisine: '江西菜',
+    price: '¥88',
+    description: '第一次发现里面有橘子皮',
+    reason: '太下饭了',
+    image: '',
+  }
 ];

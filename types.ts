@@ -60,6 +60,21 @@ export interface BookCuration {
   status?: ContentStatus;
 }
 
+export interface GoodieItem {
+  id: string;
+  name: string;
+  // 🔥 修改点 1：增加 'dining' 分类
+  category: 'eat' | 'drink' | 'buy' | 'dining'; 
+  description: string;
+  image: string;
+  price?: string;
+  link?: string;
+  reason: string;
+  // 🔥 修改点 2：增加餐厅和菜系字段 (可选)
+  restaurant?: string; 
+  cuisine?: string;
+}
+
 export interface Footprint { id: string; city: string; description: string; date: string; image: string; }
 export interface CulturalLog { id: string; title: string; type: string; rating: number; comment: string; date: string; coverImage: string; }
 export interface TravelSpot { id: string; city: string; coordinate: string; lat: number; lng: number; date: string; description: string; images: string[]; }

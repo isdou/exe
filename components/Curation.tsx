@@ -120,19 +120,19 @@ const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ boo
              <div className="flex flex-wrap gap-6 py-3 border-y border-white/10 text-[10px] font-mono text-zinc-400 uppercase tracking-widest my-4">
                 {book.readingDate && (
                   <div className="flex flex-col gap-1">
-                    <span className="text-zinc-600">Finished On</span>
+                    <span className="text-zinc-300">Finished On</span>
                     <span className="text-white">{book.readingDate}</span>
                   </div>
                 )}
                 {book.wordCount && (
                   <div className="flex flex-col gap-1">
-                    <span className="text-zinc-600">Word Count</span>
+                    <span className="text-zinc-300">Word Count</span>
                     <span className="text-white">{book.wordCount}</span>
                   </div>
                 )}
                 {book.isbn && (
                   <div className="flex flex-col gap-1">
-                    <span className="text-zinc-600">ISBN</span>
+                    <span className="text-zinc-300">ISBN</span>
                     <span className="text-white select-all">{book.isbn}</span>
                   </div>
                 )}

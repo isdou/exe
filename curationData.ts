@@ -21,7 +21,7 @@ export const MOVIES: MovieCuration[] = [
     ],
     review: '新的一年，最恨的人还是Jonathan Nolan',
     rating: 9.5,
-    tags: ['Sci-Fi', 'AI', 'Cyberpunk'],
+    tags: ['Sci-Fi', 'AI', 'Crime','Action'],
     status: 'done'
   },
   {
@@ -41,7 +41,25 @@ export const MOVIES: MovieCuration[] = [
     rating: 9.2,
     tags: ['Sitcom', 'Classic', 'Comedy'],
     status: 'processing'
-  }
+  },
+{
+    id: 'm3',
+    title: 'Monk',
+    originalTitle: 'Monk',
+    director: 'Randy Zisk',
+    year: '2002',
+    region: 'USA',
+    genre: '犯罪 / 悬疑',
+    runtime: '8 Seasons',
+    images: [
+      'images/monk1.jpg',
+      'images/monk2.jpg'
+    ],
+    review: '完全怀疑这就是Sheldon的参考人物',
+    rating: 8.7,
+    tags: ['Crime', 'Mystery', 'Comedy'],
+    status: 'processing'
+  } 
 ];
 
 /**

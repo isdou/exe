@@ -4,7 +4,6 @@ import { NavTab } from './types';
 
 // --- 引入所有子页面组件 ---
 // 注意：确保目录下有这些组件文件，如果没有可以先用简单的占位符代替
-import Intro from './components/Intro';       // 开机动画/引导
 import SystemLog from './components/SystemLog'; // LOG / 首页
 import Essays from './components/Essays';     // ESSAYS / 文章
 import Curation from './components/Curation'; // INPUTS / 书影音档案

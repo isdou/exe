@@ -14,6 +14,7 @@ const BezelNav: React.FC<BezelNavProps> = ({ activeTab, onTabChange }) => {
     { id: NavTab.CURATION, label: 'INPUTS' },
     { id: NavTab.TRAVEL, label: 'COORDS' },
     { id: NavTab.GOODIES, label: 'ITEMS' },
+    { id: NavTab.MEMORY, label: 'CACHE' },
     { id: NavTab.MEMORY, label: 'MEMORY' },
     { id: NavTab.ABOUT, label: 'KERNEL' },
   ];

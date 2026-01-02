@@ -4,12 +4,12 @@ import { NavTab } from './types';
 
 // --- 引入所有子页面组件 ---
 // 注意：确保目录下有这些组件文件，如果没有可以先用简单的占位符代替
-import SystemLog from './components/SystemLog'; // LOG / 首页
+import SystemLog from './components/Home'; // LOG / 首页
 import Essays from './components/Essays';     // ESSAYS / 文章
 import Curation from './components/Curation'; // INPUTS / 书影音档案
 import Travel from './components/Travel';     // COORDS / 足迹
 import Goodies from './components/Goodies';   // ITEMS / 好物 & 探店
-import Goodies from './components/Journal';   // ITEMS / 好物 & 探店
+import Goodies from './components/Journal';   // 
 import Memory from './components/Memory';     // MEMORY / 日记
 import Kernel from './components/Kernel';     // KERNEL / 关于
 

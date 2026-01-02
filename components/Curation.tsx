@@ -307,8 +307,12 @@ const ListViewItem: React.FC<{ item: MovieCuration | BookCuration | MusicCuratio
 const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ movie, onClick }) => (
   <motion.div whileHover={{ y: -5 }} onClick={onClick} className="relative bg-[#0f0f10] border border-white/5 rounded-2xl overflow-hidden cursor-pointer group hover:border-white/20 transition-all h-full">
     <div className="relative h-36 w-full overflow-hidden">
-      <img src={movie.images[0]} className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f10] to-transparent"></div>
+      {/* 🔥 修改点 1：移除了 grayscale 和 opacity-60 */}
+      <img src={movie.images[0]} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700" />
+      
+      {/* 🔥 修改点 2：移除了覆盖在上面的渐变蒙版，让画面更透亮 */}
+      {/* <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f10] to-transparent"></div> */}
+      
       <div className="absolute top-3 right-3 bg-black/60 backdrop-blur px-2 py-1 rounded text-red-600 font-mono text-xs font-bold border border-white/10">{movie.rating || 9.0}</div>
     </div>
     
@@ -386,7 +390,9 @@ const BookCard: React.FC<{ book: BookCuration; onClick: () => void }> = ({ book,
 const MusicCard: React.FC<{ music: MusicCuration; onClick: () => void }> = ({ music, onClick }) => (
   <motion.div whileHover={{ y: -5 }} onClick={onClick} className="group cursor-pointer">
     <div className="relative aspect-square w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5 group-hover:border-white/20 transition-all shadow-xl group-hover:scale-105">
-       <img src={music.coverImage} className="w-full h-full object-cover opacity-70 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500" />
+       {/* 🔥 修改点：移除了 opacity-70 和 grayscale */}
+       <img src={music.coverImage} className="w-full h-full object-cover transition-all duration-500" />
+       
        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
           <div className="w-3 h-3 bg-black rounded-full border border-white/50"></div>
        </div>

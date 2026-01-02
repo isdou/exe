@@ -41,4 +41,14 @@ export const MOCK_JOURNAL: JournalEntry[] = [
     `,// 日记内容
     mood: 'Melancholy'        // (可选) 当时的心情标签
   },
+  {
+    id: 'j-2026-01-02',       // 唯一ID，随便写，别重复就行
+    year: 2026,               // 年份
+    month: 1,                // 月份
+    day: 2,                  // 日期
+    content: `
+      专业的事情要给专业的人做，赞美空气炸锅的同时发现就是没有卖的好吃，更专业的设备和有更多耐心的专业的人。
+    `,// 日记内容
+    mood: 'Patient'        // (可选) 当时的心情标签
+  },
 ];

@@ -41,7 +41,7 @@ export const GOODIES_DATA: GoodieItem[] = [
     price: '¥78',
     description: '店里的招牌肉骨茶',
     reason: '不是很喜欢，主要是不太适应汤的味道',
-    image: '', // 
+    image: 'images/rougucha.jpg', // 
   }, // 
   {
     id: 'd02',
@@ -52,6 +52,6 @@ export const GOODIES_DATA: GoodieItem[] = [
     price: '¥88',
     description: '第一次发现里面有橘子皮',
     reason: '太下饭了',
-    image: '',
+    image: 'images/xiaochaohuangniurou.jpg',
   }
 ];

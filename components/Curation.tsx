@@ -530,8 +530,8 @@ const Curation: React.FC = () => {
             </div>
           )}
 
-          {/* 🔥 3. CHARACTERS (仅在 Movie 视图下显示) */}
-          {activeTab === 'movie' && (
+{/* 🔥 3. CHARACTERS (仅在 Movie 视图下显示) - 修复：activeTab 未定义导致黑屏，改为判断电影列表是否有数据 */}
+          {filteredMovies.length > 0 && (
             <section className="space-y-6 pt-8 border-t border-white/10">
                <div className="flex items-center gap-2 border-l-4 border-yellow-500 pl-4">
                  <h3 className="text-xl font-bold serif text-white">Character Hall of Fame</h3>

@@ -47,6 +47,10 @@ export interface BookCuration {
   rating?: number;
   tags?: string[];
   status?: CurationStatus;
+  // 🔥 新增以下三个字段：
+  readingDate?: string; // 阅读日期
+  isbn?: string;        // ISBN 编号
+  wordCount?: string;   // 总字数
 }
 
 // 🔥 新增：音乐数据结构

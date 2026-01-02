@@ -59,7 +59,26 @@ export const MOVIES: MovieCuration[] = [
     rating: 8.7,
     tags: ['Crime', 'Mystery', 'Comedy'],
     status: 'processing'
-  } 
+  },
+{
+    id: 'm4',
+    title: '中国奇谭 2',
+    originalTitle: 'Yao-Chinese Folktales 2',
+    director: '陈廖宇/张俊杰',
+    year: '2026',
+    region: 'CHINA',
+    genre: '动画 / 奇幻',
+    runtime: ' 2 Seasons',
+    images: [
+      'images/zgqt1.jpg',
+      'images/zgqt2.jpg'
+    ],
+    review: '我还是喜欢看国产爱死机',
+    rating: 9,
+    tags: ['Donghua', 'Fantasy', 'Science Fiction'],
+    status: 'processing'
+  },
+
 ];
 
 /**

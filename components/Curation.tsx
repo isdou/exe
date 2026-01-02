@@ -145,26 +145,22 @@ const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ 
       exit={{ scale: 0.9, y: 20, opacity: 0 }}
       className="relative z-10 w-full max-w-3xl flex flex-col md:flex-row bg-[#0c0c0c] border border-white/10 rounded-xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)]"
     >
-      {/* 装饰：票根切割线 (仅桌面端显示) */}
+      {/* 装饰：票根切割线 */}
       <div className="absolute top-0 bottom-0 right-[32%] w-[1px] border-l-2 border-dashed border-zinc-800 hidden md:block z-20"></div>
-      {/* 装饰：半圆缺口 */}
       <div className="absolute -top-3 right-[32%] w-6 h-6 bg-black rounded-full hidden md:block ml-[-11px] z-30"></div>
       <div className="absolute -bottom-3 right-[32%] w-6 h-6 bg-black rounded-full hidden md:block ml-[-11px] z-30"></div>
 
-      {/* 左侧：主票面 (信息区) */}
+      {/* 左侧：主票面 */}
       <div className="flex-1 p-8 md:p-10 flex flex-col justify-between gap-8 bg-[#0f0f10] relative">
-         {/* 背景水印 */}
          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[120px] font-black text-white/5 pointer-events-none select-none whitespace-nowrap overflow-hidden">
             AUDIO LOG
          </div>
 
-         {/* 顶部元数据 */}
          <div className="flex justify-between items-center text-[9px] font-mono text-zinc-600 uppercase tracking-[0.2em] relative z-10">
             <span>NO. {music.id}</span>
             <span>DOU TERMINAL / AUDIO</span>
          </div>
 
-         {/* 核心内容 */}
          <div className="space-y-4 relative z-10">
             <div>
                <h2 className="text-3xl md:text-5xl font-black serif text-white tracking-tighter leading-none mb-2">{music.title}</h2>
@@ -178,7 +174,6 @@ const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ 
             </div>
          </div>
 
-         {/* 底部标签 */}
          <div className="flex gap-2 relative z-10">
             {music.tags?.map(tag => (
               <span key={tag} className="px-2 py-1 border border-zinc-800 rounded text-[9px] mono text-zinc-500 uppercase tracking-wider">#{tag}</span>
@@ -186,9 +181,8 @@ const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ 
          </div>
       </div>
 
-      {/* 右侧：副券 (检票区) */}
+      {/* 右侧：副券 */}
       <div className="w-full md:w-[32%] bg-[#121212] p-8 flex flex-col items-center justify-between border-t md:border-t-0 border-dashed border-zinc-800 relative">
-         {/* 唱片封面动画 */}
          <div className="relative group cursor-pointer">
             <div className="w-28 h-28 rounded-full border-4 border-[#1a1a1a] shadow-2xl overflow-hidden animate-[spin_12s_linear_infinite]">
               <img src={music.coverImage} className="w-full h-full object-cover opacity-80" />
@@ -198,7 +192,6 @@ const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ 
             </div>
          </div>
 
-         {/* 评分与状态 */}
          <div className="text-center space-y-2 mt-4">
             <div className="text-[9px] text-zinc-600 uppercase tracking-widest">Sonic Rating</div>
             <div className="text-4xl font-black font-mono text-white">{music.rating}</div>
@@ -207,7 +200,7 @@ const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ 
             </div>
          </div>
 
-         {/* 撕票按钮 (跳转) */}
+         {/* 🔥 修正点：将 -> 改为 &rarr; (右箭头实体) */}
          {music.link ? (
            <a 
              href={music.link} 
@@ -215,7 +208,7 @@ const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ 
              rel="noopener noreferrer"
              className="w-full mt-6 py-3 bg-white hover:bg-red-600 text-black hover:text-white transition-colors text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-center rounded-sm"
            >
-             Admit One ->
+             Admit One &rarr;
            </a>
          ) : (
            <div className="w-full mt-6 py-3 border border-zinc-800 text-zinc-600 text-[10px] font-mono uppercase tracking-[0.2em] text-center rounded-sm">
@@ -223,11 +216,9 @@ const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ 
            </div>
          )}
          
-         {/* 装饰条形码 */}
          <div className="w-full h-8 mt-4 opacity-30 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/UPC-A-036000291452.svg/1200px-UPC-A-036000291452.svg.png')] bg-cover grayscale contrast-200"></div>
       </div>
       
-      {/* 关闭按钮 */}
       <button onClick={onClose} className="absolute top-4 right-4 md:left-4 md:right-auto text-zinc-600 hover:text-white transition-colors z-50">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>

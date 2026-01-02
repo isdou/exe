@@ -47,8 +47,14 @@ const App: React.FC = () => {
       case NavTab.CURATION: return <Curation />;
       case NavTab.TRAVEL: return <Travel />;
       case NavTab.GOODIES: return <Goodies />;
-      case NavTab.MEMORY: return <Memory />;
-      case NavTab.JOURNAL: return <Memory />;    
+      
+      // 🔥 关键修改：
+      // 1. 当点击 MEMORY 按钮时，渲染 Memory 组件，并默认显示 'grid' (碎片) 模式
+      case NavTab.MEMORY: return <Memory defaultView="grid" />;
+      
+      // 2. 当点击 JOURNAL 按钮时，也渲染 Memory 组件，但默认显示 'list' (日记) 模式
+      case NavTab.JOURNAL: return <Memory defaultView="list" />;       
+      
       case NavTab.ABOUT: return <Kernel />;
       default: return <SystemLog />;
     }

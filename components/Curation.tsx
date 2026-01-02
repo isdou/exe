@@ -277,20 +277,24 @@ const ListViewItem: React.FC<{ item: MovieCuration | BookCuration | MusicCuratio
 // --- 6. 组件：画廊视图卡片 ---
 const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ movie, onClick }) => (
   <motion.div whileHover={{ y: -5 }} onClick={onClick} className="relative bg-[#0f0f10] border border-white/5 rounded-2xl overflow-hidden cursor-pointer group hover:border-white/20 transition-all">
-    <div className="relative h-48 w-full overflow-hidden">
+    {/* ▼ 修改点 1：将高度从 h-48 改为 h-36 (变矮了) */}
+    <div className="relative h-36 w-full overflow-hidden">
       <img src={movie.images[0]} className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" />
       <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f10] to-transparent"></div>
       <div className="absolute top-3 right-3 bg-black/60 backdrop-blur px-2 py-1 rounded text-red-600 font-mono text-xs font-bold border border-white/10">{movie.rating || 9.0}</div>
     </div>
-    <div className="p-5 space-y-3">
+{/* ▼ 修改点 2：将内边距和间距从 p-5 space-y-3 改为 p-4 space-y-2 (更紧凑) */}
+    <div className="p-4 space-y-2">
       <div className="flex justify-between items-start">
-         <h4 className="text-xl font-bold serif text-white leading-tight">{movie.title}</h4>
+         {/* ▼ 修改点 3：将标题字号从 text-xl 改为 text-lg (字体变小) */}
+         <h4 className="text-lg font-bold serif text-white leading-tight">{movie.title}</h4>
          <span className="text-[9px] font-mono text-zinc-600 uppercase border border-zinc-800 px-1 rounded">{movie.year}</span>
       </div>
-      <p className="text-zinc-500 text-xs font-light serif italic line-clamp-2 leading-relaxed">{movie.review}</p>
+<p className="text-zinc-500 text-xs font-light serif italic line-clamp-2 leading-relaxed">{movie.review}</p>
       <div className="pt-3 border-t border-white/5 flex items-center justify-between">
          <div className="text-[9px] text-zinc-600 font-mono uppercase tracking-widest">{movie.director}</div>
-         <div className="text-[9px] text-zinc-600 font-mono uppercase tracking-widest flex items-center gap-1 group-hover:text-white transition-colors">OPEN <span className="text-red-600">→</span></div>
+         {/* 注意：顺手确认一下箭头符号是正确的 &rarr; */}
+         <div className="text-[9px] text-zinc-600 font-mono uppercase tracking-widest flex items-center gap-1 group-hover:text-white transition-colors">OPEN <span className="text-red-600">&rarr;</span></div>
       </div>
     </div>
   </motion.div>

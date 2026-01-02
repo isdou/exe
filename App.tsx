@@ -11,6 +11,7 @@ import Goodies from './components/Goodies';
 import Journal from './components/Journal';
 import Kernel from './components/About';
 import Now from './components/Now';
+// import Dreams from './components/Dreams'; // 💡 如果你创建了 Dreams.tsx，请取消这行注释
 import Remote from './components/Remote';
 import BezelNav from './components/BezelNav';
 
@@ -56,7 +57,8 @@ const App: React.FC = () => {
         {/* ================= 1. 电视机主体 ================= */}
         <div className="relative w-full aspect-[16/10] md:aspect-[16/9] bg-[#111] rounded-[2rem] md:rounded-[3rem] shadow-[0_0_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden border-[8px] md:border-[12px] border-[#1a1a1a] flex flex-col transition-all duration-700">
           
-          {/* 🔥 关键修复：min-h-0 解决 Chrome Flex 溢出问题 */}
+          {/* 🔥 关键修复：删除了 h-full，添加了 min-h-0 */}
+          {/* 这会让 Chrome 正确计算剩余高度，不再挤掉底部按钮 */}
           <div className="flex-1 min-h-0 relative overflow-hidden bg-black w-full">
             <div className="absolute inset-0 z-50 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,6px_100%]"></div>
             <div className="absolute inset-0 z-50 pointer-events-none animate-scanline bg-gradient-to-b from-transparent via-white/5 to-transparent h-32 opacity-20"></div>
@@ -98,12 +100,11 @@ const App: React.FC = () => {
             <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_100px_rgba(0,0,0,0.9)] z-40 rounded-[1.5rem] md:rounded-[2.5rem]"></div>
           </div>
 
-          {/* 底部控制面板 */}
+          {/* 底部控制面板 - 移除了音量按钮 */}
           <div className="h-14 md:h-20 bg-[#0c0c0c] relative shrink-0 z-50 border-t border-white/5 flex items-center justify-between pr-8">
              <div className="flex-1">
                <BezelNav activeTab={activeTab} onTabChange={setActiveTab} />
              </div>
-             {/* 这里已移除音量按钮 */}
           </div>
 
         </div>
@@ -144,7 +145,7 @@ const App: React.FC = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
       >
-        {/* 这里已移除音量悬浮按钮 */}
+        {/* 这里删除了音量/麦克风按钮 */}
         
         <button 
           onClick={() => setShowRemote(!showRemote)}

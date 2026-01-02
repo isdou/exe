@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NavTab } from './types';
 
@@ -8,7 +8,7 @@ import Essays from './components/Essays';       // ESSAYS
 import Curation from './components/Curation';   // INPUTS
 import Travel from './components/Travel';       // COORDS
 import Goodies from './components/Goodies';     // ITEMS
-import Journal from './components/Journal';     // JOURNAL
+import Journal from './components/Journal';     // CACHE (Journal)
 import Kernel from './components/About';        // KERNEL
 
 // --- 引入导航组件 ---
@@ -22,7 +22,7 @@ const App: React.FC = () => {
   // 默认进入 LOG 频道
   const [activeTab, setActiveTab] = useState<NavTab>(NavTab.LOG);
   
-  // 默认跳过开机动画 (false)，如需开机动画设为 true 并在 useEffect 处理
+  // 默认跳过开机动画 (false)
   const [isBooting, setIsBooting] = useState(false);
 
   // 遥控器显示状态
@@ -64,11 +64,12 @@ const App: React.FC = () => {
         {/* ================= 1. 电视机主体 ================= */}
         <div className="relative w-full aspect-[16/10] md:aspect-[16/9] bg-[#111] rounded-[2rem] md:rounded-[3rem] shadow-[0_0_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden border-[8px] md:border-[12px] border-[#1a1a1a] flex flex-col transition-all duration-700">
           
+          {/* 屏幕区域 (Flex-1 自动撑满剩余空间) */}
           <div className="flex-1 relative overflow-hidden bg-black w-full h-full">
             <div className="absolute inset-0 z-50 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,6px_100%]"></div>
             <div className="absolute inset-0 z-50 pointer-events-none animate-scanline bg-gradient-to-b from-transparent via-white/5 to-transparent h-32 opacity-20"></div>
 
-            {/* 🔥 关键修复：添加弹窗挂载点 (Portal Root) */}
+            {/* 弹窗挂载点 */}
             <div id="tv-modal-root" className="absolute inset-0 z-[200] pointer-events-none"></div>
 
             <AnimatePresence mode="wait">
@@ -106,7 +107,7 @@ const App: React.FC = () => {
             <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_100px_rgba(0,0,0,0.9)] z-40 rounded-[1.5rem] md:rounded-[2.5rem]"></div>
           </div>
 
-          {/* 底部控制面板 (常驻显示) */}
+          {/* 🔥 底部控制面板 (BezelNav) - 它是电视机的一部分，与 Remote 无关，常驻显示 */}
           <div className="h-14 md:h-20 bg-[#0c0c0c] relative shrink-0 z-50 border-t border-white/5">
              <BezelNav activeTab={activeTab} onTabChange={setActiveTab} />
           </div>
@@ -114,6 +115,7 @@ const App: React.FC = () => {
         </div>
 
         {/* ================= 2. 遥控器 (Remote Control) ================= */}
+        {/* 这里只控制 Remote 组件的显示与隐藏 */}
         <AnimatePresence>
           {showRemote && (
             <motion.div 

@@ -11,7 +11,7 @@ import Curation from './components/Curation'; // 对应 Curation.tsx
 import Travel from './components/Travel';     // 对应 Travel.tsx
 import Goodies from './components/Goodies';   // 对应 Goodies.tsx
 import Journal from './components/Journal';   // 对应 Journal.tsx
-import Memory from './components/Fragment';    // 🔥 
+import Memory from './components/Fragments';    // 🔥 
 import Kernel from './components/About';      // 🔥 修正：KERNEL 模块实际上使用 About.tsx
 
 // --- 引入导航组件 ---

@@ -78,7 +78,24 @@ export const MOVIES: MovieCuration[] = [
     tags: ['Donghua', 'Fantasy', 'Science Fiction'],
     status: 'processing'
   },
-
+{
+    id: 'm5',
+    title: 'Arrested Development',
+    originalTitle: 'Arrested Development',
+    director: 'Steven Wishnoff',
+    year: '2004-11-07',
+    region: 'USA',
+    genre: '剧情 / 喜剧',
+    runtime: ' 5 Seasons',
+    images: [
+      'images/ArrestedDevelopment1.png',
+      'images/ArrestedDevelopment1.png'
+    ],
+    review: '很久没看这种全员神经病的喜剧了',
+    rating: 9,
+    tags: ['Comedy', 'Family'],
+    status: 'processing'
+  },
 ];
 
 /**

@@ -80,11 +80,9 @@ const ExpeditionDetails: React.FC<{ spot: TravelSpot; onClose: () => void }> = (
   </motion.div>
 );
 
-// --- 3. 新增组件：2D 战术地图视图 ---
+// --- 3. 新增组件：2D 战术地图视图 (增强版：区域点亮) ---
 const TacticalMap: React.FC<{ activeIndex: number; onSelect: (idx: number) => void }> = ({ activeIndex, onSelect }) => {
-  // 坐标映射逻辑 (Equirectangular Projection)
-  // X: (lng + 180) / 360 * 100%
-  // Y: (90 - lat) / 180 * 100%
+  // 坐标映射逻辑
   const getPos = (lat: number, lng: number) => ({
     x: (lng + 180) * (100 / 360),
     y: (90 - lat) * (100 / 180)
@@ -98,18 +96,42 @@ const TacticalMap: React.FC<{ activeIndex: number; onSelect: (idx: number) => vo
            style={{ backgroundImage: 'linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
       </div>
 
-      {/* 地图容器 (保持 2:1 比例) */}
+      {/* 地图容器 */}
       <div className="relative w-full max-w-5xl aspect-[2/1] z-10 select-none">
         
-        {/* A. 底图：使用 Wikimedia 的标准空白地图，加 CSS 滤镜让它变黑/变酷 */}
+        {/* A. 底图：世界地图 (反色处理) */}
         <img 
           src="https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg" 
-          className="absolute inset-0 w-full h-full object-fill opacity-20 pointer-events-none"
-          style={{ filter: 'invert(1) contrast(0.8)' }} // 反色处理，变成黑色底图
+          className="absolute inset-0 w-full h-full object-fill opacity-30 pointer-events-none"
+          style={{ filter: 'invert(1) contrast(0.8) brightness(0.8)' }} 
           alt="World Map"
         />
 
-        {/* B. SVG 连线层 (位于底图之上，点之下) */}
+        {/* 🔥 B. 区域高亮层 (Glow Layer) - 这就是“点亮”的核心 */}
+        <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
+          {MOCK_TRAVEL.map((spot) => {
+            const pos = getPos(spot.lat, spot.lng);
+            return (
+              <div
+                key={`glow-${spot.id}`}
+                className="absolute rounded-full"
+                style={{
+                  left: `${pos.x}%`,
+                  top: `${pos.y}%`,
+                  width: '8%', // 光斑大小，约覆盖一个中等省份/国家的大小
+                  aspectRatio: '1/1',
+                  transform: 'translate(-50%, -50%)',
+                  // 使用径向渐变模拟“热力”：中心亮红 -> 边缘透明
+                  background: 'radial-gradient(closest-side, rgba(220,38,38,0.5) 0%, rgba(220,38,38,0) 100%)',
+                  filter: 'blur(8px)', // 羽化边缘，让光斑融合
+                  mixBlendMode: 'screen' // 叠加模式：重叠的地方会更亮
+                }}
+              />
+            );
+          })}
+        </div>
+
+        {/* C. SVG 连线层 */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none">
            <defs>
              <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -125,13 +147,13 @@ const TacticalMap: React.FC<{ activeIndex: number; onSelect: (idx: number) => vo
              }).join(' L ')}`}
              fill="none"
              stroke="url(#lineGradient)"
-             strokeWidth="1.5"
-             strokeDasharray="4 4"
-             className="opacity-60"
+             strokeWidth="1"
+             strokeDasharray="3 3"
+             className="opacity-40"
            />
         </svg>
 
-        {/* C. 坐标点层 */}
+        {/* D. 坐标点交互层 */}
         {MOCK_TRAVEL.map((spot, idx) => {
           const pos = getPos(spot.lat, spot.lng);
           const isActive = idx === activeIndex;
@@ -143,7 +165,7 @@ const TacticalMap: React.FC<{ activeIndex: number; onSelect: (idx: number) => vo
               className="absolute group cursor-pointer"
               style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
             >
-              {/* 1. 脉冲波 (仅激活时显示) */}
+              {/* 激活时的雷达波 */}
               {isActive && (
                 <>
                   <div className="absolute -inset-4 rounded-full bg-red-600/20 animate-ping"></div>
@@ -151,15 +173,14 @@ const TacticalMap: React.FC<{ activeIndex: number; onSelect: (idx: number) => vo
                 </>
               )}
 
-              {/* 2. 核心点 */}
-              <div className={`relative w-2 h-2 md:w-3 md:h-3 -translate-x-1/2 -translate-y-1/2 rounded-full border border-black transition-all duration-300 ${isActive ? 'bg-red-600 scale-125 shadow-[0_0_10px_#dc2626]' : 'bg-zinc-600 group-hover:bg-white'}`}></div>
+              {/* 核心点 */}
+              <div className={`relative w-1.5 h-1.5 md:w-2 md:h-2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-black transition-all duration-300 ${isActive ? 'bg-white scale-150 shadow-[0_0_10px_#fff]' : 'bg-red-600 group-hover:bg-white'}`}></div>
 
-              {/* 3. 悬浮/激活信息标签 */}
-              <div className={`absolute left-4 top-1/2 -translate-y-1/2 flex items-center transition-all duration-300 ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+              {/* 悬浮标签 */}
+              <div className={`absolute left-4 top-1/2 -translate-y-1/2 flex items-center transition-all duration-300 z-20 ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                  <div className="h-px w-4 bg-white/20 mr-2"></div>
                  <div className="bg-black/80 backdrop-blur border border-white/10 px-3 py-1.5 rounded whitespace-nowrap">
                     <div className="text-[10px] font-bold text-white uppercase tracking-wider">{spot.city}</div>
-                    <div className="text-[8px] font-mono text-zinc-500">{spot.date}</div>
                  </div>
               </div>
             </div>
@@ -171,12 +192,8 @@ const TacticalMap: React.FC<{ activeIndex: number; onSelect: (idx: number) => vo
       {/* 底部数据装饰 */}
       <div className="absolute bottom-6 left-6 md:left-12 flex gap-8">
          <div>
-            <div className="text-[9px] text-zinc-600 font-mono uppercase tracking-widest mb-1">Grid Status</div>
-            <div className="text-green-500 font-mono text-xs animate-pulse">ONLINE</div>
-         </div>
-         <div>
-            <div className="text-[9px] text-zinc-600 font-mono uppercase tracking-widest mb-1">Nodes</div>
-            <div className="text-white font-mono text-xs">{MOCK_TRAVEL.length} DETECTED</div>
+            <div className="text-[9px] text-zinc-600 font-mono uppercase tracking-widest mb-1">Signal Coverage</div>
+            <div className="text-red-500 font-mono text-xs animate-pulse">ACTIVE</div>
          </div>
       </div>
     </div>
@@ -187,7 +204,7 @@ const TacticalMap: React.FC<{ activeIndex: number; onSelect: (idx: number) => vo
 const Travel: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showDetails, setShowDetails] = useState(false);
-  const [viewMode, setViewMode] = useState<'list' | 'map'>('list'); // 默认列表模式
+  const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
   
   const activeSpot = MOCK_TRAVEL[activeIndex];
 
@@ -197,7 +214,6 @@ const Travel: React.FC = () => {
         {showDetails && <ExpeditionDetails spot={activeSpot} onClose={() => setShowDetails(false)} />}
       </AnimatePresence>
 
-      {/* 只有在 List 模式下显示大背景图 */}
       <AnimatePresence mode="wait">
         {viewMode === 'list' && (
           <motion.div
@@ -215,13 +231,10 @@ const Travel: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* 噪点纹理 */}
       <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '50px 50px' }}></div>
 
-      {/* 主内容区域 */}
       <div className="relative h-full z-10 max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center pb-20 md:pb-0">
         
-        {/* 顶部工具栏：视图切换按钮 */}
         <div className="absolute top-8 right-6 md:right-12 z-50 flex gap-2">
            <button 
              onClick={() => setViewMode('list')} 
@@ -239,7 +252,6 @@ const Travel: React.FC = () => {
 
         <AnimatePresence mode="wait">
           {viewMode === 'list' ? (
-            // === 模式 A：列表视图 (原版) ===
             <motion.div 
               key="list-view"
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -303,7 +315,6 @@ const Travel: React.FC = () => {
               </div>
             </motion.div>
           ) : (
-            // === 模式 B：2D 地图视图 ===
             <motion.div 
               key="map-view"
               initial={{ opacity: 0, scale: 0.95 }} 
@@ -317,7 +328,6 @@ const Travel: React.FC = () => {
         </AnimatePresence>
       </div>
 
-      {/* 底部导航 (仅 List 模式显示，避免遮挡地图) */}
       {viewMode === 'list' && (
         <div className="absolute bottom-6 md:bottom-12 left-6 md:left-12 flex items-center gap-8 md:gap-16 z-20">
            <div className="flex gap-2 md:gap-4">

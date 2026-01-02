@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 const USER_PROFILE = {
   id: 'DOU.EXE',
   role: 'Product Manager / Observer',
-  mbti: 'INTJ-A (Architect)',
+  mbti: 'INTJ-A',
   version: 'v2.9.0', 
   status: 'OPERATIONAL',
   location: 'Earth / Asia',
@@ -32,7 +32,7 @@ const PROTOCOLS = [
   {
     icon: '🐛',
     title: 'Known Bugs',
-    desc: '在感性决策模块偶尔出现卡顿。对细节的强迫症可能导致项目延期（但交付质量极高）。'
+    desc: '在感性决策模块偶尔出现卡顿。对细节的强迫症可能导致项目延期。'
   }
 ];
 
@@ -60,7 +60,7 @@ const BUILDS = [
     name: 'Coffee Log',
     type: 'MOD',
     year: 'Ongoing',
-    desc: '一套自研的手冲咖啡风味记录方法论。试图量化味觉这一玄学指标。',
+    desc: '。',
     tech: ['Notion', 'Excel'],
     link: '#'
   }

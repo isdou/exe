@@ -457,14 +457,23 @@ const Curation: React.FC = () => {
           {/* 2. CINEMA_DB */}
           {filteredMovies.length > 0 && (
             <div className="space-y-6">
-              <div className="flex items-baseline gap-4 border-b border-white/5 pb-2">
-                <h3 className="text-xl font-mono font-bold text-zinc-400">/ CINEMA_DB</h3>
-                <span className="text-[9px] text-zinc-600 mono uppercase tracking-widest">{filteredMovies.length} ENTRIES</span>
-              </div>
-              <motion.div layout className={viewMode === 'grid' ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" : "flex flex-col border-t border-white/5"}>
+              
+              {/* 将 grid 改为横向滚动容器 */}
+              <motion.div 
+                layout 
+                className={viewMode === 'grid' 
+                  ? "flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory custom-scrollbar pr-12" // 改动：使用 flex 和 overflow-x-auto
+                  : "flex flex-col border-t border-white/5"
+                }
+              >
                 {filteredMovies.map((movie) => (
                   viewMode === 'grid'
-                    ? <MovieCard key={movie.id} movie={movie} onClick={() => setSelectedMovie(movie)} />
+                    ? (
+                      /* 增加一个 div 包裹层，限制卡片宽度并防止被压缩 */
+                      <div key={movie.id} className="min-w-[280px] w-[280px] md:min-w-[340px] md:w-[340px] shrink-0 snap-center">
+                        <MovieCard movie={movie} onClick={() => setSelectedMovie(movie)} />
+                      </div>
+                    )
                     : <ListViewItem key={movie.id} item={movie} type="MOVIE" onClick={() => setSelectedMovie(movie)} />
                 ))}
               </motion.div>
@@ -472,19 +481,30 @@ const Curation: React.FC = () => {
           )}
 
           {/* 3. LIBRARY_DB */}
+
           {filteredBooks.length > 0 && (
             <div className="space-y-6">
-              <div className="flex items-baseline gap-4 border-b border-white/5 pb-2">
-                <h3 className="text-xl font-mono font-bold text-zinc-400">/ LIBRARY_DB</h3>
-                <span className="text-[9px] text-zinc-600 mono uppercase tracking-widest">{filteredBooks.length} ENTRIES</span>
-              </div>
-              <motion.div layout className={viewMode === 'grid' ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" : "flex flex-col border-t border-white/5"}>
+
+              {/* 改为横向滚动容器 */}
+              <motion.div 
+                layout 
+                className={viewMode === 'grid' 
+                  ? "flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory custom-scrollbar pr-12" // 改动
+                  : "flex flex-col border-t border-white/5"
+                }
+              >
                 {filteredBooks.map((book) => (
                   viewMode === 'grid'
-                    ? <BookCard key={book.id} book={book} onClick={() => setSelectedBook(book)} />
+                    ? (
+                      /* 增加 div 包裹层，书籍卡片通常比电影卡片宽一点或保持一致 */
+                      <div key={book.id} className="min-w-[300px] w-[300px] md:min-w-[380px] md:w-[380px] shrink-0 snap-center">
+                        <BookCard book={book} onClick={() => setSelectedBook(book)} />
+                      </div>
+                    )
                     : <ListViewItem key={book.id} item={book} type="BOOK" onClick={() => setSelectedBook(book)} />
                 ))}
               </motion.div>
+              {/* 🔥 修改点结束 */}
             </div>
           )}
 

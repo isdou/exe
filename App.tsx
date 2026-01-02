@@ -8,8 +8,7 @@ import Essays from './components/Essays';       // ESSAYS -> Essays.tsx
 import Curation from './components/Curation';   // INPUTS -> Curation.tsx
 import Travel from './components/Travel';       // COORDS -> Travel.tsx
 import Goodies from './components/Goodies';     // ITEMS -> Goodies.tsx
-import Memory from './components/Fragments';    // MEMORY -> Fragments.tsx
-import Journal from './components/Journal';     // JOURNAL -> Journal.tsx
+import Memory from './components/Memory';
 import Kernel from './components/About';        // KERNEL -> About.tsx
 
 // --- 引入导航组件 ---
@@ -20,7 +19,7 @@ const App: React.FC = () => {
   // 🔥 修改点 1：默认 power 为 true (开机状态)
   const [power, setPower] = useState(true);
   
-  // 🔥 修改点 2：默认 activeTab 设为 LOG 或者你喜欢的任意页面
+  // 🔥 修改点 2：默认 activeTab 设为 LOG 或者喜欢的任意页面
   const [activeTab, setActiveTab] = useState<NavTab>(NavTab.LOG);
   
   // 🔥 修改点 3：isBooting 默认为 false，这样就没有开机动画，直接进入系统
@@ -49,7 +48,7 @@ const App: React.FC = () => {
       case NavTab.TRAVEL: return <Travel />;
       case NavTab.GOODIES: return <Goodies />;
       case NavTab.MEMORY: return <Memory />;
-      case NavTab.JOURNAL: return <Journal />;       
+      case NavTab.JOURNAL: return <Memory />;    
       case NavTab.ABOUT: return <Kernel />;
       default: return <SystemLog />;
     }

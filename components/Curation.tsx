@@ -1,19 +1,19 @@
 import React, { useState, useMemo } from 'react';
 import { MovieCuration, BookCuration, MusicCuration, ContentStatus } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
-// 🔥 引入 MUSIC 数据
 import { MOVIES, BOOKS, MUSIC } from '../curationData';
 
-// --- 1. 辅助组件：状态徽章 (保持不变) ---
+// --- 1. 辅助组件：状态徽章 ---
 const StatusBadge: React.FC<{ status?: ContentStatus }> = ({ status }) => {
   if (!status) return null;
   const config = {
     done: { color: 'bg-zinc-600', text: 'ARCHIVED' },
-    processing: { color: 'bg-green-500', text: 'PROCESSING' }, // Audio 语境下可理解为 ON LOOP
-    dropped: { color: 'bg-red-600', text: 'DROPPED' },
-    wishlist: { color: 'bg-blue-500', text: 'WISHLIST' },
+    processing: { color: 'bg-green-500', text: 'ON LOOP' }, // Audio 场景下显示 ON LOOP
+    dropped: { color: 'bg-red-600', text: 'SKIPPED' },
+    wishlist: { color: 'bg-blue-500', text: 'DIGGING' },
   };
-  const { color, text } = config[status] || config.wishlist;
+  // 默认 fallback
+  const { color, text } = config[status] || { color: 'bg-zinc-800', text: status };
   return (
     <div className={`px-2 py-1 ${color} text-white text-[9px] font-mono tracking-widest uppercase inline-block mb-2 rounded-sm`}>
       {text}
@@ -21,7 +21,7 @@ const StatusBadge: React.FC<{ status?: ContentStatus }> = ({ status }) => {
   );
 };
 
-// --- 2. 辅助组件：评分徽章 (保持不变) ---
+// --- 2. 辅助组件：评分徽章 ---
 const RatingBadge: React.FC<{ rating?: number }> = ({ rating }) => {
   if (!rating) return null;
   return (
@@ -32,7 +32,7 @@ const RatingBadge: React.FC<{ rating?: number }> = ({ rating }) => {
   );
 };
 
-// --- 3. 组件：电影详情弹窗 (保持不变) ---
+// --- 3. 组件：电影详情弹窗 ---
 const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ movie, onClose }) => (
   <motion.div
     initial={{ opacity: 0 }}
@@ -89,7 +89,7 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
   </motion.div>
 );
 
-// --- 4. 组件：书籍详情弹窗 (保持不变) ---
+// --- 4. 组件：书籍详情弹窗 ---
 const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ book, onClose }) => (
   <motion.div
     initial={{ opacity: 0 }}
@@ -129,7 +129,7 @@ const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ boo
   </motion.div>
 );
 
-// --- 🔥 新增组件：音乐详情弹窗 ---
+// --- 5. 组件：音乐详情弹窗 (包含链接) ---
 const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ music, onClose }) => (
   <motion.div
     initial={{ opacity: 0 }}
@@ -165,7 +165,7 @@ const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ 
           “{music.review}”
         </div>
         
-        {/* 跳转链接按钮 */}
+        {/* 详情页内的跳转按钮 */}
         {music.link && (
           <div className="pt-4 border-t border-white/5">
              <a 
@@ -187,7 +187,7 @@ const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ 
   </motion.div>
 );
 
-// --- 5. 组件：列表视图单项 (💎 已修改：支持 Music 类型) ---
+// --- 6. 组件：列表视图单项 (💎 修复：MUSIC 支持跳转图标) ---
 const ListViewItem: React.FC<{ item: MovieCuration | BookCuration | MusicCuration; type: 'MOVIE' | 'BOOK' | 'MUSIC'; onClick: () => void }> = ({ item, type, onClick }) => {
   const isMovie = type === 'MOVIE';
   const isBook = type === 'BOOK';
@@ -211,7 +211,22 @@ const ListViewItem: React.FC<{ item: MovieCuration | BookCuration | MusicCuratio
         <img src={image} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 grayscale group-hover:grayscale-0 transition-all" />
       </div>
       <div className="w-1/3 min-w-[120px] shrink-0">
-        <div className="text-sm md:text-base font-bold text-zinc-300 group-hover:text-white serif truncate transition-colors">{title}</div>
+        {/* 💎 标题栏：如果是音乐且有链接，显示绿色跳转图标 */}
+        <div className="text-sm md:text-base font-bold text-zinc-300 group-hover:text-white serif truncate transition-colors flex items-center gap-2">
+          {title}
+          {isMusic && music.link && (
+            <a 
+              href={music.link} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()} // 阻止冒泡，避免触发弹窗
+              className="text-green-500 hover:text-green-400 hover:scale-110 transition-all"
+              title="Jump to Stream"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm-2 14.5v-5l4 2.5-4 2.5z"/></svg>
+            </a>
+          )}
+        </div>
         <div className="text-[10px] text-zinc-600 font-mono truncate">{subtitle}</div>
       </div>
       <div className="w-16 shrink-0 text-right font-mono text-xs font-bold text-zinc-500 group-hover:text-red-500 transition-colors">{rating ? rating.toFixed(1) : '-'}</div>
@@ -220,7 +235,7 @@ const ListViewItem: React.FC<{ item: MovieCuration | BookCuration | MusicCuratio
   );
 };
 
-// --- 6. 组件：画廊视图卡片 (保持原样) ---
+// --- 7. 组件：画廊视图卡片 (保持原样) ---
 const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ movie, onClick }) => (
   <motion.div whileHover={{ y: -5 }} onClick={onClick} className="relative bg-[#0f0f10] border border-white/5 rounded-2xl overflow-hidden cursor-pointer group hover:border-white/20 transition-all">
     <div className="relative h-48 w-full overflow-hidden">
@@ -242,7 +257,7 @@ const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ mo
   </motion.div>
 );
 
-// --- 7. 组件：书籍卡片 (保持原样) ---
+// --- 8. 组件：书籍卡片 (保持原样) ---
 const BookCard: React.FC<{ book: BookCuration; onClick: () => void }> = ({ book, onClick }) => (
   <motion.div whileHover={{ scale: 1.02 }} onClick={onClick} className={`${book.bgColor} h-[320px] rounded-2xl p-6 relative overflow-hidden cursor-pointer group shadow-lg`}>
     <div className="absolute -right-4 -bottom-4 text-[100px] serif font-black text-white/5 leading-none select-none">”</div>
@@ -259,7 +274,7 @@ const BookCard: React.FC<{ book: BookCuration; onClick: () => void }> = ({ book,
   </motion.div>
 );
 
-// --- 🔥 新增组件：音乐卡片 (Grid View) ---
+// --- 9. 组件：音乐卡片 (Grid View) ---
 const MusicCard: React.FC<{ music: MusicCuration; onClick: () => void }> = ({ music, onClick }) => (
   <motion.div whileHover={{ y: -5 }} onClick={onClick} className="group cursor-pointer">
     <div className="relative aspect-square w-full bg-zinc-900 rounded-lg overflow-hidden border border-white/5 group-hover:border-white/20 transition-all">
@@ -277,11 +292,10 @@ const MusicCard: React.FC<{ music: MusicCuration; onClick: () => void }> = ({ mu
   </motion.div>
 );
 
-// --- 8. 主组件 ---
+// --- 10. 主组件 ---
 const Curation: React.FC = () => {
   const [selectedMovie, setSelectedMovie] = useState<MovieCuration | null>(null);
   const [selectedBook, setSelectedBook] = useState<BookCuration | null>(null);
-  // 🔥 新增音乐状态
   const [selectedMusic, setSelectedMusic] = useState<MusicCuration | null>(null);
   
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
@@ -359,7 +373,7 @@ const Curation: React.FC = () => {
         {/* Content */}
         <section className="space-y-12">
           
-          {/* 🔥 1. AUDIO_DB (新板块) */}
+          {/* 1. AUDIO_DB */}
           {filteredMusic.length > 0 && (
             <div className="space-y-6">
               <div className="flex items-baseline gap-4 border-b border-white/5 pb-2">

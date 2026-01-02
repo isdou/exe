@@ -1,4 +1,4 @@
-import { MovieCuration, BookCuration } from './types';
+import { MovieCuration, BookCuration, MusicCuration } from './types';
 
 /**
  * ============================================================
@@ -19,11 +19,10 @@ export const MOVIES: MovieCuration[] = [
       'images/poi1.jpg',
       'images/poi2.jpg'
     ],
-    review: '新的一年，最恨的人还是Jonathan Nolan,虽然 POI 永远是我的 TOP1 ',
-    // 🔥 新增字段
-    rating: 9.9,
+    review: '新的一年，最恨的人还是Jonathan Nolan',
+    rating: 9.5,
     tags: ['Sci-Fi', 'AI', 'Cyberpunk'],
-    status: 'done' // 可选: 'done' | 'processing' | 'dropped' | 'wishlist'
+    status: 'done'
   },
   {
     id: 'm2',
@@ -32,15 +31,14 @@ export const MOVIES: MovieCuration[] = [
     director: 'David Angell',
     year: '1993',
     region: 'USA',
-    genre: 'Sitcom',
+    genre: '情景喜剧',
     runtime: '11 Seasons',
     images: [
       'images/fra1.jpg',
       'images/fra2.jpg'
     ],
     review: '还是喜欢看学院派喜剧啊，台词风趣幽默有深度，优雅温馨不低俗，太好了，想以现在的年龄回到九十年代。',
-    // 🔥 新增字段
-    rating: 9.5,
+    rating: 9.2,
     tags: ['Sitcom', 'Classic', 'Comedy'],
     status: 'processing'
   }
@@ -88,7 +86,7 @@ export const BOOKS: BookCuration[] = [
     bgColor: 'bg-[#1e1e2e]',
     // 🔥 新增字段
     rating: 9.0,
-    tags: ['历史', '治愈'],
+    tags: ['韩国文学', '女性叙事'],
     status: 'done'
   },
   {
@@ -101,7 +99,41 @@ export const BOOKS: BookCuration[] = [
     bgColor: 'bg-[#363A39]',
     // 🔥 新增字段
     rating: 7.5,
-    tags: ['短篇小说', '生活流'],
+    tags: ['短篇小说', '生活'],
     status: 'done'
+  }
+];
+
+/**
+ * ============================================================
+ * 音乐档案馆 (Audio Database)
+ * ============================================================
+ */
+export const MUSIC: MusicCuration[] = [
+  {
+    id: 'mu1',
+    title: 'Miss Her',
+    artist: 'Maximillian,Nicklas Sahl',
+    type: 'Album',
+    year: '2023',
+    coverImage: 'missher.jpeg', 
+    review: '202 5 单曲循环第一名',
+    link: 'https://open.spotify.com/track/5Cb7Jq85mWeYrmMGtmez2h?si=12abf7bc238c48fa', // 换成真实的链接
+    rating: 9.8,
+    tags: ['Love'],
+    status: 'done'
+  },
+  {
+    id: 'mu2',
+    title: '孤独是生命的礼物',
+    artist: '什么都浪漫',
+    type: 'Album',
+    year: '2021',
+    coverImage: 'images/gudushishengmingdeliwu.jpeg',
+    review: '🤔',
+    link: 'https://open.spotify.com/album/4ivCItVB0FKCtmIkVbEg04?si=4-1WXBBbQ_KEBN5BMUxQBw',
+    rating: 10,
+    tags: ['sad', 'Classic'],
+    status: 'processing' // On Loop
   }
 ];

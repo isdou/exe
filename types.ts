@@ -5,36 +5,25 @@ export enum NavTab {
   TRAVEL = 'travel',
   GOODIES = 'goodies',
   NOW = 'now',
-  MEMORY = 'memory', // 🔥 新增
-  ABOUT = 'about'
+  MEMORY = 'memory',
+  ABOUT = 'about',
 }
 
-export interface JournalEntry {
+export interface Article {
   id: string;
-  month: number;
-  day: number;
-  year: number;
-  content: string;
-  mood?: string;
+  title: string;
+  date: string;
+  category: string;
+  excerpt: string;
+  content?: string;
 }
 
-export interface GoodieItem {
-  id: string;
-  name: string;
-  category: 'eat' | 'drink' | 'buy';
-  description: string;
-  image: string;
-  price?: string;
-  link?: string;
-  reason: string;
-}
-
-export type ContentStatus = 'done' | 'processing' | 'dropped' | 'wishlist';
+export type CurationStatus = 'done' | 'processing' | 'wishlist' | 'dropped';
 
 export interface MovieCuration {
   id: string;
   title: string;
-  originalTitle?: string;
+  originalTitle: string;
   director: string;
   year: string;
   region: string;
@@ -44,7 +33,7 @@ export interface MovieCuration {
   review: string;
   rating?: number;
   tags?: string[];
-  status?: ContentStatus;
+  status?: CurationStatus;
 }
 
 export interface BookCuration {
@@ -54,30 +43,56 @@ export interface BookCuration {
   quote: string;
   summary: string;
   coverImage: string;
-  bgColor: string;
+  bgColor?: string;
   rating?: number;
   tags?: string[];
-  status?: ContentStatus;
+  status?: CurationStatus;
+}
+
+// 🔥 新增：音乐数据结构
+export interface MusicCuration {
+  id: string;
+  title: string;    // 歌曲名或专辑名
+  artist: string;   // 艺术家
+  type: 'Album' | 'Single' | 'Playlist'; // 类型
+  year: string;
+  coverImage: string;
+  review: string;   // 听后感或推荐理由
+  link: string;     // Spotify/Apple Music 链接
+  rating?: number;
+  tags?: string[];
+  status?: CurationStatus; // processing 可以理解为 "On Loop" (循环中)
 }
 
 export interface GoodieItem {
   id: string;
   name: string;
-  // 🔥 修改点 1：增加 'dining' 分类
-  category: 'eat' | 'drink' | 'buy' | 'dining'; 
+  category: 'eat' | 'drink' | 'buy' | 'dining';
   description: string;
   image: string;
   price?: string;
   link?: string;
   reason: string;
-  // 🔥 修改点 2：增加餐厅和菜系字段 (可选)
-  restaurant?: string; 
+  restaurant?: string;
   cuisine?: string;
 }
 
-export interface Footprint { id: string; city: string; description: string; date: string; image: string; }
-export interface CulturalLog { id: string; title: string; type: string; rating: number; comment: string; date: string; coverImage: string; }
-export interface TravelSpot { id: string; city: string; coordinate: string; lat: number; lng: number; date: string; description: string; images: string[]; }
-export interface NowUpdate { id: string; timestamp: string; content: string; status: string; }
-export interface Fragment { id: string; content: string; date: string; tags: string[]; }
-export interface Article { id: string; title: string; excerpt: string; content?: string; date: string; coverImage: string; category?: string; readTime?: string; }
+export interface TravelLog {
+  id: string;
+  city: string;
+  country: string;
+  coordinates: [number, number];
+  date: string;
+  images: string[];
+  notes: string;
+}
+
+export interface JournalEntry {
+  id: string;
+  date: string; // YYYY-MM-DD
+  year: number;
+  month: number;
+  day: number;
+  content: string;
+  mood: string;
+}

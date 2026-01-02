@@ -39,9 +39,11 @@ export const GOODIES_DATA: GoodieItem[] = [
     restaurant: '马来西亚餐厅', // 👈 餐厅名
     cuisine: '马来西亚',     // 👈 菜系
     price: '¥78',
-    description: '店里的招牌肉骨茶',
+    description: '汤底药材味很重，排骨炖得很烂',
     reason: '不是很喜欢，主要是不太适应汤的味道',
     image: 'images/rougucha.jpg', // 
+    rating: 3,
+    date: '2026.01.02'
   }, // 
   {
     id: 'd02',
@@ -50,8 +52,10 @@ export const GOODIES_DATA: GoodieItem[] = [
     restaurant: '赣江里',
     cuisine: '江西菜',
     price: '¥88',
-    description: '第一次发现里面有橘子皮',
-    reason: '太下饭了',
+    description: '牛肉非常嫩，芹菜和橘子皮的搭配意外地清爽，超级下饭！',
+    reason: '米饭杀手',
     image: 'images/xiaochaohuangniurou.jpg',
+    rating: 4.5,
+    date: '2026.01.03'
   }
 ];

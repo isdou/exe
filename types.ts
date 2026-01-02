@@ -80,6 +80,8 @@ export interface GoodieItem {
   reason: string;
   restaurant?: string;
   cuisine?: string;
+  rating?: number; // 1-5 星
+  date?: string;   // 解锁时间 (YYYY.MM.DD)
 }
 
 export interface TravelLog {

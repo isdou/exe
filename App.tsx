@@ -55,9 +55,8 @@ const App: React.FC = () => {
       <div className="flex flex-col md:flex-row gap-8 w-full max-w-[1600px] items-center md:items-start justify-center relative z-10">
 
         {/* ================= 1. 电视机主体 ================= */}
-        <div className="relative w-auto max-w-full max-h-[85vh] aspect-[16/10] md:aspect-[16/9] bg-[#111] rounded-[2rem] md:rounded-[3rem] shadow-[0_0_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden border-[8px] md:border-[12px] border-[#1a1a1a] flex flex-col transition-all duration-700">
+        <div className="relative w-full aspect-[16/10] md:aspect-[16/9] md:max-w-[150vh] mx-auto bg-[#111] rounded-[2rem] md:rounded-[3rem] shadow-[0_0_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden border-[8px] md:border-[12px] border-[#1a1a1a] flex flex-col transition-all duration-700">
           
-          {/* 🔥 关键修复：删除了 h-full，添加了 min-h-0 */}
           {/* 这会让 Chrome 正确计算剩余高度，不再挤掉底部按钮 */}
           <div className="flex-1 min-h-0 relative overflow-hidden bg-black w-full">
             <div className="absolute inset-0 z-50 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,6px_100%]"></div>

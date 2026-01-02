@@ -4,11 +4,10 @@ export enum NavTab {
   CURATION = 'curation',
   TRAVEL = 'travel',
   GOODIES = 'goodies',
-  NOW = 'now',
+  NOW = 'now', // 
   MEMORY = 'memory',
   JOURNAL = 'journal',
   ABOUT = 'about',
-  NOW = 'now',
 }
 
 export interface Article {
@@ -49,25 +48,23 @@ export interface BookCuration {
   rating?: number;
   tags?: string[];
   status?: CurationStatus;
-  // 🔥 新增以下三个字段：
-  readingDate?: string; // 阅读日期
-  isbn?: string;        // ISBN 编号
-  wordCount?: string;   // 总字数
+  readingDate?: string;
+  isbn?: string;
+  wordCount?: string;
 }
 
-// 🔥 新增：音乐数据结构
 export interface MusicCuration {
   id: string;
-  title: string;    // 歌曲名或专辑名
-  artist: string;   // 艺术家
-  type: 'Album' | 'Single' | 'Playlist'; // 类型
+  title: string;
+  artist: string;
+  type: 'Album' | 'Single' | 'Playlist';
   year: string;
   coverImage: string;
-  review: string;   // 听后感或推荐理由
-  link: string;     // Spotify/Apple Music 链接
+  review: string;
+  link: string;
   rating?: number;
   tags?: string[];
-  status?: CurationStatus; // processing 可以理解为 "On Loop" (循环中)
+  status?: CurationStatus;
 }
 
 export interface GoodieItem {
@@ -81,8 +78,8 @@ export interface GoodieItem {
   reason: string;
   restaurant?: string;
   cuisine?: string;
-  rating?: number; // 1-5 星
-  date?: string;   // 解锁时间 (YYYY.MM.DD)
+  rating?: number;
+  date?: string;
 }
 
 export interface TravelLog {
@@ -97,7 +94,7 @@ export interface TravelLog {
 
 export interface JournalEntry {
   id: string;
-  date: string; // YYYY-MM-DD
+  date: string;
   year: number;
   month: number;
   day: number;

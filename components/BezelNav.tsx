@@ -26,14 +26,15 @@ const BezelNav: React.FC<BezelNavProps> = ({ activeTab, onTabChange }) => {
           onClick={() => onTabChange(tab.id)}
           className="group relative flex flex-col items-center justify-center py-2 px-2 md:px-4 cursor-pointer"
         >
-          {/* 指示灯状态 */}
+          {/* 指示灯状态 (已修改为绿色) */}
           <div className={`w-1 h-1 md:w-1.5 md:h-1.5 rounded-full mb-2 transition-all duration-300 ${
             activeTab === tab.id 
-              ? 'bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.8)] scale-125' 
+              // 🔥 修改点 1：由 bg-red-600 改为 bg-green-500，阴影颜色也对应改为绿色 rgba(34,197,94,0.8)
+              ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)] scale-125' 
               : 'bg-zinc-800 group-hover:bg-zinc-600'
           }`} />
           
-          {/* 标签文本 */}
+          {/* 标签文本 (已修改高亮颜色) */}
           <span className={`text-[8px] md:text-[10px] font-mono tracking-widest uppercase transition-colors duration-300 ${
             activeTab === tab.id 
               ? 'text-white font-bold' 
@@ -42,11 +43,12 @@ const BezelNav: React.FC<BezelNavProps> = ({ activeTab, onTabChange }) => {
             {tab.label}
           </span>
 
-          {/* 激活时的底部微光 */}
+          {/* 激活时的底部微光 (已修改为绿色) */}
           {activeTab === tab.id && (
             <motion.div
               layoutId="bezel-glow"
-              className="absolute bottom-0 w-8 h-px bg-red-600/50 blur-[2px]"
+              // 🔥 修改点 2：由 bg-red-600/50 改为 bg-green-500/50
+              className="absolute bottom-0 w-8 h-px bg-green-500/50 blur-[2px]"
               transition={{ duration: 0.3 }}
             />
           )}

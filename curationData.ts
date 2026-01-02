@@ -54,9 +54,9 @@ export const BOOKS: BookCuration[] = [
     id: 'b1',
     title: 'L’Étranger',
     author: 'Albert Camus',
-    quote: '对家的渴望是强大的，它拥有原始本能的力量；短期的心态经过时间的滋养，固化为一种执拗的道德原则，它比我想象的更危险。如果我不给它点吃的，缓解一下它的饥饿，或者换句话说，如果我不给它安个家——如果我愿意，我还可以从这个家里再次弹射出去——它就会与我为敌。',
+    quote: '一个在母亲葬礼上都不哭的人，怎么可能不杀人？',
     summary: '',
-    coverImage: 'images/L’Étranger.jpg',
+    coverImage: 'images/camus1.jpg',
     bgColor: 'bg-[#B2AFA8]',
     // 🔥 新增字段
     rating: 8,

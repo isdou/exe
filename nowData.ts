@@ -1,3 +1,4 @@
+// 定义数据类型，防止报错
 export interface NowFocus {
   id: string;
   task: string;
@@ -8,43 +9,42 @@ export interface NowFocus {
 export interface NowInput {
   type: 'READING' | 'LISTENING' | 'PLAYING' | 'WATCHING' | 'STUDYING';
   name: string;
-  author: string; // 作者、歌手或备注
+  author: string;
 }
 
+// 核心数据
 export const NOW_DATA = {
-  // 顶部基础信息
-  updated: '2026.01.06', // 记得每次更新这个日期
-  location: 'Shanghai, CN', // 你的城市
-  mood: 'Building / 构建中', // 当前心情或状态关键词
+  // 顶部状态栏
+  updated: '2026.01.06',
+  location: 'Shanghai, CN',
+  mood: 'Building / 构建中', 
 
-  // 1. 正在进行的主任务 (Active Processes)
+  // 1. 任务进程 (Active Processes) - 展示你在做什么项目
   focus: [
-    { id: '01', task: 'Project: DOU.EXE Refactor', progress: 65, status: 'RUNNING' },
-    { id: '02', task: 'Work: Q1 Roadmap Planning', progress: 30, status: 'PENDING' },
-    { id: '03', task: 'Life: Workout Routine', progress: 10, status: 'QUEUED' },
+    { id: '01', task: 'DOU.EXE System Refactor', progress: 75, status: 'RUNNING' },
+    { id: '02', task: 'Life: Q1 OKR Planning', progress: 30, status: 'PENDING' },
+    { id: '03', task: 'Reading Challenge 2026', progress: 5, status: 'QUEUED' },
   ] as NowFocus[],
 
-  // 2. 正在输入的内容 (Input Stream)
-  // 可选类型: READING, LISTENING, PLAYING, WATCHING, STUDYING
+  // 2. 输入流 (Input Stream) - 展示你在看什么/听什么
   input: [
     { type: 'READING', name: '鼠疫', author: '加缪' },
-    { type: 'LISTENING', name: '在此处填入歌名', author: '歌手' },
-    { type: 'WATCHING', name: '在此处填入剧名', author: 'S01E01' },
+    { type: 'PLAYING', name: 'Black Myth: Wukong', author: 'Chapter 3' },
+    { type: 'LISTENING', name: 'Cyberpunk 2077 OST', author: 'Various Artists' },
   ] as NowInput[],
 
-  // 3. 当前痴迷/关注的事物 (Current Obsessions)
-  // 简短的关键词，比如：摄影、咖啡、AI...
+  // 3. 当前痴迷 (Obsessions) - 短标签
   obsessions: [
-    'React',
-    'Minimalism',
-    'Sci-Fi'
+    'Retro UI',
+    'Pour-over Coffee',
+    'Mechanical Keyboards',
+    'Stoicism'
   ],
 
-  // 4. 生活日志/碎碎念 (Runtime Logs)
-  // 随便写点什么，最近的想法、吐槽或感悟
+  // 4. 运行日志 (Runtime Logs) - 一句话状态
   logs: [
-    'System initialization complete. Ready for input.',
-    '在这里记录你的第一条状态...',
-    '保持好奇，保持饥饿。'
+    '正在尝试将生活像代码一样进行模块化重构。',
+    '最近这种天气，适合躲在屏幕后面写文档。',
+    '减少社交媒体输入，增加深度阅读时间。'
   ]
 };

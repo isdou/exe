@@ -73,7 +73,7 @@ const App: React.FC = () => {
           <div className="flex-1 relative overflow-hidden bg-black w-full h-full">
             <div className="absolute inset-0 z-50 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,6px_100%]"></div>
             <div className="absolute inset-0 z-50 pointer-events-none animate-scanline bg-gradient-to-b from-transparent via-white/5 to-transparent h-32 opacity-20"></div>
-
+            <div id="tv-modal-root" className="absolute inset-0 z-[200] pointer-events-none"></div>
             <AnimatePresence mode="wait">
               {!power ? (
                 <motion.div

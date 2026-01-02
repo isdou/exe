@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { MovieCuration, BookCuration, MusicCuration, ContentStatus } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MOVIES, BOOKS, MUSIC } from '../curationData';
@@ -33,6 +34,7 @@ const RatingBadge: React.FC<{ rating?: number }> = ({ rating }) => {
 
 // --- 3. 组件：电影详情弹窗 ---
 const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ movie, onClose }) => (
+return createPortal(
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
@@ -85,11 +87,13 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
         </div>
       </div>
     </motion.div>
-  </motion.div>
+  </motion.div>,
+  document.getElementById('tv-modal-root') || document.body // 挂载目标
 );
 
 // --- 4. 组件：书籍详情弹窗 (💎 已添加：阅读日期/ISBN/字数) ---
 const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ book, onClose }) => (
+return createPortal(
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
@@ -149,11 +153,13 @@ const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ boo
           <div className="pt-4 flex justify-end"><button onClick={onClose} className="px-6 py-2 bg-white/10 rounded-full text-[10px] text-white hover:bg-white/20 transition-all uppercase tracking-widest">Close Shelf</button></div>
        </div>
     </motion.div>
-  </motion.div>
+  </motion.div>,
+  document.getElementById('tv-modal-root') || document.body
 );
 
 // --- 🔥 组件：音乐详情 (演唱会门票样式 / 💎 已修复箭头) ---
 const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ music, onClose }) => (
+return createPortal(
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
@@ -247,7 +253,8 @@ const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ 
       </button>
 
     </motion.div>
-  </motion.div>
+  </motion.div>,
+  document.getElementById('tv-modal-root') || document.body
 );
 
 // --- 5. 组件：列表视图单项 ---

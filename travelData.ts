@@ -58,3 +58,4 @@ export const MOCK_TRAVEL: TravelSpot[] = [
     images: ['https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200']
   },
 ];
+

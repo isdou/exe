@@ -47,15 +47,27 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-zinc-100 p-2 md:p-8 flex items-center justify-center font-sans selection:bg-red-900 selection:text-white overflow-hidden relative">
+    // 修改点1：移除了 p-2 md:p-8，允许电视机尽可能撑满屏幕，只由 margin 控制间隙
+    <div className="min-h-screen bg-[#050505] text-zinc-100 flex items-center justify-center font-sans selection:bg-red-900 selection:text-white overflow-hidden relative">
       
       {/* 背景噪点 */}
       <div className="fixed inset-0 opacity-[0.03] pointer-events-none z-0 mix-blend-overlay" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
 
-      <div className="flex flex-col md:flex-row gap-8 w-full max-w-[1600px] items-center md:items-start justify-center relative z-10">
+      {/* 修改点2：移除了 max-w-[1600px] 和 w-full，让内容自然撑开，并确保 flex 居中 */}
+      <div className="flex flex-col md:flex-row gap-8 items-center justify-center relative z-10">
 
         {/* ================= 1. 电视机主体 ================= */}
-        <div className="relative w-full aspect-[16/10] md:aspect-[16/9] md:max-w-[150vh] mx-auto bg-[#111] rounded-[2rem] md:rounded-[3rem] shadow-[0_0_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden border-[8px] md:border-[12px] border-[#1a1a1a] flex flex-col transition-all duration-700">
+        {/* 修改点3：移除了 Tailwind 的 aspect 和 width 类，改用 style 动态计算 */}
+        <div 
+          className="relative mx-auto bg-[#111] rounded-[2rem] md:rounded-[3rem] shadow-[0_0_100px_-20px_rgba(0,0,0,0.8)] overflow-hidden border-[8px] md:border-[12px] border-[#1a1a1a] flex flex-col transition-all duration-700"
+          style={{
+            // 核心公式：取 "屏幕宽度的96%" 和 "屏幕高度96%对应的16:9宽度" 中的较小值
+            // 这样无论屏幕是宽是窄，电视机都会尽可能大，但绝不会超出屏幕，且始终保持 16:9
+            width: 'min(96vw, calc(96vh * 16 / 9))',
+            height: 'min(96vh, calc(96vw * 9 / 16))',
+            aspectRatio: '16 / 9'
+          }}
+        >
           
           {/* 这会让 Chrome 正确计算剩余高度，不再挤掉底部按钮 */}
           <div className="flex-1 min-h-0 relative overflow-hidden bg-black w-full">
@@ -99,7 +111,7 @@ const App: React.FC = () => {
             <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_100px_rgba(0,0,0,0.9)] z-40 rounded-[1.5rem] md:rounded-[2.5rem]"></div>
           </div>
 
-          {/* 底部控制面板 - 移除了音量按钮 */}
+          {/* 底部控制面板 */}
           <div className="h-14 md:h-20 bg-[#0c0c0c] relative shrink-0 z-50 border-t border-white/5 flex items-center justify-between pr-8">
              <div className="flex-1">
                <BezelNav activeTab={activeTab} onTabChange={setActiveTab} />
@@ -144,8 +156,6 @@ const App: React.FC = () => {
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
       >
-        {/* 这里删除了音量/麦克风按钮 */}
-        
         <button 
           onClick={() => setShowRemote(!showRemote)}
           className={`w-10 h-10 rounded-full flex items-center justify-center border transition-all shadow-lg backdrop-blur-md ${

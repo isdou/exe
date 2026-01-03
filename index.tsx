@@ -31,7 +31,7 @@ const router = createBrowserRouter([
   },
 ], {
   // 🔥 关键修复：指定基准路径，与 vite.config.ts 的 base 保持一致
-  basename: "/exe" 
+  basename: "/" 
 });
 
 const rootElement = document.getElementById('root');

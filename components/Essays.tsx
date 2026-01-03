@@ -1,38 +1,20 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Article } from '../types';
-import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { MOCK_ESSAYS } from '../essaysData';
 
 const Essays: React.FC = () => {
   const [selectedEssay, setSelectedEssay] = useState<Article | null>(null);
-  
-  // 🔥 新增：滚动引用
-  const scrollRef = useRef(null);
-  
-  // 🔥 新增：滚动进度 hook
-  const { scrollYProgress } = useScroll({ container: scrollRef });
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
+  const location = useLocation();
+
+  // 监听路由变化，如果点击了导航栏的 Essays，重置回列表页
+  useEffect(() => {
+    setSelectedEssay(null);
+  }, [location.pathname]);
 
   if (selectedEssay) {
     return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        // 🔥 绑定 ref 到滚动容器
-        ref={scrollRef}
-        className="absolute inset-0 bg-black z-[200] overflow-y-auto px-6 py-12 md:px-12 md:py-20 custom-scrollbar"
-      >
-        {/* 🔥 顶部进度条 */}
-        <motion.div
-          className="fixed top-0 left-0 right-0 h-1 bg-red-600 origin-left z-50"
-          style={{ scaleX }}
-        />
-
+      <div className="absolute inset-0 bg-black z-[200] overflow-y-auto px-6 py-12 md:px-12 md:py-20 custom-scrollbar">
         <div className="max-w-5xl mx-auto space-y-16 pb-24">
           <button
             onClick={() => setSelectedEssay(null)}
@@ -58,9 +40,11 @@ const Essays: React.FC = () => {
 
           <div className="prose prose-invert prose-zinc max-w-none">
             {selectedEssay.content?.split('\n').map((para, i) => (
-              <p key={i} className="text-zinc-300 text-lg leading-loose serif font-light mb-8 opacity-90 whitespace-pre-wrap">
-                {para.trim()}
-              </p>
+              para.trim() && (
+                <p key={i} className="text-zinc-300 text-lg leading-loose serif font-light mb-8 opacity-90 whitespace-pre-wrap">
+                  {para.trim()}
+                </p>
+              )
             ))}
           </div>
 
@@ -69,12 +53,12 @@ const Essays: React.FC = () => {
             <span>END OF BUFFER</span>
           </div>
         </div>
-      </motion.div>
+      </div>
     );
   }
 
   return (
-    <div className="space-y-24 animate-in fade-in duration-700">
+    <div className="space-y-24">
       <div className="flex flex-col md:flex-row justify-between items-end gap-12 border-b border-white/5 pb-16">
         <div className="space-y-4">
           <div className="text-red-600 font-mono text-[10px] tracking-[0.4em] uppercase">Digital Chronicles / 数字编年</div>

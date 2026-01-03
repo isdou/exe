@@ -63,7 +63,6 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
                <h2 className="text-3xl md:text-5xl font-bold serif text-white tracking-tighter leading-none">{movie.title}</h2>
                <div className="flex gap-4 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
                  <span>{movie.year}</span><span>{movie.region}</span>
-                 {/* 详情页显示时长 */}
                  <span>{movie.isTV ? movie.totalDuration : movie.runtime}</span>
                </div>
                <div className="flex flex-wrap gap-2 mt-2">
@@ -81,15 +80,12 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
             <div><div className="text-[9px] text-zinc-600 uppercase tracking-widest mb-1">Director</div><div className="text-sm text-zinc-300 serif">{movie.director}</div></div>
             <div><div className="text-[9px] text-zinc-600 uppercase tracking-widest mb-1">Genre</div><div className="text-sm text-zinc-300 serif">{movie.genre}</div></div>
           </div>
-          
-          {/* 详情页增加主演显示 */}
           {movie.cast && (
             <div className="space-y-2">
               <div className="text-[9px] text-zinc-600 uppercase tracking-widest">Starring</div>
               <div className="text-sm text-zinc-300 serif">{movie.cast.join(' / ')}</div>
             </div>
           )}
-
           <div className="space-y-4">
             <div className="text-[9px] text-red-600 uppercase tracking-widest font-bold">Observer Log</div>
             <p className="text-zinc-300 text-lg leading-relaxed serif italic font-light opacity-90">“{movie.review}”</p>
@@ -127,37 +123,17 @@ const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ boo
             </div>
             <div className="mt-8 text-center space-y-2"><RatingBadge rating={book.rating || 9.5} /></div>
          </div>
-         
          <div className="flex-1 p-8 md:p-12 overflow-y-auto custom-scrollbar space-y-8">
             <div className="space-y-2">
                <h2 className="text-3xl md:text-4xl font-bold serif text-white">{book.title}</h2>
                <div className="text-sm text-white/60 serif italic">{book.author}</div>
-               
                <div className="flex flex-wrap gap-6 py-3 border-y border-white/10 text-[10px] font-mono text-zinc-400 uppercase tracking-widest my-4">
-                  {book.readingDate && (
-                    <div className="flex flex-col gap-1">
-                      <span className="text-zinc-300">Finished On</span>
-                      <span className="text-white">{book.readingDate}</span>
-                    </div>
-                  )}
-                  {book.wordCount && (
-                    <div className="flex flex-col gap-1">
-                      <span className="text-zinc-300">Word Count</span>
-                      <span className="text-white">{book.wordCount}</span>
-                    </div>
-                  )}
-                  {book.isbn && (
-                    <div className="flex flex-col gap-1">
-                      <span className="text-zinc-300">ISBN</span>
-                      <span className="text-white select-all">{book.isbn}</span>
-                    </div>
-                  )}
+                  {book.readingDate && <div className="flex flex-col gap-1"><span className="text-zinc-300">Finished On</span><span className="text-white">{book.readingDate}</span></div>}
+                  {book.wordCount && <div className="flex flex-col gap-1"><span className="text-zinc-300">Word Count</span><span className="text-white">{book.wordCount}</span></div>}
+                  {book.isbn && <div className="flex flex-col gap-1"><span className="text-zinc-300">ISBN</span><span className="text-white select-all">{book.isbn}</span></div>}
                </div>
-
                <div className="flex flex-wrap gap-2 mt-2">
-                  {book.tags?.map(tag => (
-                    <span key={tag} className="px-2 py-0.5 bg-black/20 text-[9px] mono text-white/60 rounded">#{tag}</span>
-                  ))}
+                  {book.tags?.map(tag => <span key={tag} className="px-2 py-0.5 bg-black/20 text-[9px] mono text-white/60 rounded">#{tag}</span>)}
                </div>
             </div>
             <div className="relative pl-6 border-l-2 border-white/20"><p className="text-lg md:text-xl font-bold text-white/90 leading-relaxed serif italic">{book.quote}</p></div>
@@ -180,7 +156,6 @@ const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ 
       className="absolute inset-0 z-[200] flex items-center justify-center p-4 pointer-events-auto"
     >
       <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={onClose}></div>
-      
       <motion.div
         layoutId={`music-ticket-${music.id}`}
         initial={{ scale: 0.9, y: 20, opacity: 0 }}
@@ -191,77 +166,22 @@ const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ 
         <div className="absolute top-0 bottom-0 right-[32%] w-[1px] border-l-2 border-dashed border-zinc-800 hidden md:block z-20"></div>
         <div className="absolute -top-3 right-[32%] w-6 h-6 bg-black rounded-full hidden md:block ml-[-11px] z-30"></div>
         <div className="absolute -bottom-3 right-[32%] w-6 h-6 bg-black rounded-full hidden md:block ml-[-11px] z-30"></div>
-
         <div className="flex-1 p-8 md:p-10 flex flex-col justify-between gap-8 bg-[#0f0f10] relative">
-           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[120px] font-black text-white/5 pointer-events-none select-none whitespace-nowrap overflow-hidden">
-              AUDIO LOG
-           </div>
-
-           <div className="flex justify-between items-center text-[9px] font-mono text-zinc-600 uppercase tracking-[0.2em] relative z-10">
-              <span>NO. {music.id}</span>
-              <span>DOU TERMINAL / AUDIO</span>
-           </div>
-
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[120px] font-black text-white/5 pointer-events-none select-none whitespace-nowrap overflow-hidden">AUDIO LOG</div>
+           <div className="flex justify-between items-center text-[9px] font-mono text-zinc-600 uppercase tracking-[0.2em] relative z-10"><span>NO. {music.id}</span><span>DOU TERMINAL / AUDIO</span></div>
            <div className="space-y-4 relative z-10">
-              <div>
-                 <h2 className="text-3xl md:text-5xl font-black serif text-white tracking-tighter leading-none mb-2">{music.title}</h2>
-                 <div className="text-red-600 font-mono text-sm tracking-[0.1em] uppercase">{music.artist}</div>
-              </div>
-              
-              <div className="pl-4 border-l-2 border-zinc-800">
-                 <p className="text-zinc-400 font-serif italic text-sm md:text-base leading-relaxed">
-                   “{music.review}”
-                 </p>
-              </div>
+              <div><h2 className="text-3xl md:text-5xl font-black serif text-white tracking-tighter leading-none mb-2">{music.title}</h2><div className="text-red-600 font-mono text-sm tracking-[0.1em] uppercase">{music.artist}</div></div>
+              <div className="pl-4 border-l-2 border-zinc-800"><p className="text-zinc-400 font-serif italic text-sm md:text-base leading-relaxed">“{music.review}”</p></div>
            </div>
-
-           <div className="flex gap-2 relative z-10">
-              {music.tags?.map(tag => (
-                <span key={tag} className="px-2 py-1 border border-zinc-800 rounded text-[9px] mono text-zinc-500 uppercase tracking-wider">#{tag}</span>
-              ))}
-           </div>
+           <div className="flex gap-2 relative z-10">{music.tags?.map(tag => <span key={tag} className="px-2 py-1 border border-zinc-800 rounded text-[9px] mono text-zinc-500 uppercase tracking-wider">#{tag}</span>)}</div>
         </div>
-
         <div className="w-full md:w-[32%] bg-[#121212] p-8 flex flex-col items-center justify-between border-t md:border-t-0 border-dashed border-zinc-800 relative">
-           <div className="relative group cursor-pointer">
-              <div className="w-28 h-28 rounded-full border-4 border-[#1a1a1a] shadow-2xl overflow-hidden animate-[spin_12s_linear_infinite]">
-                <img src={music.coverImage} className="w-full h-full object-cover opacity-80" />
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                 <div className="w-3 h-3 bg-black rounded-full border border-zinc-700"></div>
-              </div>
-           </div>
-
-           <div className="text-center space-y-2 mt-4">
-              <div className="text-[9px] text-zinc-600 uppercase tracking-widest">Sonic Rating</div>
-              <div className="text-4xl font-black font-mono text-white">{music.rating}</div>
-              <div className="flex justify-center mt-2">
-                 <StatusBadge status={music.status} />
-              </div>
-           </div>
-
-           {music.link ? (
-             <a 
-               href={music.link} 
-               target="_blank" 
-               rel="noopener noreferrer"
-               className="w-full mt-6 py-3 bg-white hover:bg-red-600 text-black hover:text-white transition-colors text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-center rounded-sm"
-             >
-               Admit One &rarr;
-             </a>
-           ) : (
-             <div className="w-full mt-6 py-3 border border-zinc-800 text-zinc-600 text-[10px] font-mono uppercase tracking-[0.2em] text-center rounded-sm">
-               No Stream
-             </div>
-           )}
-           
+           <div className="relative group cursor-pointer"><div className="w-28 h-28 rounded-full border-4 border-[#1a1a1a] shadow-2xl overflow-hidden animate-[spin_12s_linear_infinite]"><img src={music.coverImage} className="w-full h-full object-cover opacity-80" /></div><div className="absolute inset-0 flex items-center justify-center"><div className="w-3 h-3 bg-black rounded-full border border-zinc-700"></div></div></div>
+           <div className="text-center space-y-2 mt-4"><div className="text-[9px] text-zinc-600 uppercase tracking-widest">Sonic Rating</div><div className="text-4xl font-black font-mono text-white">{music.rating}</div><div className="flex justify-center mt-2"><StatusBadge status={music.status} /></div></div>
+           {music.link ? <a href={music.link} target="_blank" rel="noopener noreferrer" className="w-full mt-6 py-3 bg-white hover:bg-red-600 text-black hover:text-white transition-colors text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-center rounded-sm">Admit One &rarr;</a> : <div className="w-full mt-6 py-3 border border-zinc-800 text-zinc-600 text-[10px] font-mono uppercase tracking-[0.2em] text-center rounded-sm">No Stream</div>}
            <div className="w-full h-8 mt-4 opacity-30 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/UPC-A-036000291452.svg/1200px-UPC-A-036000291452.svg.png')] bg-cover grayscale contrast-200"></div>
         </div>
-        
-        <button onClick={onClose} className="absolute top-4 right-4 md:left-4 md:right-auto text-zinc-600 hover:text-white transition-colors z-50">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-
+        <button onClick={onClose} className="absolute top-4 right-4 md:left-4 md:right-auto text-zinc-600 hover:text-white transition-colors z-50"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
       </motion.div>
     </motion.div>,
     document.getElementById('tv-modal-root') || document.body
@@ -270,14 +190,8 @@ const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ 
 
 // --- 6. 组件：列表视图单项 ---
 const ListViewItem: React.FC<{ item: MovieCuration | BookCuration | MusicCuration; type: 'MOVIE' | 'BOOK' | 'MUSIC'; onClick: () => void }> = ({ item, type, onClick }) => {
-  const isMovie = type === 'MOVIE';
-  const isBook = type === 'BOOK';
-  const isMusic = type === 'MUSIC';
-  
-  const movie = item as MovieCuration;
-  const book = item as BookCuration;
-  const music = item as MusicCuration;
-
+  const isMovie = type === 'MOVIE'; const isBook = type === 'BOOK'; const isMusic = type === 'MUSIC';
+  const movie = item as MovieCuration; const book = item as BookCuration; const music = item as MusicCuration;
   const rating = isMovie ? movie.rating : (isBook ? book.rating : music.rating);
   const title = isMovie ? `《${movie.title}》` : (isBook ? `《${book.title}》` : music.title);
   const subtitle = isMovie ? movie.director : (isBook ? book.author : music.artist);
@@ -288,24 +202,11 @@ const ListViewItem: React.FC<{ item: MovieCuration | BookCuration | MusicCuratio
   return (
     <motion.div initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} onClick={onClick} className="group flex items-center gap-4 py-3 border-b border-white/5 hover:bg-white/[0.02] cursor-pointer transition-colors">
       <div className="w-16 shrink-0 font-mono text-[9px] text-zinc-600 group-hover:text-red-600 transition-colors uppercase tracking-widest">{idPrefix}_{item.id.substring(0, 3)}</div>
-      <div className={`w-8 shrink-0 bg-zinc-800 overflow-hidden hidden sm:block ${isMusic ? 'h-8 rounded-full' : 'h-10 rounded-sm'}`}>
-        <img src={image} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 grayscale group-hover:grayscale-0 transition-all" />
-      </div>
+      <div className={`w-8 shrink-0 bg-zinc-800 overflow-hidden hidden sm:block ${isMusic ? 'h-8 rounded-full' : 'h-10 rounded-sm'}`}><img src={image} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 grayscale group-hover:grayscale-0 transition-all" /></div>
       <div className="w-1/3 min-w-[120px] shrink-0">
         <div className="text-sm md:text-base font-bold text-zinc-300 group-hover:text-white serif truncate transition-colors flex items-center gap-2">
           {title}
-          {isMusic && music.link && (
-            <a 
-              href={music.link} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()} 
-              className="text-green-500 hover:text-green-400 hover:scale-110 transition-all"
-              title="Jump to Stream"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm-2 14.5v-5l4 2.5-4 2.5z"/></svg>
-            </a>
-          )}
+          {isMusic && music.link && <a href={music.link} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-green-500 hover:text-green-400 hover:scale-110 transition-all"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm-2 14.5v-5l4 2.5-4 2.5z"/></svg></a>}
         </div>
         <div className="text-[10px] text-zinc-600 font-mono truncate">{subtitle}</div>
       </div>
@@ -315,92 +216,54 @@ const ListViewItem: React.FC<{ item: MovieCuration | BookCuration | MusicCuratio
   );
 };
 
-// --- 7. 组件：画廊视图卡片 ---
+// --- 7. 组件：影视卡片 (优化点：改为更紧凑的海报比例) ---
 const MovieCard: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ movie, onClick }) => (
-  <motion.div whileHover={{ y: -5 }} onClick={onClick} className="relative bg-[#0f0f10] border border-white/5 rounded-2xl overflow-hidden cursor-pointer group hover:border-white/20 transition-all h-full">
-    <div className="relative h-36 w-full overflow-hidden">
+  <motion.div whileHover={{ y: -5 }} onClick={onClick} className="relative bg-[#0f0f10] border border-white/5 rounded-xl overflow-hidden cursor-pointer group hover:border-white/20 transition-all h-full">
+    {/* 调整高度比例为 2:3 海报感 */}
+    <div className="relative aspect-[2/3] w-full overflow-hidden">
       <img src={movie.images[0]} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700" />
-      <div className="absolute top-3 right-3 bg-black/60 backdrop-blur px-2 py-1 rounded text-red-600 font-mono text-xs font-bold border border-white/10">{movie.rating || 9.0}</div>
+      <div className="absolute top-2 right-2 bg-black/60 backdrop-blur px-1.5 py-0.5 rounded text-red-600 font-mono text-[10px] font-bold border border-white/10">{movie.rating || 9.0}</div>
     </div>
     
-    <div className="p-4 space-y-2">
-      <div className="flex justify-between items-start">
-         <h4 className="text-lg font-bold serif text-white leading-tight">{movie.title}</h4>
-         <span className="text-[9px] font-mono text-zinc-600 uppercase border border-zinc-800 px-1 rounded">{movie.year}</span>
-      </div>
-      
-      {/* 电视剧新增信息：Cast 和 时长 */}
-      {movie.isTV && (
-        <div className="flex flex-wrap gap-2 text-[9px] text-zinc-500 font-mono uppercase">
-           {movie.totalDuration && <span className="border border-zinc-800 px-1 rounded">{movie.totalDuration}</span>}
-           {movie.cast && <span>{movie.cast.slice(0, 2).join('/')}</span>}
-        </div>
-      )}
-
-      <p className="text-zinc-500 text-xs font-light serif italic line-clamp-2 leading-relaxed">{movie.review}</p>
-      <div className="pt-3 border-t border-white/5 flex items-center justify-between">
-         <div className="text-[9px] text-zinc-600 font-mono uppercase tracking-widest">{movie.director}</div>
-         <div className="text-[9px] text-zinc-600 font-mono uppercase tracking-widest flex items-center gap-1 group-hover:text-white transition-colors">OPEN <span className="text-red-600">&rarr;</span></div>
+    <div className="p-3 space-y-1">
+      <h4 className="text-sm font-bold serif text-white truncate leading-tight">{movie.title}</h4>
+      <div className="flex justify-between items-center">
+         <span className="text-[9px] font-mono text-zinc-600 uppercase">{movie.year}</span>
+         <span className="text-[9px] font-mono text-zinc-600 uppercase truncate max-w-[60px]">{movie.director.split(' ')[0]}</span>
       </div>
     </div>
   </motion.div>
 );
 
-// --- 8. 组件：书籍卡片 (竖版图鉴样式) ---
+// --- 8. 组件：书籍卡片 (保持原样，尺寸正好) ---
 const BookCard: React.FC<{ book: BookCuration; onClick: () => void }> = ({ book, onClick }) => (
   <motion.div
-    layout
-    whileHover={{ y: -4, scale: 1.02, transition: { duration: 0.2 } }}
-    onClick={onClick}
-    className="group cursor-pointer relative bg-[#121212] border border-white/10 rounded-xl overflow-hidden flex flex-col shadow-lg hover:shadow-black/40 hover:border-white/30 transition-all duration-300 w-full aspect-[2/3]"
+    layout whileHover={{ y: -4, scale: 1.02 }} onClick={onClick}
+    className="group cursor-pointer relative bg-[#121212] border border-white/10 rounded-xl overflow-hidden flex flex-col shadow-lg hover:border-white/30 transition-all duration-300 w-full aspect-[2/3]"
   >
     <div className="relative h-[65%] w-full bg-zinc-900 overflow-hidden border-b border-white/5">
-      <img
-        src={book.coverImage}
-        className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
-        alt={book.title}
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent opacity-30"></div>
-      <div className="absolute top-2 left-2 scale-90 origin-top-left">
-         <StatusBadge status={book.status} />
-      </div>
-      {book.rating && (
-        <div className="absolute bottom-2 right-2 bg-black/80 backdrop-blur px-1.5 py-0.5 rounded text-[9px] font-mono text-yellow-500 border border-white/10">
-           ★ {book.rating.toFixed(1)}
-        </div>
-      )}
+      <img src={book.coverImage} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all" alt={book.title} />
+      <div className="absolute top-2 left-2 scale-90 origin-top-left"><StatusBadge status={book.status} /></div>
+      {book.rating && <div className="absolute bottom-2 right-2 bg-black/80 backdrop-blur px-1.5 py-0.5 rounded text-[9px] font-mono text-yellow-500 border border-white/10">★ {book.rating.toFixed(1)}</div>}
     </div>
-
     <div className="flex-1 p-3 flex flex-col justify-between bg-gradient-to-b from-[#121212] to-[#0a0a0a]">
-       <div>
-         <h3 className="text-sm font-bold serif text-zinc-200 group-hover:text-white line-clamp-2 leading-tight tracking-tight">
-           《{book.title}》
-         </h3>
-         <div className="text-[10px] text-zinc-500 font-mono mt-1 truncate flex items-center gap-1">
-            <span className="w-1 h-1 bg-zinc-600 rounded-full"></span>
-            {book.author}
-         </div>
-       </div>
-       <div className="mt-2 pt-2 border-t border-white/5 flex items-center justify-between text-[8px] font-mono text-zinc-600 uppercase tracking-widest">
-          <span>{book.readingDate ? book.readingDate.split('.')[0] : 'ARCHIVED'}</span>
-          {book.wordCount && <span>{book.wordCount}</span>}
-       </div>
+       <div><h3 className="text-sm font-bold serif text-zinc-200 group-hover:text-white line-clamp-2 leading-tight tracking-tight">《{book.title}》</h3><div className="text-[10px] text-zinc-500 font-mono mt-1 truncate"># {book.author}</div></div>
+       <div className="mt-2 pt-2 border-t border-white/5 flex items-center justify-between text-[8px] font-mono text-zinc-600 uppercase tracking-widest"><span>{book.readingDate?.split('.')[0] || 'ARCHIVED'}</span><span>{book.wordCount}</span></div>
     </div>
   </motion.div>
 );
 
-// --- 9. 组件：音乐卡片 ---
+// --- 9. 组件：音乐卡片 (优化点：减小尺寸) ---
 const MusicCard: React.FC<{ music: MusicCuration; onClick: () => void }> = ({ music, onClick }) => (
   <motion.div whileHover={{ y: -5 }} onClick={onClick} className="group cursor-pointer">
+    {/* 缩小容器 */}
     <div className="relative aspect-square w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5 group-hover:border-white/20 transition-all shadow-xl group-hover:scale-105">
        <img src={music.coverImage} className="w-full h-full object-cover transition-all duration-500" />
-       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
-          <div className="w-3 h-3 bg-black rounded-full border border-white/50"></div>
-       </div>
+       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"><div className="w-2 h-2 bg-black rounded-full border border-white/50"></div></div>
     </div>
-    <div className="mt-4 text-center space-y-1">
-       <div className="text-sm font-bold text-zinc-300 group-hover:text-white truncate transition-colors">{music.title}</div>
-       <div className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest">{music.artist}</div>
+    <div className="mt-3 text-center space-y-1">
+       <div className="text-[11px] font-bold text-zinc-300 group-hover:text-white truncate">{music.title}</div>
+       <div className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest truncate">{music.artist}</div>
     </div>
   </motion.div>
 );
@@ -410,7 +273,6 @@ const Curation: React.FC = () => {
   const [selectedMovie, setSelectedMovie] = useState<MovieCuration | null>(null);
   const [selectedBook, setSelectedBook] = useState<BookCuration | null>(null);
   const [selectedMusic, setSelectedMusic] = useState<MusicCuration | null>(null);
-  
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [activeStatus, setActiveStatus] = useState<CurationStatus | 'all'>('all');
@@ -444,157 +306,78 @@ const Curation: React.FC = () => {
       </AnimatePresence>
 
       <div className={`space-y-12 pb-32 transition-all duration-500 ${selectedMovie || selectedBook || selectedMusic ? 'blur-sm pointer-events-none' : ''}`}>
-
-        {/* Header */}
         <div className="space-y-6">
            <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
               <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <span className="w-8 h-px bg-red-600"></span>
-                  <span className="text-red-600 font-mono text-xs tracking-[0.5em] uppercase">Archive / 档案馆</span>
-                </div>
+                <div className="flex items-center gap-4"><span className="w-8 h-px bg-red-600"></span><span className="text-red-600 font-mono text-xs tracking-[0.5em] uppercase">Archive / 档案馆</span></div>
                 <h2 className="text-5xl md:text-7xl font-black serif leading-none tracking-tighter text-white">ARCHIVES.</h2>
               </div>
-
               <div className="flex gap-2 p-1 bg-white/5 rounded-lg border border-white/10 self-start md:self-end">
-                <button onClick={() => setViewMode('grid')} className={`p-2 rounded-md transition-all ${viewMode === 'grid' ? 'bg-zinc-700 text-white' : 'text-zinc-500 hover:text-zinc-300'}`}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                </button>
-                <button onClick={() => setViewMode('list')} className={`p-2 rounded-md transition-all ${viewMode === 'list' ? 'bg-zinc-700 text-white' : 'text-zinc-500 hover:text-zinc-300'}`}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-                </button>
+                <button onClick={() => setViewMode('grid')} className={`p-2 rounded-md transition-all ${viewMode === 'grid' ? 'bg-zinc-700 text-white' : 'text-zinc-500 hover:text-zinc-300'}`}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg></button>
+                <button onClick={() => setViewMode('list')} className={`p-2 rounded-md transition-all ${viewMode === 'list' ? 'bg-zinc-700 text-white' : 'text-zinc-500 hover:text-zinc-300'}`}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></button>
               </div>
            </div>
-
-           {/* Filter Bar */}
            <div className="flex flex-col md:flex-row gap-4 border-y border-white/5 py-4">
-              <div className="flex gap-2">
-                {['all', 'processing', 'done', 'wishlist'].map(status => (
-                  <button key={status} onClick={() => setActiveStatus(status as any)} className={`px-3 py-1 rounded-full text-[10px] mono uppercase tracking-wider border transition-all ${activeStatus === status ? 'bg-white text-black border-white' : 'bg-transparent text-zinc-500 border-zinc-800 hover:border-zinc-600'}`}>{status}</button>
-                ))}
-              </div>
+              <div className="flex gap-2">{['all', 'processing', 'done', 'wishlist'].map(status => <button key={status} onClick={() => setActiveStatus(status as any)} className={`px-3 py-1 rounded-full text-[10px] mono uppercase tracking-wider border transition-all ${activeStatus === status ? 'bg-white text-black border-white' : 'bg-transparent text-zinc-500 border-zinc-800 hover:border-zinc-600'}`}>{status}</button>)}</div>
               <div className="w-px bg-white/10 hidden md:block"></div>
-              <div className="flex gap-2 flex-wrap">
-                 <button onClick={() => setActiveTag(null)} className={`text-[10px] mono transition-colors ${!activeTag ? 'text-red-500 underline' : 'text-zinc-500 hover:text-zinc-300'}`}>#ALL</button>
-                 {allTags.map(tag => (
-                   <button key={tag} onClick={() => setActiveTag(tag === activeTag ? null : tag)} className={`text-[10px] mono transition-colors ${activeTag === tag ? 'text-red-500 underline' : 'text-zinc-500 hover:text-zinc-300'}`}>#{tag}</button>
-                 ))}
-              </div>
+              <div className="flex gap-2 flex-wrap"><button onClick={() => setActiveTag(null)} className={`text-[10px] mono transition-colors ${!activeTag ? 'text-red-500 underline' : 'text-zinc-500 hover:text-zinc-300'}`}>#ALL</button>{allTags.map(tag => <button key={tag} onClick={() => setActiveTag(tag === activeTag ? null : tag)} className={`text-[10px] mono transition-colors ${activeTag === tag ? 'text-red-500 underline' : 'text-zinc-500 hover:text-zinc-300'}`}>#{tag}</button>)}</div>
            </div>
         </div>
 
-        {/* Content */}
         <section className="space-y-12">
-          
-          {/* 1. AUDIO_DB */}
+          {/* 1. AUDIO_DB - 优化点：减小音乐卡片尺寸，增加列数 */}
           {filteredMusic.length > 0 && (
             <div className="space-y-6">
-              <div className="flex items-baseline gap-4 border-b border-white/5 pb-2">
-                <h3 className="text-xl font-mono font-bold text-zinc-400">/ AUDIO_DB</h3>
-                <span className="text-[9px] text-zinc-600 mono uppercase tracking-widest">{filteredMusic.length} ENTRIES</span>
-              </div>
-              <motion.div layout className={viewMode === 'grid' ? "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6" : "flex flex-col border-t border-white/5"}>
-                {filteredMusic.map((music) => (
-                  viewMode === 'grid'
-                    ? <MusicCard key={music.id} music={music} onClick={() => setSelectedMusic(music)} />
-                    : <ListViewItem key={music.id} item={music} type="MUSIC" onClick={() => setSelectedMusic(music)} />
-                ))}
+              <div className="flex items-baseline gap-4 border-b border-white/5 pb-2"><h3 className="text-xl font-mono font-bold text-zinc-400">/ AUDIO_DB</h3><span className="text-[9px] text-zinc-600 mono uppercase tracking-widest">{filteredMusic.length} ENTRIES</span></div>
+              <motion.div layout className={viewMode === 'grid' ? "grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-8 gap-4" : "flex flex-col border-t border-white/5"}>
+                {filteredMusic.map((music) => viewMode === 'grid' ? <MusicCard key={music.id} music={music} onClick={() => setSelectedMusic(music)} /> : <ListViewItem key={music.id} item={music} type="MUSIC" onClick={() => setSelectedMusic(music)} />)}
               </motion.div>
             </div>
           )}
 
-          {/* 2. CINEMA_DB */}
+          {/* 2. CINEMA_DB - 优化点：缩小横向卡片宽度，使其与书籍协调 */}
           {filteredMovies.length > 0 && (
             <div className="space-y-6">
-              <div className="flex items-baseline gap-4 border-b border-white/5 pb-2">
-                <h3 className="text-xl font-mono font-bold text-zinc-400">/ CINEMA_DB</h3>
-                <span className="text-[9px] text-zinc-600 mono uppercase tracking-widest">{filteredMovies.length} ENTRIES</span>
-              </div>
-              <motion.div 
-                layout 
-                className={viewMode === 'grid' 
-                  ? "flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory custom-scrollbar pr-12" 
-                  : "flex flex-col border-t border-white/5"
-                }
-              >
-                {filteredMovies.map((movie) => (
-                  viewMode === 'grid'
-                    ? (
-                      <div key={movie.id} className="min-w-[280px] w-[280px] md:min-w-[340px] md:w-[340px] shrink-0 snap-center">
+              <div className="flex items-baseline gap-4 border-b border-white/5 pb-2"><h3 className="text-xl font-mono font-bold text-zinc-400">/ CINEMA_DB</h3><span className="text-[9px] text-zinc-600 mono uppercase tracking-widest">{filteredMovies.length} ENTRIES</span></div>
+              <motion.div layout className={viewMode === 'grid' ? "flex overflow-x-auto gap-4 pb-8 snap-x snap-mandatory custom-scrollbar pr-12" : "flex flex-col border-t border-white/5"}>
+                {filteredMovies.map((movie) => viewMode === 'grid' ? (
+                      <div key={movie.id} className="min-w-[160px] w-[160px] md:min-w-[180px] md:w-[180px] shrink-0 snap-center">
                         <MovieCard movie={movie} onClick={() => setSelectedMovie(movie)} />
                       </div>
-                    )
-                    : <ListViewItem key={movie.id} item={movie} type="MOVIE" onClick={() => setSelectedMovie(movie)} />
-                ))}
+                    ) : <ListViewItem key={movie.id} item={movie} type="MOVIE" onClick={() => setSelectedMovie(movie)} />)}
               </motion.div>
             </div>
           )}
 
-{/* 🔥 3. CHARACTERS (仅在 Movie 视图下显示) - 修复：activeTab 未定义导致黑屏，改为判断电影列表是否有数据 */}
+          {/* 3. CHARACTERS */}
           {filteredMovies.length > 0 && (
             <section className="space-y-6 pt-8 border-t border-white/10">
-               <div className="flex items-center gap-2 border-l-4 border-yellow-500 pl-4">
-                 <h3 className="text-xl font-bold serif text-white">Character Hall of Fame</h3>
-                 <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider">/ 角色印象</span>
-               </div>
-               
+               <div className="flex items-center gap-2 border-l-4 border-yellow-500 pl-4"><h3 className="text-xl font-bold serif text-white">Character Hall of Fame</h3><span className="text-[9px] font-mono text-zinc-500 uppercase tracking-wider">/ 角色印象</span></div>
                <div className="flex gap-6 overflow-x-auto pb-6 custom-scrollbar">
                  {CHARACTERS.map((char) => (
-                   <motion.div 
-                     key={char.id}
-                     whileHover={{ y: -5 }}
-                     className="shrink-0 w-64 bg-[#0a0a0a] border border-white/10 p-4 rounded-xl group relative overflow-hidden"
-                   >
-                     <div className="flex items-start gap-4 mb-4">
-                       <div className="w-12 h-12 rounded-full overflow-hidden border border-white/20">
-                         <img src={char.avatar} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
-                       </div>
-                       <div>
-                         <div className="text-lg font-bold serif text-white leading-none mb-1">{char.name}</div>
-                         <div className="text-[10px] text-zinc-500 font-mono truncate max-w-[120px]">{char.source}</div>
-                         {char.actor && <div className="text-[9px] text-zinc-600">Act: {char.actor}</div>}
-                       </div>
-                       <div className="ml-auto text-4xl font-black serif text-white/5 absolute top-2 right-4">#{char.rank}</div>
-                     </div>
-                     <p className="text-xs text-zinc-400 font-light leading-relaxed serif italic border-t border-white/5 pt-3">
-                       “{char.desc}”
-                     </p>
+                   <motion.div key={char.id} whileHover={{ y: -5 }} className="shrink-0 w-64 bg-[#0a0a0a] border border-white/10 p-4 rounded-xl group relative overflow-hidden">
+                     <div className="flex items-start gap-4 mb-4"><div className="w-12 h-12 rounded-full overflow-hidden border border-white/20"><img src={char.avatar} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" /></div><div><div className="text-lg font-bold serif text-white leading-none mb-1">{char.name}</div><div className="text-[10px] text-zinc-500 font-mono truncate max-w-[120px]">{char.source}</div>{char.actor && <div className="text-[9px] text-zinc-600">Act: {char.actor}</div>}</div><div className="ml-auto text-4xl font-black serif text-white/5 absolute top-2 right-4">#{char.rank}</div></div>
+                     <p className="text-xs text-zinc-400 font-light leading-relaxed serif italic border-t border-white/5 pt-3">“{char.desc}”</p>
                    </motion.div>
                  ))}
                </div>
             </section>
           )}
 
-          {/* 4. LIBRARY_DB */}
+          {/* 4. LIBRARY_DB - 保持原样，尺寸正好 */}
           {filteredBooks.length > 0 && (
             <div className="space-y-6">
-              <div className="flex items-baseline gap-4 border-b border-white/5 pb-2">
-                <h3 className="text-xl font-mono font-bold text-zinc-400">/ LIBRARY_DB</h3>
-                <span className="text-[9px] text-zinc-600 mono uppercase tracking-widest">{filteredBooks.length} ENTRIES</span>
-              </div>
-              <motion.div 
-                layout 
-                className={viewMode === 'grid' 
-                  ? "flex overflow-x-auto gap-4 pb-8 snap-x snap-mandatory custom-scrollbar pr-12"
-                  : "flex flex-col border-t border-white/5"
-                }
-              >
-                {filteredBooks.map((book) => (
-                  viewMode === 'grid'
-                    ? (
+              <div className="flex items-baseline gap-4 border-b border-white/5 pb-2"><h3 className="text-xl font-mono font-bold text-zinc-400">/ LIBRARY_DB</h3><span className="text-[9px] text-zinc-600 mono uppercase tracking-widest">{filteredBooks.length} ENTRIES</span></div>
+              <motion.div layout className={viewMode === 'grid' ? "flex overflow-x-auto gap-4 pb-8 snap-x snap-mandatory custom-scrollbar pr-12" : "flex flex-col border-t border-white/5"}>
+                {filteredBooks.map((book) => viewMode === 'grid' ? (
                       <div key={book.id} className="min-w-[160px] w-[160px] md:min-w-[180px] md:w-[180px] shrink-0 snap-center">
                         <BookCard book={book} onClick={() => setSelectedBook(book)} />
                       </div>
-                    )
-                    : <ListViewItem key={book.id} item={book} type="BOOK" onClick={() => setSelectedBook(book)} />
-                ))}
+                    ) : <ListViewItem key={book.id} item={book} type="BOOK" onClick={() => setSelectedBook(book)} />)}
               </motion.div>
             </div>
           )}
-
-          {filteredMovies.length === 0 && filteredBooks.length === 0 && filteredMusic.length === 0 && (
-             <div className="py-20 text-center text-zinc-600 mono text-xs">NO DATA FOUND IN THIS SECTOR.</div>
-          )}
+          {filteredMovies.length === 0 && filteredBooks.length === 0 && filteredMusic.length === 0 && <div className="py-20 text-center text-zinc-600 mono text-xs">NO DATA FOUND IN THIS SECTOR.</div>}
         </section>
       </div>
     </div>

@@ -31,122 +31,66 @@ export const CHARACTERS: Character[] = [
  * 影视档案馆 (Movies Database)
  * ============================================================
  */
-export const MOVIES: MovieCuration[] = [
+/*
+ * isdou_exe / Digital Archive / Curation Data
+ * 逻辑：ID 必须与 Trakt.tv 的 URL Slug 保持一致以实现自动化补全
+ */
+
+export const MOVIES: any[] = [
   {
-    id: 'm1',
+    id: 'person-of-interest', // 对应 Trakt: person-of-interest
     title: '疑犯追踪',
-    originalTitle: 'Person of Interest',
-    director: 'Chris Fisher/Jonathan Nolan',
-    year: '2011',
-    region: 'USA',
-    genre: '科幻 / 悬疑',
-    runtime: '5 seasons',
-    images: [
-      'images/poi1.jpg',
-      'images/poi2.jpg'
-    ],
     review: '新的一年，最恨的人还是Jonathan Nolan',
     rating: 9.8,
-    tags: ['Sci-Fi', 'AI', 'Crime','Action'],
-    status: 'done',
-    recordDate:'2018-01-01', // ✨ 新增：用于自动排序 (YYYY-MM-DD)
-    // 补全字段防止报错
+    tags: ['Sci-Fi', 'AI', 'Crime', 'Action'],
+    recordDate: '2018-01-01',
+    onWall: true,
     isTV: true,
-    totalDuration: '5 Seasons',
-    cast: ['Jim Caviezel', 'Michael Emerson'],
-    onWall:true,// ✨ 新增：标记是否上榜电视墙
+    images: ['images/poi1.jpg', 'images/poi2.jpg'], // 本地备份海报
   },
   {
-    id: 'm2',
+    id: 'frasier', // 对应 Trakt: frasier (1993 版)
     title: 'Frasier',
-    originalTitle: 'Frasier',
-    director: 'David Angell',
-    year: '1993',
-    region: 'USA',
-    genre: '情景喜剧',
-    runtime: '11 Seasons',
-    images: [
-      'images/fra1.jpg',
-      'images/fra2.jpg'
-    ],
-    review: '还是喜欢看学院派喜剧啊，台词风趣幽默有深度，优雅温馨不低俗，太好了，想以现在的年龄回到九十年代。',
+    review: '还是喜欢看学院派喜剧啊，台词风趣幽默有深度，优雅温馨不低俗。',
     rating: 9.2,
     tags: ['Sitcom', 'Classic', 'Comedy'],
-    status: 'processing',
-    recordDate:'2025-11-01',
-    isTV: true,
+    recordDate: '2025-11-01',
     onWall: true,
-    totalDuration: '11 Seasons',
-    cast: ['Kelsey Grammer', 'David Hyde Pierce']
+    isTV: true,
+    images: ['images/fra1.jpg', 'images/fra2.jpg'],
   },
   {
-    id: 'm3',
+    id: 'monk', // 对应 Trakt: monk
     title: 'Monk',
-    originalTitle: 'Monk',
-    director: 'Randy Zisk',
-    year: '2002',
-    region: 'USA',
-    genre: '犯罪 / 悬疑',
-    runtime: '8 Seasons',
-    images: [
-      'images/monk1.jpg',
-      'images/monk2.jpg'
-    ],
     review: '完全怀疑这就是Sheldon的参考人物',
     rating: 8.7,
     tags: ['Crime', 'Mystery', 'Comedy'],
-    status: 'done',
-    recordDate:'2025-12-01',
-    isTV: true,
+    recordDate: '2025-12-01',
     onWall: false,
-    totalDuration: '8 Seasons',
-    cast: ['Tony Shalhoub']
+    isTV: true,
+    images: ['images/monk1.jpg', 'images/monk2.jpg'],
   },
   {
-    id: 'm4',
+    id: 'yao-chinese-folktales', // 对应 Trakt: yao-chinese-folktales
     title: '中国奇谭 2',
-    originalTitle: 'Yao-Chinese Folktales 2',
-    director: '陈廖宇/张俊杰',
-    year: '2026',
-    region: 'CHINA',
-    genre: '动画 / 奇幻',
-    runtime: ' 2 Seasons',
-    images: [
-      'images/zgqt1.jpg',
-      'images/zgqt2.jpg'
-    ],
     review: '我还是喜欢看国产爱死机',
     rating: 9,
-    tags: ['Donghua', 'Fantasy', 'Science Fiction'],
-    status: 'processing',
-    recordDate:'2026-01-01',
-    isTV: true,
+    tags: ['Donghua', 'Fantasy', 'Sci-Fi'],
+    recordDate: '2026-01-01',
     onWall: false,
-    totalDuration: '2 Seasons',
-    cast: []
+    isTV: true,
+    images: ['images/zgqt1.jpg', 'images/zgqt2.jpg'],
   },
-    {
-    id: 'm5',
+  {
+    id: 'will-grace', // 对应 Trakt: will-grace
     title: 'Will & Grace',
-    originalTitle: 'Will & Grace',
-    director: 'James Burrows',
-    year: '2026',
-    region: 'USA',
-    genre: '喜剧 / 友情',
-    runtime: ' 2d 23h 8m',
-    images: [
-      'images/willgrace1.jpg',
-      'images/willgrace2.jpg'
-    ],
-    review: 'gay-straight friendship',
+    review: 'Classic gay-straight friendship. Where there\'s a Will there\'s a Grace.',
     rating: 9,
-    tags: ['Comedy', 'friendship', 'Sitcom'],
-    status: 'processing',
-    recordDate:'2026-01-04',
-    isTV: true,
+    tags: ['Comedy', 'Friendship', 'Sitcom'],
+    recordDate: '2026-01-04',
     onWall: false,
-    totalDuration: '11 Seasons',
-    cast: []
+    isTV: true,
+    images: ['images/willgrace1.jpg', 'images/willgrace2.jpg'],
   },
 ];
 

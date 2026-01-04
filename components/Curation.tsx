@@ -47,7 +47,7 @@ const TVDisc: React.FC<{ movie: MovieCuration; index: number; onClick: () => voi
     className="relative w-36 h-36 md:w-44 md:h-44 cursor-pointer shrink-0 transition-all"
     style={{ marginLeft: index === 0 ? 0 : -100 }}
   >
-    <div 
+    <div
       className="w-full h-full rounded-full border-2 border-white/10 shadow-[-10px_0_20px_rgba(0,0,0,0.5)] overflow-hidden relative group"
       style={{ background: `radial-gradient(circle, #222 15%, #111 16%, #333 20%, #111 25%, #444 30%, #111 35%)` }}
     >
@@ -79,7 +79,7 @@ const CDCase: React.FC<{ movie: MovieCuration; onClick: () => void }> = ({ movie
 
 // 📚 书籍：书架书脊
 const BookOnShelf: React.FC<{ book: BookCuration; onClick: () => void }> = ({ book, onClick }) => (
-  <motion.div 
+  <motion.div
     whileHover={{ y: -12, z: 20, rotateY: -5, transition: { type: 'spring', stiffness: 300 } }}
     onClick={onClick}
     className="relative shrink-0 w-10 h-40 md:w-14 md:h-56 cursor-pointer origin-bottom"
@@ -112,7 +112,7 @@ const VinylStack: React.FC<{ music: MusicCuration; index: number; onClick: () =>
 
 // 📺 电视墙模式 (TV Wall)
 const TVWall: React.FC<{ shows: MovieCuration[]; onClose: () => void; onSelect: (m: MovieCuration) => void }> = ({ shows, onClose, onSelect }) => (
-  <motion.div 
+  <motion.div
     initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
     className="fixed inset-0 z-[400] bg-black p-8 flex flex-col items-center justify-center overflow-hidden font-mono"
   >
@@ -166,7 +166,7 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
   return createPortal(
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 z-[500] flex items-center justify-center p-4 md:p-8 pointer-events-auto">
       <div className="absolute inset-0 bg-black/95 backdrop-blur-md" onClick={onClose}></div>
-      <motion.div 
+      <motion.div
         initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }}
         className="relative z-10 w-full max-w-5xl bg-[#0f0f10] border border-white/10 rounded-sm overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh]"
       >
@@ -310,7 +310,7 @@ const CharacterFolder: React.FC<{ char: Character; onClose: () => void }> = ({ c
   return createPortal(
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[500] flex items-center justify-center p-4 md:p-12 pointer-events-auto font-serif">
       <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={onClose}></div>
-      <motion.div 
+      <motion.div
         initial={{ y: 50, scale: 0.9 }} animate={{ y: 0, scale: 1 }} exit={{ y: 50, scale: 0.9 }}
         className="relative z-10 w-full max-w-5xl bg-[#e8e2d4] text-zinc-900 shadow-2xl rounded-sm flex flex-col md:flex-row overflow-hidden max-h-[90vh]"
         style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/paper-fibers.png")` }}
@@ -359,10 +359,10 @@ const Curation: React.FC = () => {
         {selectedMusic && <MusicDetail music={selectedMusic} onClose={() => setSelectedMusic(null)} />}
         {selectedChar && <CharacterFolder char={selectedChar} onClose={() => setSelectedChar(null)} />}
         {showTVWall && (
-          <TVWall 
-            shows={tvWallShows} 
-            onClose={() => setShowTVWall(false)} 
-            onSelect={(m) => { setSelectedMovie(m); setShowTVWall(false); }} 
+          <TVWall
+            shows={tvWallShows}
+            onClose={() => setShowTVWall(false)}
+            onSelect={(m) => { setSelectedMovie(m); setShowTVWall(false); }}
           />
         )}
       </AnimatePresence>

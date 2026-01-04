@@ -5,20 +5,20 @@ export const CHARACTERS: Character[] = [
   {
     id: 'c1',
     rank: 1,
-    name: '王阳',
-    source: '漫长的季节',
-    actor: '刘奕铁',
-    desc: '那种充满生命力的、纯粹的、带有悲剧色彩的理想主义。',
-    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop'
+    name: 'Chandler Bing',
+    source: 'Friends',
+    actor: 'Matthew Perry',
+    desc: 'The deadpan snarker.',
+    avatar: 'images/chandler.png'
   },
   {
     id: 'c2',
     rank: 2,
-    name: 'Rust Cohle',
-    source: 'True Detective S1',
-    actor: 'Matthew McConaughey',
-    desc: '清醒的悲观主义者，在此岸审视虚无。',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop'
+    name: 'Patrick Jane',
+    source: 'The Mentalist',
+    actor: 'Simon Baker',
+    desc: '最接近银时真人的一个角色',
+    avatar: 'images/patrick.webp'
   }
 ];
 
@@ -122,22 +122,52 @@ export const MOVIES: MovieCuration[] = [
  */
 export const BOOKS: BookCuration[] = [
     {
-    id: 'b1',
+    id: 'b293',
+    title: 'La Mort heureuse',
+    author: 'Albert Camus',
+    quote: '',
+    summary: '',
+    coverImage: 'images/camus3.jpg',
+    bgColor: 'bg-[#C19ADD]',
+    rating: 8,
+    tags: ['小说', '荒诞'],
+    status: 'processing',
+    readingDate: '2026-01-04',
+    isbn: '9787532761760',
+    wordCount: '65k',
+  },  
+    {
+    id: 'b294',
+    title: 'La Peste',
+    author: 'Albert Camus',
+    quote: '',
+    summary: '',
+    coverImage: 'images/camus2.jpg',
+    bgColor: 'bg-[#22971C]',
+    rating: 8,
+    tags: ['小说', '荒诞'],
+    status: 'processing',
+    readingDate: '2026-01-04',
+    isbn: '9787533977481',
+    wordCount: '161k',
+  },  
+    {
+    id: 'b295',
     title: 'L’Étranger',
     author: 'Albert Camus',
     quote: '我们很少信任比我们好的人，这可太真实了。我们宁肯避免与他们往来。相反，最为经常的是我们对和我们相似，和我们有着共同弱点的人吐露心迹。',
     summary: '',
     coverImage: 'images/camus1.jpg',
-    bgColor: 'bg-[#B2AFA8]',
+    bgColor: 'bg-[#FE563D]',
     rating: 8,
     tags: ['小说', '荒诞'],
     status: 'processing',
     readingDate: '2026-01-01',
     isbn: '9787532761760',
-    wordCount: '650k',
+    wordCount: '65k',
   }, 
   {
-    id: 'b2',
+    id: 'b296',
     title: 'Lisica',
     author: 'Dubravka Ugrešić',
     quote: '对家的渴望是强大的，它拥有原始本能的力量；短期的心态经过时间的滋养，固化为一种执拗的道德原则，它比我想象的更危险。',
@@ -152,7 +182,7 @@ export const BOOKS: BookCuration[] = [
     wordCount: '131k',
   }, 
   {
-    id: 'b3',
+    id: 'b297',
     title: '내게 무해한 사람',
     author: '崔恩荣',
     quote: '我只是偶尔做个倾听的朋友，哪怕是给妈妈一点点陪伴。并不因为她是我的妈妈，而是因为她孤独了太久。',
@@ -167,7 +197,7 @@ export const BOOKS: BookCuration[] = [
     wordCount: '160k',
   },
   {
-    id: 'b4',
+    id: 'b298',
     title: '明亮的夜晚',
     author: '崔恩荣',
     quote: '如果心是一个可以从人体中取出的器官，我想把手伸进胸膛，把它取出来。我要用温水将它洗干净，用毛巾擦干水汽，晾到阳光充足、通风良好的地方。',
@@ -182,7 +212,7 @@ export const BOOKS: BookCuration[] = [
     wordCount: '134k',
   },
   {
-    id: 'b5',
+    id: 'b299',
     title: '即使不努力',
     author: '崔恩荣',
     quote: '你是真心的，这让我很害怕。你喜欢我，看到了我身上一些美好的地方，可这只是个误会，很快你会发现自己被骗了，然后你会选择离开，而我接受不了这样的结局。',
@@ -223,7 +253,7 @@ export const MUSIC: MusicCuration[] = [
     artist: '什么都浪漫',
     type: 'Album',
     year: '2021',
-    coverImage: 'images/gudushishengmingdeliwu.jpeg',
+    coverImage: 'images/smdlm1.jpeg',
     review: '🤔',
     link: 'https://open.spotify.com/album/4ivCItVB0FKCtmIkVbEg04?si=4-1WXBBbQ_KEBN5BMUxQBw',
     rating: 10,

@@ -43,6 +43,7 @@ export interface MovieCuration {
   cast?: string[];       // 主演
   totalDuration?: string; // 电视剧总时长 (e.g. "45min x 12eps")
   isTV?: boolean;        // 标记是否为电视剧
+  onWall?: boolean; // ✨ 新增：标记是否上榜电视墙
 }
 
 export interface BookCuration {

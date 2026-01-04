@@ -6,10 +6,10 @@ import { motion } from 'framer-motion';
 const USER_PROFILE = {
   id: 'DOU.EXE',
   role: 'Product Manager / Observer',
-  mbti: 'INTJ-A',
+  mbti: 'INTJ',
   version: 'v2.9.0', 
   status: 'OPERATIONAL',
-  location: 'Earth / Asia',
+  location: 'Earth / Asia / China',
   avatar: 'images/avatar.jpg', // 
 };
 

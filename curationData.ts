@@ -53,7 +53,8 @@ export const MOVIES: MovieCuration[] = [
     // 补全字段防止报错
     isTV: true,
     totalDuration: '5 Seasons',
-    cast: ['Jim Caviezel', 'Michael Emerson']
+    cast: ['Jim Caviezel', 'Michael Emerson'],
+    onWall:true,// ✨ 新增：标记是否上榜电视墙
   },
   {
     id: 'm2',
@@ -74,6 +75,7 @@ export const MOVIES: MovieCuration[] = [
     status: 'processing',
     recordDate:'2025-11-01',
     isTV: true,
+    onWall: true,
     totalDuration: '11 Seasons',
     cast: ['Kelsey Grammer', 'David Hyde Pierce']
   },
@@ -96,6 +98,7 @@ export const MOVIES: MovieCuration[] = [
     status: 'done',
     recordDate:'2025-12-01',
     isTV: true,
+    onWall: false,
     totalDuration: '8 Seasons',
     cast: ['Tony Shalhoub']
   },
@@ -118,6 +121,7 @@ export const MOVIES: MovieCuration[] = [
     status: 'processing',
     recordDate:'2026-01-01',
     isTV: true,
+    onWall: false,
     totalDuration: '2 Seasons',
     cast: []
   },
@@ -140,6 +144,7 @@ export const MOVIES: MovieCuration[] = [
     status: 'processing',
     recordDate:'2026-01-04',
     isTV: true,
+    onWall: false,
     totalDuration: '11 Seasons',
     cast: []
   },

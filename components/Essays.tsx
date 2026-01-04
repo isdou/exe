@@ -5,26 +5,68 @@ import { MOCK_ESSAYS } from '../essaysData';
 
 const Essays: React.FC = () => {
   const [selectedEssay, setSelectedEssay] = useState<Article | null>(null);
+  // 📍 改动 1: 新增语言状态控制 (默认为中文)
+  const [currentLang, setCurrentLang] = useState<'cn' | 'en'>('cn');
   const location = useLocation();
+  // 根据当前语言返回对应的字体类名
+  const getSerifClass = () => {
+    return currentLang === 'cn' ? 'font-cn-serif' : 'font-en-serif';
+  };
 
-  // 监听路由变化，如果点击了导航栏的 Essays，重置回列表页
+
   useEffect(() => {
     setSelectedEssay(null);
   }, [location.pathname]);
+
+  // 📍 改动 2: 语言切换逻辑
+  // 当在文章详情页切换语言时，自动寻找具有相同 groupId 但语言不同的文章
+  const handleToggleLang = (lang: 'cn' | 'en') => {
+    setCurrentLang(lang);
+    if (selectedEssay) {
+      const peerEssay = MOCK_ESSAYS.find(
+        e => e.groupId === selectedEssay.groupId && e.lang === lang
+      );
+      if (peerEssay) setSelectedEssay(peerEssay);
+    }
+  };
+
+  // 📍 改动 3: 语言切换 UI 组件 (通用)
+  const LangSwitcher = () => (
+    <div className="flex gap-4 font-mono text-[10px] tracking-widest">
+      <button 
+        onClick={() => handleToggleLang('cn')}
+        className={`transition-colors ${currentLang === 'cn' ? 'text-red-600 font-bold' : 'text-zinc-600 hover:text-zinc-400'}`}
+      >
+        CN
+      </button>
+      <span className="text-zinc-800">/</span>
+      <button 
+        onClick={() => handleToggleLang('en')}
+        className={`transition-colors ${currentLang === 'en' ? 'text-red-600 font-bold' : 'text-zinc-600 hover:text-zinc-400'}`}
+      >
+        EN
+      </button>
+    </div>
+  );
 
   if (selectedEssay) {
     return (
       <div className="absolute inset-0 bg-black z-[200] overflow-y-auto px-6 py-12 md:px-12 md:py-20 custom-scrollbar">
         <div className="max-w-5xl mx-auto space-y-16 pb-24">
-          <button
-            onClick={() => setSelectedEssay(null)}
-            className="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors mono text-[10px] uppercase tracking-widest group"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:-translate-x-1 transition-transform">
-              <path d="M19 12H5M12 19l-7-7 7-7"/>
-            </svg>
-            BACK TO DIRECTORY
-          </button>
+          <div className="flex justify-between items-center">
+            <button
+              onClick={() => setSelectedEssay(null)}
+              className="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors mono text-[10px] uppercase tracking-widest group"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:-translate-x-1 transition-transform">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+              BACK TO DIRECTORY
+            </button>
+            
+            {/* 详情页语言切换 */}
+            <LangSwitcher />
+          </div>
 
           <div className="space-y-8">
             <div className="flex items-center gap-4 text-[10px] font-mono text-zinc-500 tracking-widest uppercase">
@@ -32,7 +74,8 @@ const Essays: React.FC = () => {
               <span className="w-1 h-1 bg-red-600 rounded-full"></span>
               <span>{selectedEssay.category}</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold serif leading-tight text-white tracking-tighter">
+            {/* 📍 改动 C: 标题字体应用动态类名 */}
+            <h1 className={`text-4xl md:text-6xl font-bold leading-tight text-white tracking-tighter ${getSerifClass()}`}>
               {selectedEssay.title}
             </h1>
             <div className="w-16 h-[1px] bg-red-600"></div>
@@ -41,7 +84,8 @@ const Essays: React.FC = () => {
           <div className="prose prose-invert prose-zinc max-w-none">
             {selectedEssay.content?.split('\n').map((para, i) => (
               para.trim() && (
-                <p key={i} className="text-zinc-300 text-lg leading-loose serif font-light mb-8 opacity-90 whitespace-pre-wrap">
+                /* 📍 改动 D: 正文字体应用动态类名 */
+                <p key={i} className={`text-zinc-300 text-lg leading-loose font-light mb-8 opacity-90 whitespace-pre-wrap ${getSerifClass()}`}>
                   {para.trim()}
                 </p>
               )
@@ -64,13 +108,22 @@ const Essays: React.FC = () => {
           <div className="text-red-600 font-mono text-[10px] tracking-[0.4em] uppercase">Digital Chronicles / 数字编年</div>
           <h2 className="text-5xl md:text-7xl font-black serif text-white tracking-tighter leading-none">ESSAYS.</h2>
           <p className="text-zinc-500 max-w-xl text-base md:text-lg font-light leading-relaxed serif italic">
-            “文字是跨越维度的锚点。在混乱的信号流中，我试图捕捉那些具有确定性的逻辑线条。”
+            {currentLang === 'cn' 
+              ? "“文字是跨越维度的锚点。在混乱的信号流中，我捕捉那些具有确定性的逻辑线条。”"
+              : "“Words are anchors across dimensions. Amidst the chaos, I seek the lines of deterministic logic.”"
+            }
           </p>
+        </div>
+        
+        {/* 列表页语言切换 */}
+        <div className="pb-2">
+           <LangSwitcher />
         </div>
       </div>
 
       <div className="divide-y divide-white/5">
-        {MOCK_ESSAYS.map((essay) => (
+        {/* 📍 改动 4: 列表过滤逻辑 - 只显示当前语言的文章 */}
+        {MOCK_ESSAYS.filter(e => e.lang === currentLang).map((essay) => (
           <article
             key={essay.id}
             onClick={() => setSelectedEssay(essay)}
@@ -82,10 +135,10 @@ const Essays: React.FC = () => {
             </div>
 
             <div className="flex-1 space-y-2">
-               <h3 className="text-xl md:text-2xl font-bold serif text-zinc-200 group-hover:text-white transition-colors tracking-tight">
+               <h3 className={`text-xl md:text-2xl font-bold text-zinc-200 group-hover:text-white transition-colors tracking-tight ${getSerifClass()}`}>
                  {essay.title}
                </h3>
-               <p className="text-zinc-500 text-sm md:text-base font-light leading-relaxed max-w-3xl line-clamp-2 md:line-clamp-1 italic group-hover:text-zinc-400">
+               <p className={`text-zinc-500 text-sm md:text-base font-light leading-relaxed max-w-3xl line-clamp-2 md:line-clamp-1 italic group-hover:text-zinc-400 ${getSerifClass()}`}>
                  {essay.excerpt}
                </p>
             </div>
@@ -101,7 +154,7 @@ const Essays: React.FC = () => {
 
       <div className="pt-16 text-center">
         <div className="inline-block px-6 py-2 border border-zinc-900 rounded-full text-[9px] mono text-zinc-700 tracking-[0.5em] uppercase">
-          End of Directory
+          {currentLang === 'cn' ? '目录终点' : 'End of Directory'}
         </div>
       </div>
     </div>

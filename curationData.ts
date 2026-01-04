@@ -8,7 +8,7 @@ export const CHARACTERS: Character[] = [
     name: 'Chandler Bing',
     source: 'Friends',
     actor: 'Matthew Perry',
-    biography: '人物小传要好好写吧', // ✨ 新增：人物小传（长文）
+    biography: '', // ✨ 新增：人物小传（长文）
     mbti: 'ENTP',    // ✨ 新增：MBTI 属性
     desc: 'The deadpan snarker.',
     avatar: 'images/chandler.png'

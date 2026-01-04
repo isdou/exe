@@ -18,6 +18,8 @@ export const MOCK_ESSAYS: Article[] = [
   
   {
     id: '1',
+    groupId: '1',
+    lang: 'cn',
     title: '豆邮W1： 大声讲讲',
     excerpt: '',
     content: `
@@ -51,6 +53,49 @@ export const MOCK_ESSAYS: Article[] = [
       欢迎阅读我的电子日记。
 
       新年快乐，周六快乐。
+
+    `,
+    date: '2026-1-03',
+    category: '豆邮',
+    readTime: '11 min',
+    coverImage: ''
+  },
+    {
+    id: '1',
+    groupId: '1',
+    lang: 'en',
+    title: 'DouMail W1: Speak Up Loudly',
+    excerpt: '',
+    content: `
+      People say “knotting cords to keep records” is a primitive way to remember, but I told myself it’s actually about outlining an ideal life as I bought the DJI Osmo Action 5 Pro.
+
+      Text and imagery are fundamentally different. I’ve always been accustomed to capturing everything with words, using them to smooth out the creases of life. For me, text is the scalpel of reason. Imagery, on the other hand, often serves merely as a delay timer for my eyes—it effectively pauses a moment for a few minutes, but once it expires, it gets dumped into an album, never to be organized or revisited.
+
+      But text is so unreliable. Layered with the embellishments and damages of memory, feelings gradually lose their foundation, and emotions slowly lose their index as time stretches on. I have long wanted to use imagery to “pin down” these sensations. The New Year, along with this new device, seemed like the perfect catalyst.
+
+      Recently, I’ve been waking up consistently at either 12:00 PM or 12:00 AM; insomnia has thoroughly destroyed my schedule. I’m also gradually realizing that a body in its thirties is far more sensitive than in its twenties. I am no longer that young person who could sleep for ten hours straight and knew nothing of sleeplessness.
+
+      Intolerance to sugar, lactose, and involuntary late nights—the feedback from my body comes faster and faster. While I want to manage my body better, I have to admit that as I age, this task becomes increasingly difficult. But on the bright side, this immediate and obvious feedback forces me to pay attention to my physical reactions. To some extent, it feels like I’ve finally achieved a preliminary dialogue with my body. (There’s no helping it; for someone with inferior Se*, learning this is like being a kindergartner again.)
+
+      Everyone talks about wanting to be truly “seen,” to find a connection between people. Re-thinking this, I believe the connection people seek is mostly a form of similarity. Although theoretically, “resonance in difference” exists—same underlying color but different coping mechanisms, and so on—it’s rare.
+
+      Underneath, we might share the same picture, but we are different puzzle pieces. Theoretically possible, but in reality, something to be met by chance, not sought. Just encountering someone who understands what you are saying and why you are saying it already uses up 99.99% of one’s luck. To achieve that theoretical resonance in difference probably requires a little mercy from fate.
+
+      I still cannot comprehend humans who only talk about themselves in conversation, barging into the back gardens of others’ minds, strolling idly without any intention of admiring the flowers. At first, I wondered how such people survive well in an increasingly Social Darwinist environment. Later, I realized this behavior is standard Social Darwinism. Because they don’t care, they can stroll idly; because they don’t care, they can walk away from the conversation at any time, hearing only what they want to hear. In trendy terms, perhaps these are people with “strong subjectivity” (or “main character energy”), but they are truly tiresome.
+
+      Anyway.
+
+      I’m becoming more and more like an adult—an adult befitting my age, an adult who increasingly desires a stable perch. My left and right brains rarely fight anymore. Except for when I am “using a worldly attitude to do otherworldly things,”** there is very little childishness left in me. But I like this state, at least for now. Peace of mind is the happiest state attainable.
+
+      As I mentioned my disappointment with various “Annual Reports,” the idea of creating my own began to take shape. And now that I’ve built this website, I think I no longer need those reports that only show up at the end of the year.
+
+      I will record here faithfully: what I think, what I read, what I hear, where I go, what I eat, how I feel today, the progress of fixing life’s bugs... Every day that I fill with content is a day spent constructing the archive of my life.
+
+      So,
+
+      Welcome to my electronic diary.
+
+      Happy New Year, and Happy Saturday.
 
     `,
     date: '2026-1-03',

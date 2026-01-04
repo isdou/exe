@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* */
+.font-cn-serif {
+  font-family: "Huiwen-mincho", "Source Han Serif CN", serif;
+}
+
+.font-en-serif {
+  /* 使用系统自带的经典西文衬线，避免使用中文字体里的英文 */
+  font-family: "Georgia", "Times New Roman", "EB Garamond", serif;
+}
+
 :root {
   color-scheme: dark;
 }

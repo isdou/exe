@@ -19,7 +19,6 @@ export interface Article {
   excerpt: string;
   content?: string;
   readTime?: string;   // 🔥 新增：阅读时间
-  coverImage?: string; // 🔥 新增：封面图
 }
 
 export type CurationStatus = 'done' | 'processing' | 'wishlist' | 'dropped';

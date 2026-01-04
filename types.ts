@@ -38,6 +38,7 @@ export interface MovieCuration {
   rating?: number;
   tags?: string[];
   status?: CurationStatus;
+  recordDate: string; // ✨ 新增：用于自动排序 (YYYY-MM-DD)
   // 🔥 新增字段
   cast?: string[];       // 主演
   totalDuration?: string; // 电视剧总时长 (e.g. "45min x 12eps")
@@ -55,6 +56,7 @@ export interface BookCuration {
   rating?: number;
   tags?: string[];
   status?: CurationStatus;
+  recordDate: string; // ✨ 新增：用于自动排序 (YYYY-MM-DD)
   readingDate?: string;
   isbn?: string;
   wordCount?: string;
@@ -69,6 +71,7 @@ export interface MusicCuration {
   coverImage: string;
   review: string;
   link: string;
+  recordDate: string; // ✨ 新增：用于自动排序 (YYYY-MM-DD)
   rating?: number;
   tags?: string[];
   status?: CurationStatus;
@@ -83,6 +86,8 @@ export interface Character {
   desc: string;   // 印象/评价
   avatar: string; // 头像链接
   rank: number;   // 排名
+  biography?: string; // ✨ 新增：人物小传（长文）
+  mbti?: string;      // ✨ 新增：MBTI 属性
 }
 
 export interface GoodieItem {
@@ -98,6 +103,7 @@ export interface GoodieItem {
   cuisine?: string;
   rating?: number;
   date?: string;
+  recordDate: string;
 }
 
 export interface TravelLog {

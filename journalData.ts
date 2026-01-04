@@ -15,16 +15,7 @@ export const MOCK_JOURNAL: JournalEntry[] = [
     content: '只是展示效果。',
     mood: 'New'
   },
-   {
-    id: 'j-2026-01-04',
-    year: 2026,
-    month: 1,
-    day: 4,
-    content: `
-      
-    `,
-    mood: 'DouMail'
-  },
+
   {
     id: 'j-2026-01-01',       // 唯一ID，随便写，别重复就行
     year: 2026,               // 年份

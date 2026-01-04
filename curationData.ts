@@ -8,6 +8,8 @@ export const CHARACTERS: Character[] = [
     name: 'Chandler Bing',
     source: 'Friends',
     actor: 'Matthew Perry',
+    biography: '人物小传要好好写吧', // ✨ 新增：人物小传（长文）
+    mbti: 'ENTP',    // ✨ 新增：MBTI 属性
     desc: 'The deadpan snarker.',
     avatar: 'images/chandler.png'
   },
@@ -17,6 +19,8 @@ export const CHARACTERS: Character[] = [
     name: 'Patrick Jane',
     source: 'The Mentalist',
     actor: 'Simon Baker',
+    biography: '很不巧又是一个ENTP',// ✨ 新增：人物小传（长文）
+    mbti: 'ENTP',    // ✨ 新增：MBTI 属性
     desc: '最接近银时真人的一个角色',
     avatar: 'images/patrick.webp'
   }
@@ -42,9 +46,10 @@ export const MOVIES: MovieCuration[] = [
       'images/poi2.jpg'
     ],
     review: '新的一年，最恨的人还是Jonathan Nolan',
-    rating: 9.5,
+    rating: 9.8,
     tags: ['Sci-Fi', 'AI', 'Crime','Action'],
     status: 'done',
+    recordDate:'2018-01-01', // ✨ 新增：用于自动排序 (YYYY-MM-DD)
     // 补全字段防止报错
     isTV: true,
     totalDuration: '5 Seasons',
@@ -67,6 +72,7 @@ export const MOVIES: MovieCuration[] = [
     rating: 9.2,
     tags: ['Sitcom', 'Classic', 'Comedy'],
     status: 'processing',
+    recordDate:'2025-11-01',
     isTV: true,
     totalDuration: '11 Seasons',
     cast: ['Kelsey Grammer', 'David Hyde Pierce']
@@ -87,7 +93,8 @@ export const MOVIES: MovieCuration[] = [
     review: '完全怀疑这就是Sheldon的参考人物',
     rating: 8.7,
     tags: ['Crime', 'Mystery', 'Comedy'],
-    status: 'processing',
+    status: 'done',
+    recordDate:'2025-12-01',
     isTV: true,
     totalDuration: '8 Seasons',
     cast: ['Tony Shalhoub']
@@ -109,8 +116,31 @@ export const MOVIES: MovieCuration[] = [
     rating: 9,
     tags: ['Donghua', 'Fantasy', 'Science Fiction'],
     status: 'processing',
+    recordDate:'2026-01-01',
     isTV: true,
     totalDuration: '2 Seasons',
+    cast: []
+  },
+    {
+    id: 'm5',
+    title: 'Will & Grace',
+    originalTitle: 'Will & Grace',
+    director: 'James Burrows',
+    year: '2026',
+    region: 'USA',
+    genre: '喜剧 / 友情',
+    runtime: ' 2d 23h 8m',
+    images: [
+      'images/willgrace1.jpg',
+      'images/willgrace2.jpg'
+    ],
+    review: 'gay-straight friendship',
+    rating: 9,
+    tags: ['Comedy', 'friendship', 'Sitcom'],
+    status: 'processing',
+    recordDate:'2026-01-04',
+    isTV: true,
+    totalDuration: '11 Seasons',
     cast: []
   },
 ];
@@ -133,6 +163,7 @@ export const BOOKS: BookCuration[] = [
     tags: ['小说', '荒诞'],
     status: 'processing',
     readingDate: '2026-01-04',
+    recordDate:'2026-01-04',
     isbn: '9787532761760',
     wordCount: '65k',
   },  
@@ -148,6 +179,7 @@ export const BOOKS: BookCuration[] = [
     tags: ['小说', '荒诞'],
     status: 'processing',
     readingDate: '2026-01-04',
+    recordDate:'2026-01-04',
     isbn: '9787533977481',
     wordCount: '161k',
   },  
@@ -163,6 +195,7 @@ export const BOOKS: BookCuration[] = [
     tags: ['小说', '荒诞'],
     status: 'processing',
     readingDate: '2026-01-01',
+    recordDate:'2026-01-01',
     isbn: '9787532761760',
     wordCount: '65k',
   }, 
@@ -178,6 +211,7 @@ export const BOOKS: BookCuration[] = [
     tags: ['流亡', '女性叙事'],
     status: 'done',
     readingDate: '2024-12-29',
+    recordDate:'2024-12-29',
     isbn: '9787547745809',
     wordCount: '131k',
   }, 
@@ -193,6 +227,7 @@ export const BOOKS: BookCuration[] = [
     tags: ['韩国文学', '女性叙事'],
     status: 'done',
     readingDate: '2025-03-25',
+    recordDate:'2025-03-25',
     isbn: '9787505756854',
     wordCount: '160k',
   },
@@ -208,6 +243,7 @@ export const BOOKS: BookCuration[] = [
     tags: ['韩国文学', '女性叙事'],
     status: 'done',
     readingDate: '2025-03-04',
+    recordDate:'2025-03-04',
     isbn: '9787516835265',
     wordCount: '134k',
   },
@@ -223,6 +259,7 @@ export const BOOKS: BookCuration[] = [
     tags: ['短篇小说', '生活'],
     status: 'done',
     readingDate: '2025-03-25',
+    recordDate:'2025-03-25',
     isbn: '9787559669254',
     wordCount: '56k',
   }
@@ -242,6 +279,7 @@ export const MUSIC: MusicCuration[] = [
     year: '2023',
     coverImage: 'images/missher.jpeg', 
     review: '2025 单曲循环第一名',
+    recordDate:'2024-12-29',
     link: 'https://open.spotify.com/track/5Cb7Jq85mWeYrmMGtmez2h?si=12abf7bc238c48fa', 
     rating: 9.8,
     tags: ['Love'],
@@ -255,6 +293,7 @@ export const MUSIC: MusicCuration[] = [
     year: '2021',
     coverImage: 'images/smdlm1.jpeg',
     review: '🤔',
+    recordDate:'2022-12-29',
     link: 'https://open.spotify.com/album/4ivCItVB0FKCtmIkVbEg04?si=4-1WXBBbQ_KEBN5BMUxQBw',
     rating: 10,
     tags: ['sad', 'Classic'],

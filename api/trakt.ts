@@ -17,6 +17,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         'trakt-api-key': process.env.TRAKT_CLIENT_ID as string, // 读取你刚才设置的环境变量
       },
     });
+    if (!showRes.ok) {
+        return res.status(showRes.status).json({ error: 'Trakt API Error' });
+      }
 
     // 2. 获取演员表 (Cast)
     const peopleRes = await fetch(`https://api.trakt.tv/shows/${slug}/people`, {

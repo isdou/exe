@@ -3,15 +3,27 @@ import { MovieCuration, BookCuration, MusicCuration, Character } from './types';
 // 🔥 修复点：新增 CHARACTERS 数据，防止 Curation 页面因找不到数据而黑屏
 export const CHARACTERS: Character[] = [
   {
-    id: 'c1',
+    id: "001",
     rank: 1,
     name: 'Chandler Bing',
     source: 'Friends',
     actor: 'Matthew Perry',
-    desc: 'The deadpan snarker.',
+    desc: '我并不擅长提供建议。我能给你提供一个带讽刺意味的点评吗？',
     mbti: 'ENTP',
     birthYear: '1968',
-    avatar: 'images/chandler.png'
+    avatar: 'images/chandler.png',
+    biography: `
+    [系统评估报告]
+    钱德勒·宾是一个将“自嘲”与“讽刺”作为核心防御机制的复杂人格。作为统计分析师，他表现出了极高的逻辑敏锐度与社交不安感。
+
+    核心特征：
+    1. 语言模块：内置高度发达的冷笑话触发器。当环境压力值升高时，系统会自动输出讽刺言论以中和尴尬。
+    2. 情感回路：由于童年时期的“感恩节阴影”，系统在亲密关系初期表现出极高的排斥反应，直至与 Monica Geller 完成协议对齐。
+    3. 职业路径：从枯燥的数据采集（Data Reconfiguration）转向创意驱动的广告业，体现了其人格中创造力对枯燥逻辑的最终胜利。
+
+    [档案注记]
+    他是我们所有人中，那个最努力用笑声掩盖内心孤独的人。他是 20 世纪末都市青年焦虑与温情的缩影。
+    `
   },
   {
     id: 'c2',
@@ -40,7 +52,7 @@ export const MOVIES: MovieCuration[] = [
     year: '2011',
     region: 'USA',
     genre: '科幻 / 悬疑',
-    runtime: '5 seasons',
+    runtime: '3d 3h 28m',
     images: [
       'images/poi1.jpg',
       'images/poi2.jpg'
@@ -57,13 +69,13 @@ export const MOVIES: MovieCuration[] = [
   },
   {
     id: 'm2',
-    title: 'Frasier',
+    title: '神探阿蒙',
     originalTitle: 'Frasier',
     director: 'David Angell',
     year: '1993',
     region: 'USA',
     genre: '情景喜剧',
-    runtime: '11 Seasons',
+    runtime: '4d 8h 19m ',
     images: [
       'images/fra1.jpg',
       'images/fra2.jpg'
@@ -85,7 +97,7 @@ export const MOVIES: MovieCuration[] = [
     year: '2002',
     region: 'USA',
     genre: '犯罪 / 悬疑',
-    runtime: '8 Seasons',
+    runtime: '3d 18h 9m',
     images: [
       'images/monk1.jpg',
       'images/monk2.jpg'
@@ -106,7 +118,7 @@ export const MOVIES: MovieCuration[] = [
     year: '2026',
     region: 'CHINA',
     genre: '动画 / 奇幻',
-    runtime: ' 2 Seasons',
+    runtime: ' 3h 9m ',
     images: [
       'images/zgqt1.jpg',
       'images/zgqt2.jpg'
@@ -139,6 +151,48 @@ export const MOVIES: MovieCuration[] = [
     isTV: true,
     totalDuration: '11 Seasons',
     cast: []
+  },
+    {
+    id: 'm6',
+    title: '是，大臣',
+    originalTitle: 'Yes Minister',
+    director: 'Peter Whitmore',
+    year: '1980',
+    region: 'UK',
+    genre: '喜剧 / 政治',
+    runtime: ' 10h 30m',
+    images: [
+      'images/YesMinister1.webp',
+      'images/YesMinister2.jpg'
+    ],
+    review: '什么是经典',
+    rating: 9,
+    tags: ['Comedy', 'Satirical', 'Sitcom'],
+    status: 'processing',
+    isTV: true,
+    totalDuration: '3 Seasons',
+    cast: ['Paul Eddington','Nigel Hawthorne','Derek Fowlds']
+  },
+    {
+    id: 'm7',
+    title: ' 重任在肩',
+    originalTitle: 'Line of Duty',
+    director: 'David Caffrey / Douglas Mackinnon',
+    year: '2012',
+    region: 'UK',
+    genre: '悬疑 / 犯罪',
+    runtime: '1d 12h 14m',
+    images: [
+      'images/LineofDuty2.jpg',
+      'images/LineofDuty2.jpg'
+    ],
+    review: '心情是资质平平的编剧看了之后会自杀吗',
+    rating: 10,
+    tags: ['Comedy', 'Satirical', 'Sitcom'],
+    status: 'done',
+    isTV: true,
+    totalDuration: '6 Seasons',
+    cast: ['Martin Compston','Vicky McClure','Adrian Dunbar']
   },
 ];
 

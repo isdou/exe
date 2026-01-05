@@ -23,7 +23,7 @@ export const NOW_DATA = {
   focus: [
     { id: '01', task: 'DOU.EXE System Refactor', progress: 75, status: 'RUNNING' },
     { id: '02', task: 'Life: Q1 OKR Planning', progress: 30, status: 'PENDING' },
-    { id: '03', task: 'Reading Challenge 2026', progress: 5, status: 'QUEUED' },
+    { id: '03', task: 'Biohacking', progress: 5, status: 'QUEUED' },
   ] as NowFocus[],
 
   // 2. 输入流 (Input Stream) - 展示你在看什么/听什么

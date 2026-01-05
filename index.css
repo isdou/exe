@@ -52,3 +52,14 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.15);
 }
+
+/* 在全局 CSS 中添加，用于还原图片中的条纹高亮 */
+.bg-stripes-white {
+  background-color: #ffffff;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px);
+}
+
+.bg-stripes-red {
+  background-color: #dc2626; /* red-600 */
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.2) 2px, rgba(0,0,0,0.2) 4px);
+}

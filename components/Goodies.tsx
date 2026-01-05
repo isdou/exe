@@ -1,96 +1,105 @@
 import React, { useState } from 'react';
+// 1. 修复：导入 createPortal
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GOODIES_DATA } from '../goodiesData';
 import { GoodieItem } from '../types';
 
-// ================= 1. 子组件：好物详情弹窗 (保持全量逻辑) =================
-const GoodieDetail: React.FC<{ item: GoodieItem; onClose: () => void }> = ({ item, onClose }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className="fixed inset-0 z-[250] flex items-center justify-center p-4 md:p-8 pointer-events-auto"
-  >
-    <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={onClose}></div>
-    <motion.div
-      initial={{ scale: 0.9, y: 20 }}
-      animate={{ scale: 1, y: 0 }}
-      exit={{ scale: 0.9, y: 20 }}
-      className="relative z-10 w-full max-w-4xl bg-[#0c0c0c] border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] flex flex-col md:flex-row max-h-[90vh]"
-    >
-       <div className="w-full md:w-1/2 bg-zinc-900 relative shrink-0 h-64 md:h-auto overflow-hidden">
-          <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0c0c0c] via-transparent to-transparent opacity-60"></div>
-          <button onClick={onClose} className="absolute top-6 left-6 bg-black/50 p-2 rounded-full text-white/80 hover:text-white hover:bg-black/80 transition-all z-20">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-          </button>
-       </div>
-       <div className="flex-1 p-8 md:p-12 overflow-y-auto custom-scrollbar flex flex-col gap-6">
-          <div className="border-b border-white/5 pb-6">
-             <div className="flex items-center gap-3 mb-2 text-[10px] font-mono uppercase tracking-[0.3em] text-red-600">
-                <span>INDEX #{item.id}</span>
-                <span className="w-8 h-px bg-red-900/30"></span>
-                <span>{item.date || 'COLLECTED'}</span>
-             </div>
-             <h2 className="text-3xl md:text-5xl font-black serif text-white tracking-tight leading-tight mb-4">{item.name}</h2>
-             {item.rating && (
-                <div className="flex items-center gap-2">
-                   <div className="flex text-amber-500 text-xl">{'★'.repeat(Math.floor(item.rating))}</div>
-                   <span className="text-[10px] font-mono text-zinc-500 mt-1">/ TASTE SCORE</span>
-                </div>
-             )}
+// ================= 1. 子组件：好物详情弹窗 (标本采样盒风格) =================
+const GoodieDetail: React.FC<{ item: GoodieItem; onClose: () => void }> = ({ item, onClose }) => {
+  // 2. 修复：必须包裹在 createPortal(JSX, DOM节点) 中
+  return createPortal(
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[500] flex items-center justify-center p-4 pointer-events-auto font-mono">
+      <div className="absolute inset-0 bg-black/95 backdrop-blur-xl" onClick={onClose}></div>
+      <motion.div
+        initial={{ scale: 0.9, y: 30, opacity: 0 }} animate={{ scale: 1, y: 0, opacity: 1 }} exit={{ scale: 0.9, y: 20, opacity: 0 }}
+        className="relative z-10 w-full max-w-xl bg-[#08080a] border border-red-900/30 shadow-2xl flex flex-col overflow-hidden"
+        style={{ clipPath: 'polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%)' }}
+      >
+        <div className="h-6 bg-red-900/10 flex items-center justify-between px-4 border-b border-red-900/20">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse"></div>
+            <span className="text-[8px] text-red-500 tracking-[0.3em] font-bold">MATTER_SPECIMEN // {item.id}</span>
           </div>
-          <div className="grid grid-cols-2 gap-8 text-[10px] font-mono uppercase tracking-widest text-zinc-500">
-             <div><div className="mb-2 text-zinc-600">Category / 分类</div><div className="text-sm serif text-white">{item.category}</div></div>
-             <div><div className="mb-2 text-zinc-600">Source / 来源</div><div className="text-sm serif text-white">{item.restaurant || 'PRIVATE COLLECTION'}</div></div>
-          </div>
-          <div className="bg-white/[0.03] rounded-2xl p-6 border border-white/5 relative">
-             <div className="text-[9px] text-red-900 font-bold uppercase tracking-[0.2em] mb-4">Observation_Log</div>
-             <p className="text-lg font-serif italic text-zinc-300 leading-relaxed">“{item.description}”</p>
-          </div>
-          <div className="mt-auto pt-6 flex justify-between items-center text-[10px] font-mono text-zinc-600 uppercase tracking-widest border-t border-white/5">
-             <span>Estimated Value: {item.price || 'Priceless'}</span>
-             <span className="text-red-900">ARCHIVE_COMPLETE</span>
-          </div>
-       </div>
-    </motion.div>
-  </motion.div>
-);
+          <span className="text-[7px] text-red-900/60 uppercase">{item.recordDate}</span>
+        </div>
 
-// ================= 2. 子组件：缩小版的图鉴“盘子/瓶子”卡片 (与 Curation 对齐) =================
+        <div className="p-1 flex flex-col md:flex-row gap-1">
+          <div className="w-full md:w-56 h-64 md:h-80 shrink-0 relative bg-black overflow-hidden border border-red-900/10">
+            <img src={item.image} alt={item.name} className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-700" />
+            <motion.div animate={{ top: ['0%', '100%', '0%'] }} transition={{ repeat: Infinity, duration: 4, ease: "linear" }} className="absolute left-0 right-0 h-[2px] bg-red-600/50 z-20 pointer-events-none" />
+          </div>
+
+          <div className="flex-1 p-5 space-y-4 flex flex-col justify-between overflow-y-auto custom-scrollbar">
+            <div className="space-y-4">
+              <div>
+                <h2 className="text-xl font-black text-white uppercase tracking-tight leading-none mb-1">{item.name}</h2>
+                <div className="text-[8px] text-zinc-600 tracking-widest">{item.cuisine || item.category} // SOURCED: {item.restaurant || 'ARCHIVE'}</div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="text-red-500 text-[10px] font-black uppercase italic tracking-tighter">“{item.reason}”</div>
+                <div className="bg-zinc-900/40 p-3 border-l-2 border-red-900/50">
+                   <p className="text-[11px] leading-relaxed text-zinc-400 font-serif italic">{item.description}</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-px bg-zinc-800/20 border border-zinc-800/30 text-[9px]">
+                <div className="p-2"><label className="text-red-900 block font-black">PRICE</label><span className="text-zinc-300">{item.price || 'N/A'}</span></div>
+                <div className="p-2 border-l border-zinc-800/30"><label className="text-red-900 block font-black">RATING</label><span className="text-zinc-300">{item.rating}/10</span></div>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
+               {item.link ? (
+                 <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-[9px] text-blue-500 hover:underline">SOURCE_LINK &rarr;</a>
+               ) : <span className="text-[9px] text-zinc-700">LINK_UNAVAILABLE</span>}
+               <button onClick={onClose} className="px-4 py-1 border border-red-900/50 text-red-500 text-[9px] font-black uppercase hover:bg-red-900 tracking-[0.2em]">Release [X]</button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>,
+    document.getElementById('tv-modal-root') || document.body
+  );
+};
+
+// ================= 2. 子组件：好物卡片 (与 Curation 对齐) =================
+
 const GoodiePlate: React.FC<{ item: GoodieItem; onClick: () => void }> = ({ item, onClick }) => {
-  // 定义不同类别的状态
   const isDrink = item.category === 'drink';
   const isPlate = item.category === 'eat' || item.category === 'dining';
-  const isTray = item.category === 'buy';
 
-  // 根据类别设置容器的基本样式（长宽比、圆角、旋转）
-  let containerStyle = "aspect-square rounded-xl rotate-3 group-hover:rotate-0"; // 默认：托盘
+  // --- 1. 杯身/盘子/托盘 的基础形状 ---
+  let containerStyle = "aspect-square rounded-xl rotate-3 group-hover:rotate-0"; 
   if (isDrink) {
-    containerStyle = "aspect-[2/3] rounded-[1.5rem]"; // 瓶子
+    // 咖啡杯：稍微宽一点，底部圆润
+    containerStyle = "aspect-[1.2/1] rounded-b-[2.5rem] rounded-t-md"; 
   } else if (isPlate) {
-    containerStyle = "aspect-square rounded-full"; // 盘子
+    containerStyle = "aspect-square rounded-full"; 
   }
 
-  // 根据类别设置容器的背景和阴影
+  // --- 2. 背景与阴影 ---
   const containerBgStyle = (isDrink || isPlate)
     ? 'bg-[#111] shadow-[10px_10px_30px_-10px_rgba(0,0,0,0.8),inset_-1px_-1px_8px_rgba(255,255,255,0.02)]' 
     : 'bg-[#151515]';
 
-  // 根据类别设置内圈的样式（内缩距离、圆角）
-  let innerRimStyle = "inset-[15%] rounded-lg"; // 默认：托盘内圈
+  // --- 3. 内圈（杯口/盘心） ---
+  let innerRimStyle = "inset-[15%] rounded-lg";
   if (isDrink) {
-    innerRimStyle = "inset-[10%] rounded-[1.2rem]"; // 瓶子内圈
+    // 杯口：椭圆形视觉
+    innerRimStyle = "inset-x-[15%] top-[10%] bottom-[20%] rounded-full opacity-50"; 
   } else if (isPlate) {
-    innerRimStyle = "inset-[15%] rounded-full"; // 盘子内圈
+    innerRimStyle = "inset-[15%] rounded-full"; 
   }
 
-  // 根据类别设置图片容器的样式（宽高、圆角、旋转）
-  let imageContainerStyle = "w-[60%] h-[60%] rounded-md rotate-[-2deg] group-hover:rotate-0"; // 默认：托盘图片
+  // --- 4. 图片容器（液体/食物） ---
+  let imageContainerStyle = "w-[60%] h-[60%] rounded-md rotate-[-2deg] group-hover:rotate-0";
   if (isDrink) {
-    imageContainerStyle = "w-[70%] h-[80%] rounded-[1rem]"; // 瓶子图片（拉高）
+    // 像杯子里的咖啡液
+    imageContainerStyle = "w-[65%] h-[55%] rounded-full mt-2"; 
   } else if (isPlate) {
-    imageContainerStyle = "w-[60%] h-[60%] rounded-full"; // 盘子图片
+    imageContainerStyle = "w-[60%] h-[60%] rounded-full"; 
   }
 
   return (
@@ -102,29 +111,34 @@ const GoodiePlate: React.FC<{ item: GoodieItem; onClick: () => void }> = ({ item
       onClick={onClick}
       className="group cursor-pointer relative flex flex-col items-center"
     >
-      {/* 调整容器最大宽度，与 Curation 的 180px 逻辑一致 */}
-      <div className={`relative w-full flex items-center justify-center max-w-[180px] ${containerStyle}`}>
+      <div className={`relative w-full flex items-center justify-center max-w-[160px] ${containerStyle}`}>
         
-        {/* 外部发光/阴影层 */}
-        <div className={`absolute inset-0 bg-black/40 blur-lg group-hover:bg-red-900/10 transition-all duration-500 ${isDrink ? 'rounded-[1.5rem]' : (isPlate ? 'rounded-full' : 'rounded-xl')}`}></div>
+        {/* --- 咖啡杯特有：杯柄 (Handle) --- */}
+        {isDrink && (
+          <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-8 h-10 border-[6px] border-[#1a1a1a] rounded-r-full border-l-0 z-0 group-hover:translate-x-1 transition-transform"></div>
+        )}
+
+        {/* 外部发光 */}
+        <div className={`absolute inset-0 bg-black/40 blur-lg group-hover:bg-red-900/10 transition-all duration-500 ${isDrink ? 'rounded-b-[2.5rem]' : (isPlate ? 'rounded-full' : 'rounded-xl')}`}></div>
         
-        {/* 主体（瓶子/盘子/托盘） */}
-        <div className={`absolute inset-0 border border-white/5 transition-all duration-700 ${containerBgStyle} ${containerStyle}`}></div>
+        {/* 主体外壳 */}
+        <div className={`absolute inset-0 border border-white/5 transition-all duration-700 ${containerBgStyle} ${containerStyle} z-10`}></div>
         
-        {/* 内凹陷层 */}
-        <div className={`absolute shadow-[inset_0_3px_10px_rgba(0,0,0,0.9)] border border-white/5 bg-[#0a0a0a] ${innerRimStyle}`}></div>
+        {/* 内凹陷层（杯口） */}
+        <div className={`absolute shadow-[inset_0_3px_10px_rgba(0,0,0,0.9)] border border-white/5 bg-[#0a0a0a] ${innerRimStyle} z-10`}></div>
 
         {/* 核心好物图片 */}
-        <div className={`relative overflow-hidden z-10 shadow-xl transition-all duration-700 ease-out group-hover:scale-110 ${imageContainerStyle}`}>
+        <div className={`relative overflow-hidden z-20 shadow-xl transition-all duration-700 ease-out group-hover:scale-110 ${imageContainerStyle}`}>
           <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:rotate-3 transition-transform duration-1000" />
-          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+          {/* 液体反光感 */}
+          {isDrink && <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent pointer-events-none"></div>}
         </div>
 
         {/* 评分印章 */}
         {item.rating && (
-          <div className="absolute top-[8%] right-[8%] z-20 w-10 h-10 rounded-full bg-red-900 border-2 border-red-600/40 flex flex-col items-center justify-center rotate-12 group-hover:-rotate-12 transition-transform shadow-md backdrop-blur-sm">
-             <div className="text-[12px] font-black font-mono text-white leading-none">{item.rating}</div>
-             <div className="text-[5px] font-mono text-red-200 uppercase tracking-tighter">Score</div>
+          <div className="absolute top-[5%] right-[5%] z-30 w-9 h-9 rounded-full bg-red-900 border-2 border-red-600/40 flex flex-col items-center justify-center rotate-12 group-hover:-rotate-12 transition-transform shadow-md backdrop-blur-sm">
+             <div className="text-[11px] font-black font-mono text-white leading-none">{item.rating}</div>
+             <div className="text-[4px] font-mono text-red-200 uppercase tracking-tighter">Score</div>
           </div>
         )}
       </div>
@@ -135,10 +149,10 @@ const GoodiePlate: React.FC<{ item: GoodieItem; onClick: () => void }> = ({ item
           {item.name}
         </h3>
         <div className="flex flex-col items-center gap-0.5">
-           <span className="text-[7px] font-mono text-zinc-600 uppercase tracking-widest px-1.5 py-0.5 border border-zinc-900 rounded-full truncate max-w-full">
+           <span className="text-[7px] font-mono text-zinc-600 uppercase tracking-widest px-1.5 py-0.5 border border-zinc-900 rounded-full">
              {item.restaurant || item.category}
            </span>
-           <p className="text-[9px] text-zinc-600 font-light serif italic line-clamp-1 opacity-60 group-hover:opacity-100">
+           <p className="text-[8px] text-zinc-600 font-light serif italic line-clamp-1 opacity-60">
              “{item.reason}”
            </p>
         </div>
@@ -147,19 +161,16 @@ const GoodiePlate: React.FC<{ item: GoodieItem; onClick: () => void }> = ({ item
   );
 };
 
-// ================= 3. 主组件：全量 Goodies (调整后的网格密度) =================
+// ================= 3. 主组件：Goodies =================
 const Goodies: React.FC = () => {
   const [filter, setFilter] = useState<'all' | 'eat' | 'drink' | 'dining' | 'buy'>('all');
   const [selectedItem, setSelectedItem] = useState<GoodieItem | null>(null);
 
-  const filteredData = filter === 'all' 
-    ? GOODIES_DATA 
-    : GOODIES_DATA.filter(item => item.category === filter);
+  const filteredData = filter === 'all' ? GOODIES_DATA : GOODIES_DATA.filter(item => item.category === filter);
 
   const stats = {
     total: GOODIES_DATA.length,
     food: GOODIES_DATA.filter(i => ['eat', 'drink', 'dining'].includes(i.category)).length,
-    artifact: GOODIES_DATA.filter(i => i.category === 'buy').length
   };
 
   return (
@@ -169,14 +180,13 @@ const Goodies: React.FC = () => {
       </AnimatePresence>
 
       <div className={`space-y-12 pb-32 transition-all duration-500 ${selectedItem ? 'blur-md pointer-events-none scale-95' : ''}`}>
-        
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 border-b border-white/5 pb-12">
           <div className="space-y-4">
             <div className="flex items-center gap-4">
               <span className="w-8 h-px bg-red-600"></span>
               <span className="text-red-600 font-mono text-[10px] tracking-[0.5em] uppercase">Archive_Goodies / 好物归档</span>
             </div>
-            <h2 className="text-5xl md:text-7xl font-black serif leading-none tracking-tighter text-white uppercase">Flavor.<br/>Catalog.</h2>
+            <h2 className="text-5xl md:text-7xl font-black serif leading-none tracking-tighter text-white uppercase">Catalog.</h2>
           </div>
           <div className="flex gap-6 bg-[#0a0a0a] p-4 rounded-xl border border-white/5">
              <div className="text-center px-2">
@@ -192,53 +202,26 @@ const Goodies: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap gap-2 items-center justify-center p-1 bg-zinc-900/30 rounded-full border border-white/5 max-w-xl mx-auto">
-          {[
-            { id: 'all', label: 'ALL' },
-            { id: 'dining', label: 'DINING' },
-            { id: 'eat', label: 'SNACKS' },
-            { id: 'drink', label: 'DRINKS' },
-            { id: 'buy', label: 'ARTIFACTS' }
-          ].map((tab) => (
+          {['all', 'dining', 'eat', 'drink', 'buy'].map((tab) => (
             <button
-              key={tab.id}
-              onClick={() => setFilter(tab.id as any)}
+              key={tab}
+              onClick={() => setFilter(tab as any)}
               className={`px-4 py-1.5 rounded-full text-[9px] font-mono font-bold tracking-widest uppercase transition-all ${
-                filter === tab.id 
-                  ? 'bg-white text-black shadow-md' 
-                  : 'text-zinc-600 hover:text-white hover:bg-white/5'
+                filter === tab ? 'bg-white text-black shadow-md' : 'text-zinc-600 hover:text-white hover:bg-white/5'
               }`}
             >
-              {tab.label}
+              {tab === 'all' ? 'ALL' : tab === 'dining' ? 'DINING' : tab === 'eat' ? 'SNACKS' : tab === 'drink' ? 'DRINKS' : 'ARTIFACTS'}
             </button>
           ))}
         </div>
 
-        {/* 🔥 关键修改：增加网格密度，适配 Curation 风格 */}
-        <motion.div 
-          layout
-          className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-8 gap-x-4 gap-y-10"
-        >
+        <motion.div layout className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-8 gap-x-4 gap-y-10">
           <AnimatePresence mode="popLayout">
             {filteredData.map((item) => (
-              <GoodiePlate 
-                key={item.id} 
-                item={item} 
-                onClick={() => setSelectedItem(item)} 
-              />
+              <GoodiePlate key={item.id} item={item} onClick={() => setSelectedItem(item)} />
             ))}
           </AnimatePresence>
         </motion.div>
-
-        {filteredData.length === 0 && (
-          <div className="py-24 text-center opacity-20">
-            <div className="text-zinc-600 font-mono text-xs uppercase tracking-widest">NO SPECIMENS FOUND</div>
-          </div>
-        )}
-
-        <div className="pt-16 flex flex-col items-center gap-4 opacity-20">
-           <div className="w-px h-8 bg-gradient-to-b from-red-600 to-transparent"></div>
-           <div className="font-mono text-[8px] text-zinc-600 uppercase tracking-[0.6em]">End Archive</div>
-        </div>
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ const StatusBadge: React.FC<{ status?: CurationStatus }> = ({ status }) => {
   if (!status) return null;
   const config = {
     done: { color: 'bg-zinc-600', text: 'ARCHIVED' },
-    processing: { color: 'bg-green-500', text: 'ON LOOP' },
+    processing: { color: 'bg-green-500', text: 'PROCESSING' },
     dropped: { color: 'bg-red-600', text: 'SKIPPED' },
     wishlist: { color: 'bg-blue-500', text: 'DIGGING' },
   };
@@ -51,7 +51,7 @@ const TVDisc: React.FC<{ movie: MovieCuration; index: number; onClick: () => voi
       className="w-full h-full rounded-full border-2 border-white/10 shadow-[-10px_0_20px_rgba(0,0,0,0.5)] overflow-hidden relative group"
       style={{ background: `radial-gradient(circle, #222 15%, #111 16%, #333 20%, #111 25%, #444 30%, #111 35%)` }}
     >
-      <img src={movie.images[0]} className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-80 transition-opacity" alt="" />
+      <img src={movie.images[1]} className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-80 transition-opacity" alt="" />
       <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent"></div>
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="w-10 h-10 bg-black rounded-full border border-white/20 flex items-center justify-center">
@@ -145,36 +145,36 @@ const TVWall: React.FC<{ shows: MovieCuration[]; onClose: () => void; onSelect: 
 const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ movie, onClose }) => {
   return createPortal(
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 z-[500] flex items-center justify-center p-4 pointer-events-auto">
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose}></div>
+      <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" onClick={onClose}></div>
       <motion.div
         initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }}
-        className="relative z-10 w-full max-w-2xl bg-[#0f0f10] border border-zinc-800 rounded-lg overflow-hidden shadow-2xl flex flex-col md:flex-row"
+        className="relative z-10 w-[94vw] md:max-w-2xl bg-[#0f0f10] border border-zinc-800 rounded-lg overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[85vh] md:max-h-[90vh]"
       >
         {/* 左侧封面 */}
-        <div className="w-full md:w-52 h-64 md:h-auto shrink-0 relative bg-zinc-900 border-r border-white/5">
-          <img src={movie.images[0]} className="w-full h-full object-cover opacity-80" />
-          <div className="absolute top-4 left-4"><StatusBadge status={movie.status} /></div>
+        <div className="w-full md:w-52 h-48 md:h-auto shrink-0 relative bg-zinc-900 border-b md:border-b-0 md:border-r border-white/5">
+          <img src={movie.images[1]} className="w-full h-full object-cover opacity-80" />
+          <div className="absolute top-3 left-3 md:top-4 md:left-4"><StatusBadge status={movie.status} /></div>
         </div>
 
         {/* 右侧内容：去掉了黑点纹理 */}
-        <div className="flex-1 p-6 md:p-8 space-y-5 bg-[#0f0f10]">
+        <div className="flex-1 p-5 md:p-8 space-y-4 md:space-y-5 bg-[#0f0f10] overflow-y-auto custom-scrollbar">
           <div className="space-y-1">
-            <div className="flex justify-between items-start">
-              <h2 className="text-xl font-bold text-white tracking-tight leading-tight">{movie.title}</h2>
+            <div className="flex justify-between items-start gap-2">
+              <h2 className="text-lg md:text-xl font-bold text-white tracking-tight leading-tight">{movie.title}</h2>
               <RatingBadge rating={movie.rating} />
             </div>
-            <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">{movie.originalTitle || 'N/A'}</div>
+            <div className="text-[9px] md:text-[10px] font-mono text-zinc-500 uppercase tracking-widest">{movie.originalTitle || 'N/A'}</div>
           </div>
 
-          <div className="grid grid-cols-3 gap-4 border-y border-white/5 py-3 font-mono text-[9px] text-zinc-500 uppercase tracking-widest">
-            <div><span className="block text-zinc-700 mb-1">Year</span>{movie.year || '----'}</div>
-            <div><span className="block text-zinc-700 mb-1">Region</span>{movie.region || '----'}</div>
-            <div><span className="block text-zinc-700 mb-1">Runtime</span>{movie.runtime || '----'}</div>
+          <div className="grid grid-cols-3 gap-2 md:gap-4 border-y border-white/5 py-3 font-mono text-[8px] md:text-[9px] text-zinc-500 uppercase tracking-widest text-center">
+            <div><span className="block text-zinc-700 mb-0.5 md:mb-1">Year</span>{movie.year || '----'}</div>
+            <div><span className="block text-zinc-700 mb-0.5 md:mb-1">Region</span>{movie.region || '----'}</div>
+            <div><span className="block text-zinc-700 mb-0.5 md:mb-1">Runtime</span>{movie.runtime || '----'}</div>
           </div>
 
-          <div className="space-y-4">
-            <div className="pl-4 border-l border-red-900/50">
-               <p className="text-sm text-zinc-300 font-serif italic leading-relaxed">“{movie.review}”</p>
+          <div className="space-y-3">
+            <div className="pl-3 md:pl-4 border-l border-red-900/50">
+               <p className="text-xs md:text-sm text-zinc-300 font-serif italic leading-relaxed">{movie.review}</p>
             </div>
             <div className="flex flex-wrap gap-1.5">
               {movie.tags?.map(tag => (
@@ -183,8 +183,8 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
             </div>
           </div>
 
-          <div className="pt-4 flex justify-end">
-            <button onClick={onClose} className="px-6 py-1.5 bg-zinc-900 hover:bg-red-900 text-zinc-500 hover:text-white transition-all text-[9px] font-mono uppercase border border-white/5 rounded">Close_Dossier</button>
+          <div className="pt-2 flex justify-end">
+            <button onClick={onClose} className="px-4 md:px-6 py-1 md:py-1.5 bg-zinc-900 hover:bg-red-900 text-zinc-500 hover:text-white transition-all text-[8px] md:text-[9px] font-mono uppercase border border-white/5 rounded">Close_Dossier</button>
           </div>
         </div>
       </motion.div>
@@ -196,19 +196,19 @@ const MovieDetail: React.FC<{ movie: MovieCuration; onClose: () => void }> = ({ 
 // 书籍详情
 const BookDetail: React.FC<{ book: BookCuration; onClose: () => void }> = ({ book, onClose }) => {
   return createPortal(
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 z-[500] flex items-center justify-center p-4 pointer-events-auto">
-      <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" onClick={onClose}></div>
-      <motion.div 
-        initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} 
-        className={`relative z-10 w-full max-w-2xl ${book.bgColor || 'bg-zinc-900'} border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[85vh]`}
-      >
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 z-[500] flex items-center justify-center p-4 pointer-events-auto">
+        <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" onClick={onClose}></div>
+        <motion.div 
+          initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} 
+          className={`relative z-10 w-[92vw] md:max-w-2xl ${book.bgColor || 'bg-zinc-900'} border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[85vh]`}
+        >
          {/* 左侧封面：缩小尺寸 */}
-         <div className="w-full md:w-56 bg-black/20 p-6 flex flex-col items-center justify-center shrink-0 border-r border-white/5 relative">
-            <div className="absolute top-5 left-5"><StatusBadge status={book.status} /></div>
-            <div className="w-24 md:w-28 aspect-[2/3] shadow-2xl rounded overflow-hidden rotate-3 hover:rotate-0 transition-transform duration-500">
+          <div className="w-full md:w-48 bg-black/20 p-5 md:p-6 flex flex-row md:flex-col items-center justify-center md:justify-center gap-4 shrink-0 border-b md:border-b-0 md:border-r border-white/5 relative">
+            <div className="absolute top-4 left-4"><StatusBadge status={book.status} /></div>
+            <div className="w-20 md:w-28 aspect-[2/3] shadow-xl rounded overflow-hidden rotate-2 md:rotate-3">
               <img src={book.coverImage} className="w-full h-full object-cover" />
             </div>
-            <div className="mt-6 text-center"><RatingBadge rating={book.rating} /></div>
+            <RatingBadge rating={book.rating} />
          </div>
 
          {/* 右侧内容：缩小内边距和字号 */}
@@ -249,7 +249,7 @@ const MusicDetail: React.FC<{ music: MusicCuration; onClose: () => void }> = ({ 
            <div className="flex justify-between items-center text-[8px] font-mono text-zinc-600 uppercase tracking-widest"><span>NO. {music.id}</span><span>AUDIO_LOG</span></div>
            <div className="space-y-3">
               <div><h2 className="text-xl md:text-2xl font-black serif text-white tracking-tight leading-none mb-1">{music.title}</h2><div className="text-red-600 font-mono text-xs tracking-widest uppercase">{music.artist}</div></div>
-              <p className="text-zinc-400 font-serif italic text-xs leading-relaxed">“{music.review}”</p>
+              <p className="text-zinc-400 font-serif italic text-xs leading-relaxed">{music.review}</p>
            </div>
            <div className="flex gap-1.5">{music.tags?.slice(0, 2).map(tag => <span key={tag} className="px-1.5 py-0.5 border border-zinc-800 rounded text-[7px] mono text-zinc-600 uppercase tracking-widest">#{tag}</span>)}</div>
         </div>
@@ -348,7 +348,7 @@ const CharacterFolder: React.FC<{ char: Character; onClose: () => void }> = ({ c
 
               <div className="col-span-2 pt-1">
                 <label className="text-[7px] text-zinc-500 block uppercase">Remarks / Profile</label>
-                <p className="text-[10px] leading-tight font-serif italic text-zinc-600 line-clamp-3">“{char.desc}”</p>
+                <p className="text-[10px] leading-tight font-serif italic text-zinc-600 line-clamp-3">{char.desc}</p>
               </div>
 
               {/* 底部条形码和印章 */}
@@ -425,7 +425,7 @@ const Curation: React.FC = () => {
             <span className="w-8 h-px bg-red-600"></span>
             <span className="text-red-600 font-mono text-xs tracking-[0.5em] uppercase">Archive / 档案馆</span>
           </div>
-          <h2 className="text-6xl md:text-8xl font-black serif leading-none tracking-tighter text-white uppercase">Archives.</h2>
+          <h2 className="text-5xl md:text-7xl font-black serif leading-none tracking-tighter text-white uppercase">Archives.</h2>
         </div>
 
         {/* 🎬 影视板块 (光盘堆叠 + CD盒) */}

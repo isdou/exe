@@ -18,7 +18,7 @@ export const GOODIES_DATA: GoodieItem[] = [
     name: 'Blue Bottle Coffee Beans',
     category: 'drink',
     description: 'Bella Donovan Blend. 即使是速溶时代，也要保留磨豆子时的那两分钟仪式感。',
-    image: 'images/coffee-beans.jpg',
+    image: 'images/coffee.webp',
     price: '¥128',
     reason: 'Daily Ritual',
     recordDate: '2025-03-26'
@@ -28,7 +28,7 @@ export const GOODIES_DATA: GoodieItem[] = [
     name: 'HHKB Professional Hybrid',
     category: 'buy',
     description: '静电容键盘的手感是会上瘾的。它不是工具，是手指的延伸。',
-    image: 'images/keyboard.jpg',
+    image: 'images/keyboard.png',
     price: '¥2300',
     reason: 'Productivity',
     recordDate: '2025-03-27'

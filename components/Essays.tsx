@@ -1,36 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Article } from '../types';
+import React, { useState, useMemo } from 'react';
+// 📍 修改 1: 引入 useParams 和 useNavigate
+import { useParams, useNavigate } from 'react-router-dom';
 import { MOCK_ESSAYS } from '../essaysData';
 
 const Essays: React.FC = () => {
-  const [selectedEssay, setSelectedEssay] = useState<Article | null>(null);
-  // 📍 改动 1: 新增语言状态控制 (默认为中文)
+  // 📍 修改 2: 移除原来的 [selectedEssay, setSelectedEssay] 状态
+  // 改为从 URL 获取 id 参数
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  
   const [currentLang, setCurrentLang] = useState<'cn' | 'en'>('cn');
-  const location = useLocation();
-  // 根据当前语言返回对应的字体类名
-  const getSerifClass = () => {
-    return currentLang === 'cn' ? 'font-cn-serif' : 'font-en-serif';
-  };
 
+  // 📍 修改 3: 根据 URL 中的 id 自动计算当前选中的文章
+  const currentEssay = useMemo(() => {
+    if (!id) return null;
+    return MOCK_ESSAYS.find(e => e.id === id && e.lang === currentLang);
+  }, [id, currentLang]);
 
-  useEffect(() => {
-    setSelectedEssay(null);
-  }, [location.pathname]);
+  const getSerifClass = () => currentLang === 'cn' ? 'font-cn-serif' : 'font-en-serif';
 
-  // 📍 改动 2: 语言切换逻辑
-  // 当在文章详情页切换语言时，自动寻找具有相同 groupId 但语言不同的文章
+  // 📍 修改 4: 增强语言切换逻辑
+  // 切换语言时，如果正在看文章，自动寻找另一语言的对应 ID 并跳转链接
   const handleToggleLang = (lang: 'cn' | 'en') => {
     setCurrentLang(lang);
-    if (selectedEssay) {
+    if (id && currentEssay) {
       const peerEssay = MOCK_ESSAYS.find(
-        e => e.groupId === selectedEssay.groupId && e.lang === lang
+        e => e.groupId === currentEssay.groupId && e.lang === lang
       );
-      if (peerEssay) setSelectedEssay(peerEssay);
+      if (peerEssay) {
+        navigate(`/essays/${peerEssay.id}`); // 切换语言时更新 URL
+      }
     }
   };
 
-  // 📍 改动 3: 语言切换 UI 组件 (通用)
   const LangSwitcher = () => (
     <div className="flex gap-4 font-mono text-[10px] tracking-widest">
       <button 
@@ -49,13 +51,15 @@ const Essays: React.FC = () => {
     </div>
   );
 
-  if (selectedEssay) {
+  // 📍 修改 5: 详情页渲染逻辑 (由 currentEssay 驱动)
+  if (id && currentEssay) {
     return (
       <div className="absolute inset-0 bg-black z-[200] overflow-y-auto px-6 py-12 md:px-12 md:py-20 custom-scrollbar">
         <div className="max-w-5xl mx-auto space-y-16 pb-24">
           <div className="flex justify-between items-center">
+            {/* 📍 返回按钮：改为导航回列表页链接 */}
             <button
-              onClick={() => setSelectedEssay(null)}
+              onClick={() => navigate('/essays')}
               className="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors mono text-[10px] uppercase tracking-widest group"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:-translate-x-1 transition-transform">
@@ -63,28 +67,26 @@ const Essays: React.FC = () => {
               </svg>
               BACK TO DIRECTORY
             </button>
-            
-            {/* 详情页语言切换 */}
             <LangSwitcher />
           </div>
 
           <div className="space-y-8">
             <div className="flex items-center gap-4 text-[10px] font-mono text-zinc-500 tracking-widest uppercase">
-              <span>{selectedEssay.date}</span>
+              <span>{currentEssay.date}</span>
               <span className="w-1 h-1 bg-red-600 rounded-full"></span>
-              <span>{selectedEssay.category}</span>
+              <span>{currentEssay.category}</span>
+              <span className="w-1 h-1 bg-zinc-800 rounded-full"></span>
+              <span className="text-zinc-700">INDEX: #{currentEssay.id}</span>
             </div>
-            {/* 📍 改动 C: 标题字体应用动态类名 */}
             <h1 className={`text-4xl md:text-6xl font-bold leading-tight text-white tracking-tighter ${getSerifClass()}`}>
-              {selectedEssay.title}
+              {currentEssay.title}
             </h1>
             <div className="w-16 h-[1px] bg-red-600"></div>
           </div>
 
           <div className="prose prose-invert prose-zinc max-w-none">
-            {selectedEssay.content?.split('\n').map((para, i) => (
+            {currentEssay.content?.split('\n').map((para, i) => (
               para.trim() && (
-                /* 📍 改动 D: 正文字体应用动态类名 */
                 <p key={i} className={`text-zinc-300 text-lg leading-loose font-light mb-8 opacity-90 whitespace-pre-wrap ${getSerifClass()}`}>
                   {para.trim()}
                 </p>
@@ -92,15 +94,28 @@ const Essays: React.FC = () => {
             ))}
           </div>
 
-          <div className="pt-16 border-t border-white/5 flex justify-between items-center text-zinc-600 mono text-[9px] uppercase tracking-widest">
-            <span>Transmission Terminated</span>
-            <span>END OF BUFFER</span>
+          {/* 📍 增加：点击复制索引链接功能 */}
+          <div className="flex flex-col gap-2 pt-16 border-t border-white/5">
+            <div className="flex justify-between items-center text-zinc-600 mono text-[9px] uppercase tracking-widest">
+                <span>Transmission Terminated</span>
+                <span>END OF BUFFER</span>
+            </div>
+            <button 
+                onClick={() => {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert("ARCHIVE_LINK_COPIED");
+                }}
+                className="self-start mt-4 px-3 py-1 border border-zinc-900 text-zinc-700 text-[8px] mono uppercase hover:text-red-600 hover:border-red-900 transition-all"
+            >
+                Copy_Shareable_Index_Link
+            </button>
           </div>
         </div>
       </div>
     );
   }
 
+  // 📍 列表页渲染
   return (
     <div className="space-y-24">
       <div className="flex flex-col md:flex-row justify-between items-end gap-12 border-b border-white/5 pb-16">
@@ -114,19 +129,17 @@ const Essays: React.FC = () => {
             }
           </p>
         </div>
-        
-        {/* 列表页语言切换 */}
         <div className="pb-2">
            <LangSwitcher />
         </div>
       </div>
 
       <div className="divide-y divide-white/5">
-        {/* 📍 改动 4: 列表过滤逻辑 - 只显示当前语言的文章 */}
         {MOCK_ESSAYS.filter(e => e.lang === currentLang).map((essay) => (
           <article
             key={essay.id}
-            onClick={() => setSelectedEssay(essay)}
+            // 📍 修改 6: 点击列表项改为跳转 URL 路径
+            onClick={() => navigate(`/essays/${essay.id}`)}
             className="group py-8 cursor-pointer flex flex-col md:flex-row md:items-center gap-6 md:gap-16 hover:bg-white/[0.02] -mx-6 px-6 transition-colors"
           >
             <div className="md:w-32 shrink-0">

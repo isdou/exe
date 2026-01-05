@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import { createHashRouter, RouterProvider, Navigate } from 'react-router-dom';
 import App from './App';
 import './index.css';
 
@@ -13,20 +13,20 @@ import Journal from './components/Journal';
 import Kernel from './components/About';
 import Now from './components/Now';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <App />, 
     children: [
       { index: true, element: <Home /> },
       { path: "essays", element: <Essays /> },
+      { path: "essays/:id", element: <Essays /> },
       { path: "curation", element: <Curation /> },
       { path: "travel", element: <Travel /> },
       { path: "goodies", element: <Goodies /> },
       { path: "journal", element: <Journal /> },
       { path: "about", element: <Kernel /> },
       { path: "now", element: <Now /> },
-      // 捕获所有未匹配路径，重定向到首页，防止 404 报错
       { path: "*", element: <Navigate to="/" replace /> }
     ],
   },

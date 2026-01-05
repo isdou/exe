@@ -18,7 +18,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     });
     if (!showRes.ok) {
-        return res.status(showRes.status).json({ error: 'Trakt API Error' });
+        return res.status(showRes.status).json({ error: 'Trakt API Access Denied' });
       }
 
     // 2. 获取演员表 (Cast)

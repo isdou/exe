@@ -52,7 +52,7 @@ export const MOCK_JOURNAL: JournalEntry[] = [
     `,// 日记内容
     mood: 'Lazy'        // (可选) 当时的心情标签
   },
-      {
+  {
     id: 'j-2026-01-04',       // 唯一ID，随便写，别重复就行
     year: 2026,               // 年份
     month: 1,                // 月份
@@ -61,5 +61,15 @@ export const MOCK_JOURNAL: JournalEntry[] = [
         无望的等待是世界上最残忍的事情之一
     `,// 日记内容
     mood: 'Lazy'        // (可选) 当时的心情标签
+  },
+    {
+    id: 'j-2026-01-05',       // 唯一ID，随便写，别重复就行
+    year: 2026,               // 年份
+    month: 1,                // 月份
+    day: 5,                  // 日期
+    content: `
+        明白了为什么Line of Duty 是英国人的春晚，世界上怎么有这么有才华的编剧...
+    `,// 日记内容
+    mood: '小寒'        // (可选) 当时的心情标签
   },
 ];

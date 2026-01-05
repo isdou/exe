@@ -417,7 +417,7 @@ const Curation: React.FC = () => {
         )}
       </AnimatePresence>
 
-      <div className={`space-y-24 pb-32 transition-all duration-500 ${selectedMovie || selectedBook || selectedMusic || selectedChar || showTVWall ? 'blur-md pointer-events-none' : ''}`}>
+      <div className={`space-y-12 pb-32 transition-all duration-500 ${selectedMovie || selectedBook || selectedMusic || selectedChar || showTVWall ? 'blur-md pointer-events-none' : ''}`}>
         
         {/* Header */}
         <div className="space-y-6">
@@ -429,7 +429,7 @@ const Curation: React.FC = () => {
         </div>
 
         {/* 🎬 影视板块 (光盘堆叠 + CD盒) */}
-        <section className="space-y-12">
+        <section className="space-y-8">
           <div className="flex justify-between items-end border-b border-white/5 pb-4">
             <h3 className="text-2xl font-mono font-bold text-zinc-500 tracking-tighter">/ CINEMA_DB</h3>
             <button onClick={() => setShowTVWall(true)} className="flex items-center gap-2 px-3 py-1 border border-green-900/50 rounded text-green-600 hover:bg-green-900 hover:text-white transition-all">
@@ -438,7 +438,7 @@ const Curation: React.FC = () => {
             </button>
           </div>
 
-          <div className="space-y-16">
+          <div className="space-y-10">
             {/* 电视剧堆叠 */}
             <div className="space-y-6">
                <div className="text-[10px] font-mono text-zinc-700 uppercase tracking-widest">Series_Stacks (DVD)</div>
@@ -461,7 +461,7 @@ const Curation: React.FC = () => {
         </section>
 
         {/* 📚 书架板块 */}
-        <section className="space-y-10">
+        <section className="space-y-6">
           <div className="flex justify-between items-end border-b border-white/5 pb-4">
             <h3 className="text-2xl font-mono font-bold text-zinc-500 tracking-tighter">/ LIBRARY_SHELF</h3>
             <span className="text-[10px] font-mono text-zinc-700 uppercase">Slide to explore</span>
@@ -480,7 +480,7 @@ const Curation: React.FC = () => {
         </section>
 
         {/* 🎵 音乐板块 */}
-        <section className="space-y-10">
+        <section className="space-y-6">
           <div className="flex justify-between items-end border-b border-white/5 pb-4"><h3 className="text-2xl font-mono font-bold text-zinc-500 tracking-tighter">/ AUDIO_VINYLS</h3></div>
           <div className="flex overflow-x-auto pb-12 pt-4 px-12 custom-scrollbar">
              {sortedMusic.map((mu, i) => (
@@ -490,7 +490,7 @@ const Curation: React.FC = () => {
         </section>
 
         {/* 👤 角色板块 */}
-        <section className="space-y-10 pt-16 border-t border-white/5">
+        <section className="space-y-6 pt-8 border-t border-white/5">
            <div className="flex items-center gap-4"><div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div><h3 className="text-2xl font-black serif text-white tracking-tight">Character Hall of Fame</h3></div>
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
              {CHARACTERS.map(char => (

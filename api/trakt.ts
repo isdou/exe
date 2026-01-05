@@ -2,6 +2,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+
+  console.log("Using API Key:", process.env.TRAKT_CLIENT_ID ? "PRESENT" : "MISSING");
   const { slug } = req.query;
 
   if (!slug) {
@@ -42,10 +44,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       status: showData.status,
       network: showData.network,
       runtime: `${showData.runtime}m`,
-      totalSeasons: showData.aired_episodes > 0 ? `${showData.seasons[showData.seasons.length - 1].number} Seasons` : 'N/A',
+      totalSeasons: (showData.seasons && showData.seasons.length > 0) 
+    ? `${showData.seasons[showData.seasons.length - 1].number} Seasons` 
+    : 'N/A',
       description: showData.overview,
-      cast: peopleData.cast?.slice(0, 5).map((person: any) => person.person.name), // 只取前5个主演
+      cast: peopleData.cast?.slice(0, 5).map((person: any) => person.person.name) || [],
     };
+
+    // 增加一个容错判断
+    const apiKey = process.env.TRAKT_CLIENT_ID;
+    if (!apiKey) {
+      return res.status(500).json({ error: 'Server configuration error: Missing API Key' });
+    }
 
     // 设置缓存控制，避免频繁请求 API
     res.setHeader('Cache-Control', 's-maxage=86400'); 

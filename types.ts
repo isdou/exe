@@ -88,6 +88,7 @@ export interface Character {
   rank: number;   // 排名
   biography?: string; // ✨ 新增：人物小传（长文）
   mbti?: string;      // ✨ 新增：MBTI 属性
+  birthYear?: string;
 }
 
 export interface GoodieItem {

@@ -8,9 +8,9 @@ export const CHARACTERS: Character[] = [
     name: 'Chandler Bing',
     source: 'Friends',
     actor: 'Matthew Perry',
-    biography: '', // ✨ 新增：人物小传（长文）
-    mbti: 'ENTP',    // ✨ 新增：MBTI 属性
     desc: 'The deadpan snarker.',
+    mbti: 'ENTP',
+    birthYear: '1968',
     avatar: 'images/chandler.png'
   },
   {
@@ -19,9 +19,9 @@ export const CHARACTERS: Character[] = [
     name: 'Patrick Jane',
     source: 'The Mentalist',
     actor: 'Simon Baker',
-    biography: '很不巧又是一个ENTP',// ✨ 新增：人物小传（长文）
-    mbti: 'ENTP',    // ✨ 新增：MBTI 属性
     desc: '最接近银时真人的一个角色',
+    mbti: 'ENTP',
+    birthYear: '1974',
     avatar: 'images/patrick.webp'
   }
 ];
@@ -31,66 +31,114 @@ export const CHARACTERS: Character[] = [
  * 影视档案馆 (Movies Database)
  * ============================================================
  */
-/*
- * isdou_exe / Digital Archive / Curation Data
- * 逻辑：ID 必须与 Trakt.tv 的 URL Slug 保持一致以实现自动化补全
- */
-
-export const MOVIES: any[] = [
+export const MOVIES: MovieCuration[] = [
   {
-    id: 'person-of-interest', // 对应 Trakt: person-of-interest
+    id: 'm1',
     title: '疑犯追踪',
+    originalTitle: 'Person of Interest',
+    director: 'Chris Fisher/Jonathan Nolan',
+    year: '2011',
+    region: 'USA',
+    genre: '科幻 / 悬疑',
+    runtime: '5 seasons',
+    images: [
+      'images/poi1.jpg',
+      'images/poi2.jpg'
+    ],
     review: '新的一年，最恨的人还是Jonathan Nolan',
-    rating: 9.8,
-    tags: ['Sci-Fi', 'AI', 'Crime', 'Action'],
-    recordDate: '2018-01-01',
-    onWall: true,
+    rating: 9.5,
+    tags: ['Sci-Fi', 'AI', 'Crime','Action'],
+    status: 'done',
+    // 补全字段防止报错
     isTV: true,
-    images: ['images/poi1.jpg', 'images/poi2.jpg'], // 本地备份海报
+    onWall: true, 
+    totalDuration: '5 Seasons',
+    cast: ['Jim Caviezel', 'Michael Emerson']
   },
   {
-    id: 'frasier', // 对应 Trakt: frasier (1993 版)
+    id: 'm2',
     title: 'Frasier',
-    review: '还是喜欢看学院派喜剧啊，台词风趣幽默有深度，优雅温馨不低俗。',
+    originalTitle: 'Frasier',
+    director: 'David Angell',
+    year: '1993',
+    region: 'USA',
+    genre: '情景喜剧',
+    runtime: '11 Seasons',
+    images: [
+      'images/fra1.jpg',
+      'images/fra2.jpg'
+    ],
+    review: '还是喜欢看学院派喜剧啊，台词风趣幽默有深度，优雅温馨不低俗，太好了，想以现在的年龄回到九十年代。',
     rating: 9.2,
     tags: ['Sitcom', 'Classic', 'Comedy'],
-    recordDate: '2025-11-01',
-    onWall: true,
+    status: 'processing',
     isTV: true,
-    images: ['images/fra1.jpg', 'images/fra2.jpg'],
+    onWall: true, 
+    totalDuration: '11 Seasons',
+    cast: ['Kelsey Grammer', 'David Hyde Pierce']
   },
   {
-    id: 'monk', // 对应 Trakt: monk
+    id: 'm3',
     title: 'Monk',
+    originalTitle: 'Monk',
+    director: 'Randy Zisk',
+    year: '2002',
+    region: 'USA',
+    genre: '犯罪 / 悬疑',
+    runtime: '8 Seasons',
+    images: [
+      'images/monk1.jpg',
+      'images/monk2.jpg'
+    ],
     review: '完全怀疑这就是Sheldon的参考人物',
     rating: 8.7,
     tags: ['Crime', 'Mystery', 'Comedy'],
-    recordDate: '2025-12-01',
-    onWall: false,
+    status: 'done',
     isTV: true,
-    images: ['images/monk1.jpg', 'images/monk2.jpg'],
+    totalDuration: '8 Seasons',
+    cast: ['Tony Shalhoub']
   },
   {
-    id: 'yao-chinese-folktales', // 对应 Trakt: yao-chinese-folktales
+    id: 'm4',
     title: '中国奇谭 2',
+    originalTitle: 'Yao-Chinese Folktales 2',
+    director: '陈廖宇/张俊杰',
+    year: '2026',
+    region: 'CHINA',
+    genre: '动画 / 奇幻',
+    runtime: ' 2 Seasons',
+    images: [
+      'images/zgqt1.jpg',
+      'images/zgqt2.jpg'
+    ],
     review: '我还是喜欢看国产爱死机',
     rating: 9,
-    tags: ['Donghua', 'Fantasy', 'Sci-Fi'],
-    recordDate: '2026-01-01',
-    onWall: false,
+    tags: ['Donghua', 'Fantasy', 'Science Fiction'],
+    status: 'processing',
     isTV: true,
-    images: ['images/zgqt1.jpg', 'images/zgqt2.jpg'],
+    totalDuration: '2 Seasons',
+    cast: []
   },
-  {
-    id: 'will-grace', // 对应 Trakt: will-grace
+    {
+    id: 'm5',
     title: 'Will & Grace',
-    review: 'Classic gay-straight friendship. Where there\'s a Will there\'s a Grace.',
+    originalTitle: 'Will & Grace',
+    director: 'James Burrows',
+    year: '1998',
+    region: 'USA',
+    genre: '喜剧 / 友情',
+    runtime: ' 2d 23h 8m',
+    images: [
+      'images/willgrace1.jpg',
+      'images/willgrace2.jpg'
+    ],
+    review: 'gay-straight friendship,Where there’s a Will there‘s a Grace.',
     rating: 9,
-    tags: ['Comedy', 'Friendship', 'Sitcom'],
-    recordDate: '2026-01-04',
-    onWall: false,
+    tags: ['Comedy', 'friendship', 'Sitcom'],
+    status: 'processing',
     isTV: true,
-    images: ['images/willgrace1.jpg', 'images/willgrace2.jpg'],
+    totalDuration: '11 Seasons',
+    cast: []
   },
 ];
 
@@ -112,7 +160,6 @@ export const BOOKS: BookCuration[] = [
     tags: ['小说', '荒诞'],
     status: 'processing',
     readingDate: '2026-01-04',
-    recordDate:'2026-01-04',
     isbn: '9787532761760',
     wordCount: '65k',
   },  
@@ -128,7 +175,6 @@ export const BOOKS: BookCuration[] = [
     tags: ['小说', '荒诞'],
     status: 'processing',
     readingDate: '2026-01-04',
-    recordDate:'2026-01-04',
     isbn: '9787533977481',
     wordCount: '161k',
   },  
@@ -144,7 +190,6 @@ export const BOOKS: BookCuration[] = [
     tags: ['小说', '荒诞'],
     status: 'processing',
     readingDate: '2026-01-01',
-    recordDate:'2026-01-01',
     isbn: '9787532761760',
     wordCount: '65k',
   }, 
@@ -160,7 +205,6 @@ export const BOOKS: BookCuration[] = [
     tags: ['流亡', '女性叙事'],
     status: 'done',
     readingDate: '2024-12-29',
-    recordDate:'2024-12-29',
     isbn: '9787547745809',
     wordCount: '131k',
   }, 
@@ -176,7 +220,6 @@ export const BOOKS: BookCuration[] = [
     tags: ['韩国文学', '女性叙事'],
     status: 'done',
     readingDate: '2025-03-25',
-    recordDate:'2025-03-25',
     isbn: '9787505756854',
     wordCount: '160k',
   },
@@ -192,7 +235,6 @@ export const BOOKS: BookCuration[] = [
     tags: ['韩国文学', '女性叙事'],
     status: 'done',
     readingDate: '2025-03-04',
-    recordDate:'2025-03-04',
     isbn: '9787516835265',
     wordCount: '134k',
   },
@@ -208,7 +250,6 @@ export const BOOKS: BookCuration[] = [
     tags: ['短篇小说', '生活'],
     status: 'done',
     readingDate: '2025-03-25',
-    recordDate:'2025-03-25',
     isbn: '9787559669254',
     wordCount: '56k',
   }
@@ -228,7 +269,6 @@ export const MUSIC: MusicCuration[] = [
     year: '2023',
     coverImage: 'images/missher.jpeg', 
     review: '2025 单曲循环第一名',
-    recordDate:'2024-12-29',
     link: 'https://open.spotify.com/track/5Cb7Jq85mWeYrmMGtmez2h?si=12abf7bc238c48fa', 
     rating: 9.8,
     tags: ['Love'],
@@ -242,7 +282,6 @@ export const MUSIC: MusicCuration[] = [
     year: '2021',
     coverImage: 'images/smdlm1.jpeg',
     review: '🤔',
-    recordDate:'2022-12-29',
     link: 'https://open.spotify.com/album/4ivCItVB0FKCtmIkVbEg04?si=4-1WXBBbQ_KEBN5BMUxQBw',
     rating: 10,
     tags: ['sad', 'Classic'],

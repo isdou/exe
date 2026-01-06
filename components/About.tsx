@@ -32,7 +32,7 @@ const PROTOCOLS = [
   {
     icon: '🐛',
     title: 'Known Bugs',
-    desc: '在感性决策模块偶尔出现卡顿。对细节的强迫症可能导致项目延期。'
+    desc: '在感性决策模块偶尔出现卡顿。'
   }
 ];
 

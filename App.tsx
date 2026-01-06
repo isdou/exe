@@ -3,7 +3,6 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { NavTab } from './types';
 import Remote from './components/Remote';
 import BezelNav from './components/BezelNav';
-import { Analytics } from '@vercel/analytics/react'; 
 
 const App: React.FC = () => {
   const [power, setPower] = useState(true);

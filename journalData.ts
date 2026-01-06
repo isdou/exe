@@ -72,4 +72,14 @@ export const MOCK_JOURNAL: JournalEntry[] = [
     `,// 日记内容
     mood: '小寒'        // (可选) 当时的心情标签
   },
+    {
+    id: 'j-2026-01-06',       
+    year: 2026,               
+    month: 1,                
+    day: 6,                  
+    content: `
+        今天点了 Cotti 的咸法酪香草拿铁，半糖（竟然只有全糖和半糖的选项），没有一点香草味且非常之甜，再也不会上 Cotti 的当了。
+    `,// 日记内容
+    mood: '-'        // (可选) 当时的心情标签
+  },
 ];

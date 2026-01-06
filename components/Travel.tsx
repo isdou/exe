@@ -1,346 +1,209 @@
-import React, { useState, useEffect } from 'react';
-import { TravelSpot } from '../types';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import * as d3 from 'd3-geo'; 
 import { MOCK_TRAVEL } from '../travelData';
+import { LayoutGrid, Globe, X, ChevronLeft, ChevronRight, Zap } from 'lucide-react';
 
-// --- 1. 辅助组件：解密文字特效 ---
+// --- 1. 投影与路径生成器配置 ---
+// 使用等距圆柱投影，将经纬度精准映射到 800x450 的 SVG 画布
+const projection = d3.geoEquirectangular().scale(130).translate([400, 225]);
+const pathGenerator = d3.geoPath().projection(projection);
+
+// --- 2. 辅助组件：解密文字 ---
 const DecryptedText: React.FC<{ text: string; className?: string }> = ({ text, className }) => {
   const [displayText, setDisplayText] = useState(text);
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%&";
-
   useEffect(() => {
-    let iterations = 0;
+    let i = 0;
     const interval = setInterval(() => {
-      setDisplayText(text
-        .split("")
-        .map((letter, index) => {
-          if (index < iterations) {
-            return text[index];
-          }
-          return chars[Math.floor(Math.random() * chars.length)];
-        })
-        .join("")
-      );
-
-      if (iterations >= text.length) {
-        clearInterval(interval);
-      }
-      
-      iterations += 1 / 2;
+      setDisplayText(text.split("").map((l, idx) => idx < i ? text[idx] : "X#$%"[Math.floor(Math.random()*4)]).join(""));
+      if (i >= text.length) clearInterval(interval);
+      i += 1/3;
     }, 30);
-
     return () => clearInterval(interval);
   }, [text]);
-
   return <h2 className={className}>{displayText}</h2>;
 };
 
-// --- 2. 辅助组件：详情弹窗 ---
-const ExpeditionDetails: React.FC<{ spot: TravelSpot; onClose: () => void }> = ({ spot, onClose }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 50 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: 50 }}
-    className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl p-8 md:p-20 overflow-y-auto"
-  >
-    <div className="max-w-4xl mx-auto space-y-16">
-      <div className="flex justify-between items-start">
-        <div className="space-y-4">
-          <div className="px-3 py-1 bg-red-600 inline-block text-[10px] text-white mono uppercase tracking-widest">Confirmed Location</div>
-          <h1 className="text-5xl md:text-7xl font-black serif text-white tracking-tighter">{spot.city}</h1>
-        </div>
-        <button onClick={onClose} className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-        </button>
-      </div>
-
-      <div className="aspect-[21/9] rounded-[3rem] overflow-hidden border border-white/10">
-        <img src={spot.images[0]} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pt-12 border-t border-white/5">
-        <div className="md:col-span-2 space-y-8">
-           <h3 className="text-red-600 mono text-xs uppercase tracking-[0.5em] font-bold">Field Notes / 现场手记</h3>
-           <p className="text-zinc-300 text-2xl leading-relaxed serif italic font-light">
-             {spot.description} 这里的空气中弥漫着某种数字时代之前才有的质感。逻辑在这里停滞，唯有直觉在发芽。
-           </p>
-        </div>
-        <div className="space-y-8">
-           <div className="space-y-4">
-             <div className="text-zinc-600 mono text-[9px] uppercase tracking-widest">Coordinates</div>
-             <div className="text-white mono text-sm">{spot.coordinate}</div>
-           </div>
-           <div className="space-y-4">
-             <div className="text-zinc-600 mono text-[9px] uppercase tracking-widest">Exploration Date</div>
-             <div className="text-white mono text-sm">{spot.date}</div>
-           </div>
-        </div>
-      </div>
-    </div>
-  </motion.div>
-);
-
-// --- 3. 新增组件：2D 战术地图视图 (增强版：区域点亮) ---
+// --- 3. 核心组件：战术地图 (交互式名称显示) ---
 const TacticalMap: React.FC<{ activeIndex: number; onSelect: (idx: number) => void }> = ({ activeIndex, onSelect }) => {
-  // 坐标映射逻辑
-  const getPos = (lat: number, lng: number) => ({
-    x: (lng + 180) * (100 / 360),
-    y: (90 - lat) * (100 / 180)
-  });
+  const [geoData, setGeoData] = useState<any>(null);
+
+  // 从 public 文件夹加载地图数据
+  useEffect(() => {
+    fetch('/world.json').then(res => res.json()).then(data => setGeoData(data));
+  }, []);
+
+  // 根据坐标自动计算点亮国家
+  const litCountries = useMemo(() => {
+    if (!geoData) return new Set<string>();
+    const sets = new Set<string>();
+    MOCK_TRAVEL.forEach(spot => {
+      const country = geoData.features.find((f: any) => d3.geoContains(f, [spot.lng, spot.lat]));
+      if (country) sets.add(country.id || country.properties.name);
+    });
+    return sets;
+  }, [geoData]);
+
+  if (!geoData) return <div className="h-full flex items-center justify-center font-mono text-zinc-800 animate-pulse">INITIATING_SECURE_MAP...</div>;
 
   return (
-    <div className="w-full h-full flex items-center justify-center relative bg-[#080808] rounded-3xl overflow-hidden border border-white/10 shadow-[inset_0_0_100px_rgba(0,0,0,0.8)]">
-      
-      {/* 装饰：网格线背景 */}
-      <div className="absolute inset-0 z-0 opacity-10" 
-           style={{ backgroundImage: 'linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
-      </div>
+    <div className="w-full h-full flex items-center justify-center relative bg-[#050505] rounded-[3rem] overflow-hidden border border-zinc-900 shadow-[inset_0_0_100px_rgba(0,0,0,1)]">
+      <div className="absolute inset-0 z-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
+      <div className="relative w-full max-w-6xl aspect-[16/9] z-10 px-8">
+        <svg viewBox="0 0 800 450" className="w-full h-full">
+          {/* 国家版块点亮渲染 */}
+          <g className="map-sectors">
+            {geoData.features.map((f: any, i: number) => {
+              const cid = f.id || f.properties.name;
+              const isLit = litCountries.has(cid);
+              return (
+                <path key={i} d={pathGenerator(f) || ""} 
+                  className={`transition-all duration-1000 ${isLit ? "fill-red-600/30 stroke-red-500 stroke-[0.8] animate-pulse" : "fill-zinc-900/40 stroke-zinc-800 stroke-[0.3]"}`} 
+                />
+              );
+            })}
+          </g>
 
-      {/* 地图容器 */}
-      <div className="relative w-full max-w-5xl aspect-[2/1] z-10 select-none">
-        
-        {/* A. 底图：世界地图 (反色处理) */}
-        <img 
-          src="https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg" 
-          className="absolute inset-0 w-full h-full object-fill opacity-30 pointer-events-none"
-          style={{ filter: 'invert(1) contrast(0.8) brightness(0.8)' }} 
-          alt="World Map"
-        />
-
-        {/* 🔥 B. 区域高亮层 (Glow Layer) - 这就是“点亮”的核心 */}
-        <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
-          {MOCK_TRAVEL.map((spot) => {
-            const pos = getPos(spot.lat, spot.lng);
+          {/* 📍 城市交互点：真正实现“点到即显” */}
+          {MOCK_TRAVEL.map((spot, idx) => {
+            const [x, y] = projection([spot.lng, spot.lat]) || [0, 0];
+            const isActive = idx === activeIndex;
             return (
-              <div
-                key={`glow-${spot.id}`}
-                className="absolute rounded-full"
-                style={{
-                  left: `${pos.x}%`,
-                  top: `${pos.y}%`,
-                  width: '8%', // 光斑大小，约覆盖一个中等省份/国家的大小
-                  aspectRatio: '1/1',
-                  transform: 'translate(-50%, -50%)',
-                  // 使用径向渐变模拟“热力”：中心亮红 -> 边缘透明
-                  background: 'radial-gradient(closest-side, rgba(220,38,38,0.5) 0%, rgba(220,38,38,0) 100%)',
-                  filter: 'blur(8px)', // 羽化边缘，让光斑融合
-                  mixBlendMode: 'screen' // 叠加模式：重叠的地方会更亮
-                }}
-              />
+              <g key={spot.id} onClick={() => onSelect(idx)} className="cursor-pointer group z-20">
+                {isActive && <circle cx={x} cy={y} r="10" className="fill-red-600/20 animate-ping" />}
+                <circle 
+                  cx={x} cy={y} 
+                  r={isActive ? "3.5" : "2"} 
+                  className={`transition-all duration-300 ${isActive ? "fill-white" : "fill-red-600 group-hover:fill-white"}`} />
+                
+                {/* 🔒 修正核心：移除 isActive 的显式显示逻辑，仅限悬停触发 */}
+                <foreignObject 
+                  x={x + 10} 
+                  y={y - 12} 
+                  width="120" 
+                  height="30"
+                  className="pointer-events-none invisible group-hover:visible transition-all duration-300"
+                >
+                  <div className="bg-black/90 border border-red-900/50 px-2 py-1 rounded-sm text-[8px] font-mono text-white whitespace-nowrap uppercase tracking-widest backdrop-blur-md">
+                    {spot.city}
+                  </div>
+                </foreignObject>
+              </g>
             );
           })}
-        </div>
-
-        {/* C. SVG 连线层 */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none">
-           <defs>
-             <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-               <stop offset="0%" stopColor="rgba(220, 38, 38, 0)" />
-               <stop offset="50%" stopColor="rgba(220, 38, 38, 0.6)" />
-               <stop offset="100%" stopColor="rgba(220, 38, 38, 0)" />
-             </linearGradient>
-           </defs>
-           <path 
-             d={`M ${MOCK_TRAVEL.map(t => {
-               const pos = getPos(t.lat, t.lng);
-               return `${pos.x}% ${pos.y}%`;
-             }).join(' L ')}`}
-             fill="none"
-             stroke="url(#lineGradient)"
-             strokeWidth="1"
-             strokeDasharray="3 3"
-             className="opacity-40"
-           />
+          
         </svg>
-
-        {/* D. 坐标点交互层 */}
-        {MOCK_TRAVEL.map((spot, idx) => {
-          const pos = getPos(spot.lat, spot.lng);
-          const isActive = idx === activeIndex;
-
-          return (
-            <div
-              key={spot.id}
-              onClick={() => onSelect(idx)}
-              className="absolute group cursor-pointer"
-              style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-            >
-              {/* 激活时的雷达波 */}
-              {isActive && (
-                <>
-                  <div className="absolute -inset-4 rounded-full bg-red-600/20 animate-ping"></div>
-                  <div className="absolute -inset-8 rounded-full border border-red-600/30 animate-[spin_4s_linear_infinite]"></div>
-                </>
-              )}
-
-              {/* 核心点 */}
-              <div className={`relative w-1.5 h-1.5 md:w-2 md:h-2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-black transition-all duration-300 ${isActive ? 'bg-white scale-150 shadow-[0_0_10px_#fff]' : 'bg-red-600 group-hover:bg-white'}`}></div>
-
-              {/* 悬浮标签 */}
-              <div className={`absolute left-4 top-1/2 -translate-y-1/2 flex items-center transition-all duration-300 z-20 ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
-                 <div className="h-px w-4 bg-white/20 mr-2"></div>
-                 <div className="bg-black/80 backdrop-blur border border-white/10 px-3 py-1.5 rounded whitespace-nowrap">
-                    <div className="text-[10px] font-bold text-white uppercase tracking-wider">{spot.city}</div>
-                 </div>
-              </div>
-            </div>
-          );
-        })}
-
       </div>
-
-      {/* 底部数据装饰 */}
-      <div className="absolute bottom-6 left-6 md:left-12 flex gap-8">
-         <div>
-            <div className="text-[9px] text-zinc-600 font-mono uppercase tracking-widest mb-1">Signal Coverage</div>
-            <div className="text-red-500 font-mono text-xs animate-pulse">ACTIVE</div>
-         </div>
+      <div className="absolute bottom-10 left-12 flex gap-12 font-mono">
+          <div className="space-y-1">
+            <div className="text-[8px] text-zinc-700 uppercase tracking-[0.3em]">Ignition_Status</div>
+            <div className="text-red-600 text-[10px] flex items-center gap-2 font-bold tracking-widest">
+               <Zap size={10} className="animate-bounce" /> {litCountries.size} Countries_Unlocked
+            </div>
+          </div>
       </div>
     </div>
   );
 };
 
-// --- 4. 主组件 ---
+// --- 4. 主组件 (整合布局与滚动追踪) ---
 const Travel: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showDetails, setShowDetails] = useState(false);
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
-  
   const activeSpot = MOCK_TRAVEL[activeIndex];
 
-  return (
-    <div className="relative -mt-12 -mx-6 md:-mx-16 h-[calc(100vh-6rem)] overflow-hidden">
-      <AnimatePresence>
-        {showDetails && <ExpeditionDetails spot={activeSpot} onClose={() => setShowDetails(false)} />}
-      </AnimatePresence>
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  // 滚动同步：确保当前选择的照片始终处于视野中心
+  useEffect(() => {
+    if (viewMode === 'list' && cardRefs.current[activeIndex]) {
+      cardRefs.current[activeIndex]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center'
+      });
+    }
+  }, [activeIndex, viewMode]);
+
+  return (
+    <div className="relative h-full w-full overflow-hidden bg-black">
+      {/* 背景动态氛围层 */}
       <AnimatePresence mode="wait">
         {viewMode === 'list' && (
-          <motion.div
-            key={activeSpot.id}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 1.2 }}
-            className="absolute inset-0"
-          >
-            <img src={activeSpot.images[0]} className="w-full h-full object-cover grayscale-[0.5] brightness-[0.4]" />
-            <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-black via-black/40 to-transparent"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20"></div>
+          <motion.div key={activeSpot.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1.2 }} className="absolute inset-0 z-0">
+            <img src={activeSpot.images[0]} className="w-full h-full object-cover grayscale-[0.6] brightness-[0.25]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent"></div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '50px 50px' }}></div>
-
-      <div className="relative h-full z-10 max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center pb-20 md:pb-0">
-        
-        <div className="absolute top-8 right-6 md:right-12 z-50 flex gap-2">
-           <button 
-             onClick={() => setViewMode('list')} 
-             className={`px-3 py-1 rounded border text-[10px] font-mono uppercase tracking-widest transition-all ${viewMode === 'list' ? 'bg-white text-black border-white' : 'bg-transparent text-zinc-500 border-zinc-800 hover:border-zinc-600'}`}
-           >
-             List View
-           </button>
-           <button 
-             onClick={() => setViewMode('map')} 
-             className={`px-3 py-1 rounded border text-[10px] font-mono uppercase tracking-widest transition-all ${viewMode === 'map' ? 'bg-white text-black border-white' : 'bg-transparent text-zinc-500 border-zinc-800 hover:border-zinc-600'}`}
-           >
-             Global Map
-           </button>
+      <div className="relative h-full z-10 flex flex-col px-6 md:px-16">
+        {/* 顶部控制栏 */}
+        <div className="pt-10 flex justify-end gap-3 z-50">
+            <button onClick={() => setViewMode('list')} className={`px-4 py-1.5 border font-mono text-[9px] uppercase tracking-widest transition-all ${viewMode === 'list' ? 'bg-white text-black border-white shadow-lg' : 'text-zinc-600 border-zinc-900 hover:border-zinc-700'}`}>List_Archives</button>
+            <button onClick={() => setViewMode('map')} className={`px-4 py-1.5 border font-mono text-[9px] uppercase tracking-widest transition-all ${viewMode === 'map' ? 'bg-white text-black border-white shadow-lg' : 'text-zinc-600 border-zinc-900 hover:border-zinc-700'}`}>Tactical_Map</button>
         </div>
 
         <AnimatePresence mode="wait">
           {viewMode === 'list' ? (
-            <motion.div 
-              key="list-view"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-end md:items-center h-full pb-20 md:pb-0 justify-end flex-col md:flex-row"
-            >
-              <div className="lg:col-span-6 space-y-6 md:space-y-10 mt-auto md:mt-0">
-                <motion.div
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  key={`info-${activeSpot.id}`}
-                  className="space-y-4 md:space-y-6"
-                >
+            <motion.div key="list-view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative">
+              
+              {/* 文字描述区：固定 5 列，增加层级保护 */}
+              <div className="lg:col-span-5 space-y-10 relative z-30">
+                <div className="space-y-6">
                   <div className="flex items-center gap-4">
-                    <span className="px-2 md:px-3 py-1 bg-red-600 text-white text-[8px] md:text-[9px] font-mono tracking-widest uppercase">Trajectory 0{activeIndex + 1}</span>
-                    <span className="text-zinc-500 font-mono text-[8px] md:text-[10px] tracking-widest uppercase truncate max-w-[150px]">{activeSpot.coordinate}</span>
+                    <span className="px-3 py-1 bg-red-600 text-white text-[9px] font-mono tracking-widest uppercase">Trajectory 0{activeIndex + 1}</span>
+                    <span className="text-zinc-600 font-mono text-[9px] tracking-widest uppercase">{activeSpot.coordinate}</span>
                   </div>
-                  <div className="space-y-1 md:space-y-2">
-                    <DecryptedText 
-                      text={activeSpot.city + "."} 
-                      className="text-5xl md:text-7xl font-black serif leading-none text-white tracking-tighter"
-                    />
-                    <div className="text-red-500 font-mono text-[10px] md:text-xs tracking-[0.5em] uppercase pl-1 md:pl-2">In {activeSpot.date}</div>
+                  <div className="space-y-1">
+                    <DecryptedText text={activeSpot.city + "."} className="text-6xl md:text-9xl font-black serif leading-none text-white tracking-tighter uppercase" />
+                    <div className="text-red-600 font-mono text-xs tracking-[0.5em] uppercase pl-2 font-bold italic">IN_{activeSpot.date}</div>
                   </div>
-                  <p className="text-zinc-300 text-sm md:text-xl font-light leading-loose serif italic max-w-xl border-l-2 border-red-600/30 pl-4 md:pl-8 line-clamp-3 md:line-clamp-none">
-                    “{activeSpot.description}”
-                  </p>
-                </motion.div>
-                <div className="pt-4 hidden md:block">
-                  <button
-                    onClick={() => setShowDetails(true)}
-                    className="group relative px-10 py-4 overflow-hidden rounded-full border border-white/20 transition-all hover:border-white"
-                  >
-                    <span className="relative z-10 text-[10px] text-white tracking-[0.4em] uppercase font-bold">Expedition Details</span>
-                    <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-                  </button>
+                  <div className="max-w-md bg-black/40 backdrop-blur-md border-l-2 border-red-900/50 pl-8 py-4">
+                    <p className="text-zinc-400 text-lg md:text-xl font-light leading-relaxed serif italic opacity-90">“{activeSpot.description}”</p>
+                  </div>
                 </div>
+                <button className="group relative px-12 py-4 border border-zinc-800 transition-all hover:border-white overflow-hidden text-white font-mono text-[9px] tracking-[0.4em]">
+                   <span className="relative z-10 font-bold uppercase">Decode_Details</span>
+                   <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+                </button>
               </div>
 
-              <div className="lg:col-span-6 flex justify-start md:justify-end items-center overflow-x-auto pb-4 custom-scrollbar lg:overflow-visible w-full">
-                <div className="flex gap-4 p-2">
+              {/* 卡片滚动区：固定 7 列，解决底部导航遮挡 */}
+              <div ref={scrollContainerRef} className="lg:col-span-7 flex items-center overflow-x-auto pb-32 lg:pb-0 no-scrollbar w-full">
+                <div className="flex gap-8 px-10 min-w-max items-center h-full">
                   {MOCK_TRAVEL.map((spot, idx) => (
                     <motion.div
                       key={spot.id}
-                      whileHover={{ y: -5 }}
+                      ref={el => cardRefs.current[idx] = el}
+                      whileHover={{ y: -10 }} 
                       onClick={() => setActiveIndex(idx)}
-                      className={`relative cursor-pointer transition-all duration-700 ease-out shrink-0 overflow-hidden rounded-2xl md:rounded-3xl border-2 ${
-                        idx === activeIndex
-                        ? 'w-32 h-44 md:w-44 md:h-64 border-white shadow-[0_20px_50px_rgba(220,38,38,0.3)] z-20'
-                        : 'w-16 h-24 md:w-24 md:h-48 border-transparent opacity-40 hover:opacity-80 scale-90 grayscale'
-                      }`}
+                      className={`relative cursor-pointer transition-all duration-700 shrink-0 overflow-hidden rounded-3xl border-2 ${idx === activeIndex ? 'w-48 h-64 md:w-56 md:h-80 border-white shadow-2xl z-10 scale-105' : 'w-24 h-40 md:w-32 md:h-56 border-transparent opacity-30 grayscale'}`}
                     >
-                      <img src={spot.images[0]} className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors"></div>
-                      <div className="absolute bottom-2 md:bottom-6 left-2 md:left-6 right-2 md:right-6">
-                        <div className="text-[6px] md:text-[8px] text-white/60 font-mono uppercase tracking-widest mb-1">{spot.date}</div>
-                        <div className="text-white font-bold text-[8px] md:text-xs truncate uppercase tracking-tighter">{spot.city}</div>
-                      </div>
+                      <img src={spot.images[0]} className="w-full h-full object-cover" alt={spot.city} />
                     </motion.div>
                   ))}
                 </div>
               </div>
             </motion.div>
           ) : (
-            <motion.div 
-              key="map-view"
-              initial={{ opacity: 0, scale: 0.95 }} 
-              animate={{ opacity: 1, scale: 1 }} 
-              exit={{ opacity: 0, scale: 1.05 }}
-              className="w-full h-full pt-20 pb-20 md:pb-12"
-            >
+            <motion.div key="map-view" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.02 }} className="flex-1 py-12 pb-32 relative z-10">
                <TacticalMap activeIndex={activeIndex} onSelect={setActiveIndex} />
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
+      {/* 底部交互面板 */}
       {viewMode === 'list' && (
-        <div className="absolute bottom-6 md:bottom-12 left-6 md:left-12 flex items-center gap-8 md:gap-16 z-20">
-           <div className="flex gap-2 md:gap-4">
-              <button onClick={() => setActiveIndex(prev => (prev > 0 ? prev - 1 : MOCK_TRAVEL.length - 1))} className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
-              </button>
-              <button onClick={() => setActiveIndex(prev => (prev < MOCK_TRAVEL.length - 1 ? prev + 1 : 0))} className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
-              </button>
+        <div className="absolute bottom-12 left-12 flex items-center gap-12 z-40">
+           <div className="flex gap-4">
+              <button onClick={() => setActiveIndex(prev => prev > 0 ? prev - 1 : MOCK_TRAVEL.length - 1)} className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center text-white hover:border-white bg-black/50 backdrop-blur transition-all"><ChevronLeft size={20} /></button>
+              <button onClick={() => setActiveIndex(prev => prev < MOCK_TRAVEL.length - 1 ? prev + 1 : 0)} className="w-12 h-12 rounded-full border border-zinc-800 flex items-center justify-center text-white hover:border-white bg-black/50 backdrop-blur transition-all"><ChevronRight size={20} /></button>
            </div>
-           <div className="font-mono text-[8px] md:text-[10px] tracking-widest uppercase text-zinc-500">
-             Coord <span className="text-white">{activeIndex + 1}</span> / {MOCK_TRAVEL.length}
-           </div>
+           <div className="font-mono text-[10px] tracking-[0.5em] uppercase text-zinc-700">COORD_INDEX: <span className="text-red-600 font-bold">{activeIndex + 1}</span> / {MOCK_TRAVEL.length}</div>
         </div>
       )}
     </div>

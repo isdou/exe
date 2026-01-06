@@ -232,10 +232,10 @@ export const MOVIES: MovieCuration[] = [
     rating: 8,
     tags: ['Comedy', 'Drama'],
     status: 'done',
-    isTV: boolean,
+    isTV: false,
     totalDuration: '1 Seasons',
     cast: ['吴俊霆','李孝谦','孙天宇','合文俊','李逗逗']
-  },
+  }
 ];
 
 /**

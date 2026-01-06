@@ -194,6 +194,48 @@ export const MOVIES: MovieCuration[] = [
     totalDuration: '6 Seasons',
     cast: ['Martin Compston','Vicky McClure','Adrian Dunbar']
   },
+    {
+    id: 'm8',
+    title: ' 毒舌家庭',
+    originalTitle: 'Sarcastic Family',
+    director: '束焕 / 王晋',
+    year: '2025',
+    region: 'China',
+    genre: '喜剧 / 科幻',
+    runtime: ' 16h ',
+    images: [
+      'images/dsjt2.webp',
+      'images/dsjt2.webp'
+    ],
+    review: '等了很久的第二季黏人俱乐部始终没有来，这部当姐妹篇来看',
+    rating: 8,
+    tags: ['Comedy', 'Drama', 'Sitcom'],
+    status: 'done',
+    isTV: true,
+    totalDuration: '1 Seasons',
+    cast: ['蔡明','杨皓宇','孟鹤堂','李雪琴']
+  },
+    {
+    id: 'm9',
+    title: '不过是上班',
+    originalTitle: 'Just A Job',
+    director: '王梓骏',
+    year: '2026',
+    region: 'China',
+    genre: '喜剧 / 科幻',
+    runtime: ' 101 min ',
+    images: [
+      'images/bgssb2.jpg',
+      'images/bgssb2.jpg'
+    ],
+    review: '看了点映，天宇的演技在里面比较突出',
+    rating: 8,
+    tags: ['Comedy', 'Drama'],
+    status: 'done',
+    isTV: boolean,
+    totalDuration: '1 Seasons',
+    cast: ['吴俊霆','李孝谦','孙天宇','合文俊','李逗逗']
+  },
 ];
 
 /**

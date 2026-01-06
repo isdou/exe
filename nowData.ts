@@ -37,7 +37,6 @@ export const NOW_DATA = {
   obsessions: [
     'Retro UI',
     'Pour-over Coffee',
-    'Mechanical Keyboards',
     'Stoicism'
   ],
 

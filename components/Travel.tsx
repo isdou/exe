@@ -86,7 +86,7 @@ const ExpeditionDetails: React.FC<{ spot: any; onClose: () => void }> = ({ spot,
         <div className="space-y-8">
           <div className="px-3 py-1 bg-red-600 inline-block text-[9px] text-white font-mono uppercase tracking-[0.2em]">Archive_Node // {spot.id}</div>
           <h1 className="text-6xl md:text-9xl font-black text-white tracking-tighter uppercase">{spot.city}</h1>
-          <p className="text-zinc-400 text-xl md:text-2xl leading-relaxed italic border-l-2 border-red-900/50 pl-8">“{spot.description}”</p>
+          <p className="text-zinc-400 text-xl md:text-2xl leading-relaxed italic border-l-2 border-red-900/50 pl-8">{spot.description}</p>
         </div>
         <div className="rounded-3xl overflow-hidden shadow-2xl border border-zinc-800">
           <img src={spot.images[0]} className="w-full aspect-[4/5] object-cover" alt={spot.city} />
@@ -235,7 +235,7 @@ const Travel: React.FC = () => {
                     <DecryptedText text={activeSpot.city + "."} className="text-7xl md:text-9xl font-black leading-none text-white tracking-tighter uppercase" />
                     <div className="text-red-600 font-mono text-xs tracking-[0.5em] uppercase pl-2 font-bold italic">IN_{activeSpot.date}</div>
                   </div>
-                  <div className="max-w-md bg-black/40 backdrop-blur-md border-l-2 border-red-900/50 pl-8 py-4"><p className="text-zinc-400 text-lg md:text-xl font-light leading-relaxed italic opacity-90">“{activeSpot.description}”</p></div>
+                  <div className="max-w-md bg-black/40 backdrop-blur-md border-l-2 border-red-900/50 pl-8 py-4"><p className="text-zinc-400 text-lg md:text-xl font-light leading-relaxed italic opacity-90">{activeSpot.description}</p></div>
                 </div>
                 <button onClick={() => setShowDetails(true)} className="group relative px-12 py-4 border border-zinc-800 transition-all hover:border-white overflow-hidden text-white font-mono text-[9px] tracking-[0.4em]"><span className="relative z-10 font-bold uppercase tracking-widest">Decode_Details</span><div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div></button>
               </div>

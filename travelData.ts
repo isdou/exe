@@ -50,7 +50,7 @@ export const MOCK_TRAVEL: TravelSpot[] = [
     lat: 51.0504, lng: 13.7373,
     date: '2025.10', 
     description: '易北河畔的巴洛克逻辑。即便被摧毁并重写过，那股属于古典时代的确定性依然在瓦砾中完成了自愈。', 
-    images: ['https://images.unsplash.com/photo-1588693951525-63523533475f?q=80&w=1200'] 
+    images: ['images/Dresden.JPG'] 
   },
   { 
     id: '6', 

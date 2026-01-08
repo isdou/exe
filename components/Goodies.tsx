@@ -1,9 +1,39 @@
 import React, { useState } from 'react';
+import { RECIPES_DATA } from '../recipesData';
+import RecipePassport from './RecipePassport';
+
 // 1. 修复：导入 createPortal
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GOODIES_DATA } from '../goodiesData';
 import { GoodieItem } from '../types';
+
+const MenuBookEntry: React.FC<{ onClick: () => void }> = ({ onClick }) => (
+  <motion.div
+    whileHover={{ y: -8, rotate: -2 }}
+    onClick={onClick}
+    className="group relative cursor-pointer w-32 md:w-36"
+  >
+    {/* 拟物化封面 */}
+    <div className="aspect-[3/4] bg-[#1a252f] rounded-sm shadow-xl border-l-[3px] border-black/40 flex flex-col items-center justify-center p-3 relative overflow-hidden">
+      {/* 烫金边框 */}
+      <div className="absolute inset-1.5 border border-yellow-600/10 pointer-events-none"></div>
+      
+      {/* 国徽感图标 */}
+    <div className="w-8 h-8 border border-yellow-600/20 rounded-full flex items-center justify-center mb-2 opacity-40">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#d4af37" strokeWidth="1">
+          <circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20" />
+        </svg>
+      </div>
+
+    <div className="text-center">
+        <div className="text-[#d4af37] font-serif text-[10px] font-bold tracking-[0.1em]">RECIPE</div>
+        <div className="text-[#d4af37] font-serif text-[7px] tracking-[0.2em] opacity-60">PASSPORT</div>
+      </div>
+    </div>
+    <div className="mt-2 text-center text-[8px] font-mono text-zinc-600 uppercase tracking-tighter group-hover:text-red-600">Open_Archive</div>
+  </motion.div>
+);
 
 // ================= 1. 子组件：好物详情弹窗 (标本采样盒风格) =================
 const GoodieDetail: React.FC<{ item: GoodieItem; onClose: () => void }> = ({ item, onClose }) => {
@@ -163,10 +193,16 @@ const GoodiePlate: React.FC<{ item: GoodieItem; onClick: () => void }> = ({ item
 
 // ================= 3. 主组件：Goodies =================
 const Goodies: React.FC = () => {
-  const [filter, setFilter] = useState<'all' | 'eat' | 'drink' | 'dining' | 'buy'>('all');
+  const [filter, setFilter] = useState<'all' | 'eat' | 'drink' |  'buy'>('all');
   const [selectedItem, setSelectedItem] = useState<GoodieItem | null>(null);
+  const [showPassport, setShowPassport] = useState(false); // 控制护照开关
 
-  const filteredData = filter === 'all' ? GOODIES_DATA : GOODIES_DATA.filter(item => item.category === filter);
+  // 过滤逻辑：排除掉已经迁移到 recipesData 的 dining 数据
+  const filteredData = GOODIES_DATA.filter(item => {
+    if (item.category === 'dining') return false; 
+    return filter === 'all' ? true : item.category === filter;
+  });
+
 
   const stats = {
     total: GOODIES_DATA.length,
@@ -177,6 +213,7 @@ const Goodies: React.FC = () => {
     <div className="relative min-h-full">
       <AnimatePresence>
         {selectedItem && <GoodieDetail item={selectedItem} onClose={() => setSelectedItem(null)} />}
+        {showPassport && <RecipePassport onClose={() => setShowPassport(false)} />}
       </AnimatePresence>
 
       <div className={`space-y-12 pb-32 transition-all duration-500 ${selectedItem ? 'blur-md pointer-events-none scale-95' : ''}`}>
@@ -202,7 +239,7 @@ const Goodies: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap gap-2 items-center justify-center p-1 bg-zinc-900/30 rounded-full border border-white/5 max-w-xl mx-auto">
-          {['all', 'dining', 'eat', 'drink', 'buy'].map((tab) => (
+          {['all', 'eat', 'drink', 'buy'].map((tab) => (
             <button
               key={tab}
               onClick={() => setFilter(tab as any)}
@@ -210,18 +247,34 @@ const Goodies: React.FC = () => {
                 filter === tab ? 'bg-white text-black shadow-md' : 'text-zinc-600 hover:text-white hover:bg-white/5'
               }`}
             >
-              {tab === 'all' ? 'ALL' : tab === 'dining' ? 'DINING' : tab === 'eat' ? 'SNACKS' : tab === 'drink' ? 'DRINKS' : 'ARTIFACTS'}
+              {tab === 'all' ? 'ALL' : tab === 'eat' ? 'SNACKS' : tab === 'drink' ? 'DRINKS' : 'ARTIFACTS'}
             </button>
           ))}
         </div>
+        {/* 重点：Catalog 区域 */}
+        <div className="space-y-10">
+          {/* 如果在 "ALL" 模式下，展示护照本入口 */}
+          {filter === 'all' && (
+            <div className="flex flex-col items-center md:items-start gap-6">
+               <div className="text-[10px] font-mono text-zinc-700 uppercase tracking-widest border-l-2 border-red-900 pl-3">Special Edition / 特别企划</div>
+               <MenuBookEntry onClick={() => setShowPassport(true)} />
+            </div>
+          )}
 
-        <motion.div layout className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-8 gap-x-4 gap-y-10">
-          <AnimatePresence mode="popLayout">
-            {filteredData.map((item) => (
-              <GoodiePlate key={item.id} item={item} onClick={() => setSelectedItem(item)} />
-            ))}
-          </AnimatePresence>
-        </motion.div>
+
+
+{/* 原有的物品网格 */}
+          <div className="space-y-6">
+            <div className="text-[10px] font-mono text-zinc-700 uppercase tracking-widest border-l-2 border-zinc-800 pl-3">Catalog Index / 物品索引</div>
+            <motion.div layout className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-8 gap-x-4 gap-y-10">
+              <AnimatePresence mode="popLayout">
+                {filteredData.map((item) => (
+                  <GoodiePlate key={item.id} item={item} onClick={() => setSelectedItem(item)} />
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          </div>
+        </div>
       </div>
     </div>
   );

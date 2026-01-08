@@ -16,7 +16,7 @@ const ProgressBar: React.FC<{ progress: number }> = ({ progress }) => (
 
 const Now: React.FC = () => {
   return (
-    <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-24">
+    <div className="pace-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-24">
       
       {/* 1. Header: 状态栏 */}
       <div className="border-b border-white/10 pb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">

@@ -77,7 +77,7 @@ const App: React.FC = () => {
               ) : isBooting ? (
                 <div className="absolute inset-0 z-30 bg-black text-white flex items-center justify-center font-mono text-xs">BOOTING...</div>
               ) : (
-                <div className="absolute inset-0 overflow-y-auto custom-scrollbar p-5 md:p-12 pb-24">
+                <div className="absolute inset-0 overflow-y-auto custom-scrollbar px-6 pt-10 pb-2 md:px-12 md:pt-14 md:pb-16 ">
                    <Outlet /> 
                 </div>
               )}

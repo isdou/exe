@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 /* */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 2px; /* 极细，更像极客界面 */
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.05); /* 极淡 */
+}
+
 .font-cn-serif {
   font-family: "Huiwen-mincho", "Source Han Serif CN", serif;
 }

@@ -7,8 +7,7 @@ export enum NavTab {
   NOW = 'now',
   MEMORY = 'memory',
   JOURNAL = 'journal',
-  ABOUT = 'about',
-  DREAMS = 'dreams'
+  ABOUT = 'about'
 }
 
 export interface Article {
@@ -133,4 +132,18 @@ export interface NowUpdate {
     timestamp: string;
     content: string;
     status: string;
+}
+
+export interface Recipe {
+  id: string;
+  name: string;
+  country: string;     // 护照的核心：国家
+  cuisine: string;     // 菜系
+  description: string;
+  image: string;
+  difficulty: 1 | 2 | 3 | 4 | 5; // 烹饪难度
+  ingredients: string[]; // 食材清单
+  story?: string;        // 这道菜背后的故事或探店心得
+  rating?: number;
+  recordDate: string;
 }

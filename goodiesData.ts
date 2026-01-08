@@ -32,33 +32,5 @@ export const GOODIES_DATA: GoodieItem[] = [
     price: '¥2300',
     reason: 'Productivity',
     recordDate: '2025-03-27'
-  },
-
-  // 👇 2026-01-02 新增：DINING 模块的数据
-  {
-    id: 'd01',
-    name: '肉骨茶',
-    category: 'dining', // 👈 标记为探店
-    restaurant: '马来西亚餐厅', // 👈 餐厅名
-    cuisine: '马来西亚',     // 👈 菜系
-    price: '¥78',
-    description: '汤底药材味很重，排骨炖得很烂',
-    reason: '不是很喜欢，主要是不太适应汤的味道',
-    image: 'images/rougucha.jpg', // 
-    rating: 3,
-    date: '2026.01.02'
-  }, // 
-  {
-    id: 'd02',
-    name: '小炒黄牛肉',
-    category: 'dining',
-    restaurant: '赣江里',
-    cuisine: '江西菜',
-    price: '¥88',
-    description: '牛肉非常嫩，芹菜和橘子皮的搭配意外地清爽，超级下饭！',
-    reason: '米饭杀手',
-    image: 'images/xiaochaohuangniurou.jpg',
-    rating: 4.5,
-    date: '2026.01.03'
   }
 ];

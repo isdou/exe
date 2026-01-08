@@ -90,4 +90,14 @@ export const MOCK_JOURNAL: JournalEntry[] = [
     `,// 日记内容
     mood: '-'        // (可选) 当时的心情标签
   },
+  {
+    id: 'j-2026-01-08',       
+    year: 2026,               
+    month: 1,                
+    day: 8,                  
+    content: `
+        没有任一种解释能下达到所有人，再简单体贴的解释都对听者有要求。
+    `,// 日记内容
+    mood: 'Chase'  
+  },
 ];

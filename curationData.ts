@@ -235,6 +235,27 @@ export const MOVIES: MovieCuration[] = [
     isTV: false,
     totalDuration: '1 Seasons',
     cast: ['吴俊霆','李孝谦','孙天宇','合文俊','李逗逗']
+  },
+    {
+    id: 'm10',
+    title: '菜鸟老警',
+    originalTitle: 'The Rookie',
+    director: 'Alexi Hawley',
+    year: '2018',
+    region: 'USA',
+    genre: '警匪 / 剧情',
+    runtime: ' 3d 18h 49m',
+    images: [
+      'images/therookie2.webp',
+      'images/therookie2.webp'
+    ],
+    review: '第八季开播啦 Never off duty.',
+    rating: 8,
+    tags: ['Comedy', 'Drama', 'Crime'],
+    status: 'processing',
+    isTV: true,
+    totalDuration: '8 Seasons',
+    cast: ['Nathan Fillion','Melissa ONeil','Eric Winter','Alyssa Diaz']
   }
 ];
 

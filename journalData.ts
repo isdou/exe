@@ -100,4 +100,24 @@ export const MOCK_JOURNAL: JournalEntry[] = [
     `,// 日记内容
     mood: 'Chase'  
   },
+  {
+    id: 'j-2026-01-09',       
+    year: 2026,               
+    month: 1,                
+    day: 9,                  
+    content: `
+         和🐰在亚运村吃了很好吃的烧麦！
+    `,// 日记内容
+    mood: 'friend'  
+  },
+  {
+    id: 'j-2026-01-10',       
+    year: 2026,               
+    month: 1,                
+    day: 10,                  
+    content: `
+         Vibe coding is the best
+    `,// 日记内容
+    mood: 'friend'  
+  },
 ];

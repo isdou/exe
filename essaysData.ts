@@ -15,6 +15,75 @@ import { Article } from './types';
  * ============================================================
  */
 export const MOCK_ESSAYS: Article[] = [
+   {
+    id: '1',
+    groupId: '1',
+    lang: 'cn',
+    title: '豆邮W2：开放世界',
+    excerpt: '',
+    content: `
+      本周以一个不怎么令我开心的消息通知开启，但很快安慰好自己就把事情抛之脑后了。
+      没有结婚生子的人生像是没有主线剧情，下一关该打什么 boss 全凭我心意，卡关了也可以直接放弃去做别的剧情。
+      不喜欢开放世界游戏的我，在真实世界里过上了一种开放世界生活。
+
+      补完了 Line of Duty 之后重新捡起英剧， 本 Sitcom 爱好者确实会更执着台词，而英剧无论是剧本还是台词都堪称上乘，只不过看的时候要更专心。
+      小兔恰好就是相关专业的人，见面的时候就理所当然的聊了很多相关话题。
+      我曾在写国产情景喜剧的文章中这样写道：
+      我曾不止一次给自己贴上「情景喜剧骨灰级粉丝」的称号，不光是因为我的童年是在一部接一部的情景喜剧中度过，在我长大后，在我的生活出现「劫难」时，它是陪我度过的重要支撑。之前看到过一条微博说「人一定要有爱好，在最崩溃的时候，可否暂时在爱好里避风，可能是生与死的区别。」情景喜剧，是真的字面意义上的帮我续命，最难熬的那段时间，躲进喜剧世界里，可能是我生活中为数不多的一丝丝甜。
+
+      在我现在几乎将四十年来美国情景喜剧遍历一遍发现还有 Frasier 和 Will & Grace 这两部漏网之鱼而每部都有 11 季后，每次打开看的时候都感觉很幸福，幸福得涌出眼泪。
+      我想这也回答了 Community 为什么能一直在我的 Top 10 ， 于我而言，这部剧根本就是写给美国影视娱乐工业的情书，换言之，我的嘴替。
+
+      当然被国产电视最优秀的那十五年灌溉童年的我，对国产剧的心情就像看国足的心情，又失望又期望。毛骗团队和一起同过窗的存在总让我怀有希望，就算一直没有盼来我有一个朋友的第二季，优映可是一直在跟我们见面。
+      也觉得造成今日国足场面的罪魁祸首决不只有一方，观众资方从业者每一个人都要负责任，为烂片用脚投票的人也是背后一双有力的手，为《海市蜃楼》打低分的人我真的无法原谅！
+
+      这一周认认真真在做工，有一天和小阿说，我做了一个小东西，从下午四点半到凌晨两点半一直坐在电脑前没有挪动，她一句进入心流状态了让我恍然大悟，原来学习新东西并动手实践也是快乐来源之一。
+      所以和小兔见面的时候说要做一个 APP，晚上回来就一口气把界面做完了并发出了好幸福的感慨。
+
+      输入很幸福，输出很幸福，没什么耐心的我在这两个剧情里发现了平静和快乐。
+
+      而没有主线剧情要打的我，有一天也一定能捧出我给 Sitcom 的情书。
+    `,
+    date: '2026-01-10',
+    category: ' 豆邮',
+    readTime: '5 min',
+    coverImage: ''
+  },
+    {
+    id: '1',
+    groupId: '1',
+    lang: 'en',
+    title: 'DouMail W2: Open World',
+    excerpt: '',
+    content: `
+      This week kicked off with some not-so-pleasant news, but I quickly consoled myself and tossed it to the back of my mind.
+
+      A life without marriage and children feels like a game without a main storyline. Which boss to fight next is entirely up to me; if I get stuck on a level, I can simply abandon it and pursue a different side quest. Ironic that I, someone who dislikes open-world games, am living an "open-world" life in reality.
+
+      After finishing Line of Duty, I picked up British dramas again. As a die-hard sitcom enthusiast, I am naturally obsessed with dialogue, and British shows are superb in both script and lines—though they do demand more focus to watch. Xiaotu happens to be in a related profession, so when we met, it was only natural that we chatted extensively about these topics.
+
+      I once wrote in an article about domestic sitcoms:
+
+      "I have labeled myself a 'hardcore sitcom fan' more than once. Not only because my childhood was spent watching one sitcom after another, but because after I grew up, whenever 'calamities' appeared in my life, they were the vital support that saw me through. I once saw a post on Weibo that said, 'A person must have a hobby. In your most broken moments, whether you can temporarily take refuge in that hobby might be the difference between life and death.' Sitcoms literally kept me alive. During the most unbearable times, hiding inside a comedic world was one of the few slivers of sweetness in my life."
+
+      Now that I have traversed almost forty years of American sitcom history, realizing that I somehow missed Frasier and Will & Grace—and that both have 11 seasons—makes me feel incredibly happy every time I start an episode. So happy that it brings tears to my eyes. I think this also explains why Community has remained in my Top 10. For me, that show is essentially a love letter to the American entertainment industry—or in other words, it is my cinematic mouthpiece; it speaks my mind.
+
+      Of course, having had my childhood irrigated by the best fifteen years of domestic television, my feelings toward current domestic dramas are much like watching the National Football Team: a mix of disappointment and hope. The existence of the team behind Moral Peanuts (Mao Pian) and Stand By Me (Yiqi Tong Guo Chuang) always gives me hope. Even though I’m still waiting for the second season of I Have a Friend, Youying (the production company) keeps delivering.
+
+      I also feel that the culprit behind the state of the National Team today is not just one party. The audience, the investors, the practitioners—everyone is responsible. Those who "vote with their feet" to support bad productions are also a powerful hand behind the scenes. And I truly cannot forgive those who gave low ratings to Mirage!
+
+      I worked diligently this week. One day I told Xiao A that I made a little thing, sitting in front of the computer from 4:30 PM to 2:30 AM without moving. When she said I had entered a "flow state," it suddenly hit me: learning something new and putting it into practice is also a source of joy. So when I met Xiaotu, I mentioned I wanted to build an app. I came back that night, finished the interface in one go, and exclaimed how happy I felt.
+
+      Input brings happiness, output brings happiness. I, who usually lack patience, found peace and joy in these two storylines.
+
+      And I, with no main storyline to beat, will surely one day present my own love letter to Sitcoms.
+ 
+    `,
+    date: '2026-01-10',
+    category: ' 豆邮',
+    readTime: '5 min',
+    coverImage: ''
+  },
   
   {
     id: '2',
@@ -240,75 +309,6 @@ export const MOCK_ESSAYS: Article[] = [
     date: '2024-12-30',
     category: ' 年终总结',
     readTime: '15 min',
-    coverImage: ''
-  },
-  {
-    id: '1',
-    groupId: '1',
-    lang: 'cn',
-    title: '豆邮W2：开放世界',
-    excerpt: '',
-    content: `
-      本周以一个不怎么令我开心的消息通知开启，但很快安慰好自己就把事情抛之脑后了。
-      没有结婚生子的人生像是没有主线剧情，下一关该打什么 boss 全凭我心意，卡关了也可以直接放弃去做别的剧情。
-      不喜欢开放世界游戏的我，在真实世界里过上了一种开放世界生活。
-
-      补完了 Line of Duty 之后重新捡起英剧， 本 Sitcom 爱好者确实会更执着台词，而英剧无论是剧本还是台词都堪称上乘，只不过看的时候要更专心。
-      小兔恰好就是相关专业的人，见面的时候就理所当然的聊了很多相关话题。
-      我曾在写国产情景喜剧的文章中这样写道：
-      我曾不止一次给自己贴上「情景喜剧骨灰级粉丝」的称号，不光是因为我的童年是在一部接一部的情景喜剧中度过，在我长大后，在我的生活出现「劫难」时，它是陪我度过的重要支撑。之前看到过一条微博说「人一定要有爱好，在最崩溃的时候，可否暂时在爱好里避风，可能是生与死的区别。」情景喜剧，是真的字面意义上的帮我续命，最难熬的那段时间，躲进喜剧世界里，可能是我生活中为数不多的一丝丝甜。
-
-      在我现在几乎将四十年来美国情景喜剧遍历一遍发现还有 Frasier 和 Will & Grace 这两部漏网之鱼而每部都有 11 季后，每次打开看的时候都感觉很幸福，幸福得涌出眼泪。
-      我想这也回答了 Community 为什么能一直在我的 Top 10 ， 于我而言，这部剧根本就是写给美国影视娱乐工业的情书，换言之，我的嘴替。
-
-      当然被国产电视最优秀的那十五年灌溉童年的我，对国产剧的心情就像看国足的心情，又失望又期望。毛骗团队和一起同过窗的存在总让我怀有希望，就算一直没有盼来我有一个朋友的第二季，优映可是一直在跟我们见面。
-      也觉得造成今日国足场面的罪魁祸首决不只有一方，观众资方从业者每一个人都要负责任，为烂片用脚投票的人也是背后一双有力的手，为《海市蜃楼》打低分的人我真的无法原谅！
-
-      这一周认认真真在做工，有一天和小阿说，我做了一个小东西，从下午四点半到凌晨两点半一直坐在电脑前没有挪动，她一句进入心流状态了让我恍然大悟，原来学习新东西并动手实践也是快乐来源之一。
-      所以和小兔见面的时候说要做一个 APP，晚上回来就一口气把界面做完了并发出了好幸福的感慨。
-
-      输入很幸福，输出很幸福，没什么耐心的我在这两个剧情里发现了平静和快乐。
-
-      而没有主线剧情要打的我，有一天也一定能捧出我给 Sitcom 的情书。
-    `,
-    date: '2026-01-10',
-    category: ' 豆邮',
-    readTime: '5 min',
-    coverImage: ''
-  },
-    {
-    id: '1',
-    groupId: '1',
-    lang: 'en',
-    title: 'DouMail W2: Open World',
-    excerpt: '',
-    content: `
-      This week kicked off with some not-so-pleasant news, but I quickly consoled myself and tossed it to the back of my mind.
-
-      A life without marriage and children feels like a game without a main storyline. Which boss to fight next is entirely up to me; if I get stuck on a level, I can simply abandon it and pursue a different side quest. Ironic that I, someone who dislikes open-world games, am living an "open-world" life in reality.
-
-      After finishing Line of Duty, I picked up British dramas again. As a die-hard sitcom enthusiast, I am naturally obsessed with dialogue, and British shows are superb in both script and lines—though they do demand more focus to watch. Xiaotu happens to be in a related profession, so when we met, it was only natural that we chatted extensively about these topics.
-
-      I once wrote in an article about domestic sitcoms:
-
-      "I have labeled myself a 'hardcore sitcom fan' more than once. Not only because my childhood was spent watching one sitcom after another, but because after I grew up, whenever 'calamities' appeared in my life, they were the vital support that saw me through. I once saw a post on Weibo that said, 'A person must have a hobby. In your most broken moments, whether you can temporarily take refuge in that hobby might be the difference between life and death.' Sitcoms literally kept me alive. During the most unbearable times, hiding inside a comedic world was one of the few slivers of sweetness in my life."
-
-      Now that I have traversed almost forty years of American sitcom history, realizing that I somehow missed Frasier and Will & Grace—and that both have 11 seasons—makes me feel incredibly happy every time I start an episode. So happy that it brings tears to my eyes. I think this also explains why Community has remained in my Top 10. For me, that show is essentially a love letter to the American entertainment industry—or in other words, it is my cinematic mouthpiece; it speaks my mind.
-
-      Of course, having had my childhood irrigated by the best fifteen years of domestic television, my feelings toward current domestic dramas are much like watching the National Football Team: a mix of disappointment and hope. The existence of the team behind Moral Peanuts (Mao Pian) and Stand By Me (Yiqi Tong Guo Chuang) always gives me hope. Even though I’m still waiting for the second season of I Have a Friend, Youying (the production company) keeps delivering.
-
-      I also feel that the culprit behind the state of the National Team today is not just one party. The audience, the investors, the practitioners—everyone is responsible. Those who "vote with their feet" to support bad productions are also a powerful hand behind the scenes. And I truly cannot forgive those who gave low ratings to Mirage!
-
-      I worked diligently this week. One day I told Xiao A that I made a little thing, sitting in front of the computer from 4:30 PM to 2:30 AM without moving. When she said I had entered a "flow state," it suddenly hit me: learning something new and putting it into practice is also a source of joy. So when I met Xiaotu, I mentioned I wanted to build an app. I came back that night, finished the interface in one go, and exclaimed how happy I felt.
-
-      Input brings happiness, output brings happiness. I, who usually lack patience, found peace and joy in these two storylines.
-
-      And I, with no main storyline to beat, will surely one day present my own love letter to Sitcoms.
- 
-    `,
-    date: '2026-01-10',
-    category: ' 豆邮',
-    readTime: '5 min',
     coverImage: ''
   },
 ];

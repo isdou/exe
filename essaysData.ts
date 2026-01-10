@@ -17,8 +17,8 @@ import { Article } from './types';
 export const MOCK_ESSAYS: Article[] = [
   
   {
-    id: '1',
-    groupId: '1',
+    id: '2',
+    groupId: '2',
     lang: 'cn',
     title: '豆邮W1： 大声讲讲',
     excerpt: '',
@@ -61,8 +61,8 @@ export const MOCK_ESSAYS: Article[] = [
     coverImage: ''
   },
     {
-    id: '1',
-    groupId: '1',
+    id: '2',
+    groupId: '2',
     lang: 'en',
     title: 'DouMail W1: Speak Up Loudly',
     excerpt: '',
@@ -104,8 +104,8 @@ export const MOCK_ESSAYS: Article[] = [
     coverImage: ''
   },
  {
-    id: '2',
-    groupId: '2',
+    id: '3',
+    groupId: '3',
     lang: 'cn',
     title: '从上一秒开始',
     excerpt: '',
@@ -228,8 +228,8 @@ export const MOCK_ESSAYS: Article[] = [
     coverImage: ''
   },
     {
-    id: '2',
-    groupId: '2',
+    id: '3',
+    groupId: '3',
     lang: 'en',
     title: 'Starting from the next second',
     excerpt: '',
@@ -243,10 +243,10 @@ export const MOCK_ESSAYS: Article[] = [
     coverImage: ''
   },
   {
-    id: '3',
-    groupId: '3',
+    id: '1',
+    groupId: '1',
     lang: 'cn',
-    title: '豆邮W2：',
+    title: '豆邮W2：开放世界',
     excerpt: '',
     content: `
       本周以一个不怎么令我开心的消息通知开启，但很快安慰好自己就把事情抛之脑后了。
@@ -277,8 +277,8 @@ export const MOCK_ESSAYS: Article[] = [
     coverImage: ''
   },
     {
-    id: '3',
-    groupId: '3',
+    id: '1',
+    groupId: '1',
     lang: 'en',
     title: 'DouMail W2: Open World',
     excerpt: '',

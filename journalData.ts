@@ -120,4 +120,14 @@ export const MOCK_JOURNAL: JournalEntry[] = [
     `,// 日记内容
     mood: 'friend'  
   },
+  {
+    id: 'j-2026-01-11',       
+    year: 2026,               
+    month: 1,                
+    day: 11,                  
+    content: `
+         调 UI 就是今天调好了明天又不满意了，觉得可以有更好看的样式。
+    `,// 日记内容
+    mood: 'friend'  
+  },
 ];
